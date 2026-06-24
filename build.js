@@ -1,0 +1,186 @@
+// Build script: generates static HTML page for each article
+const fs = require('fs');
+const https = require('https');
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const ARTICLES_URL = 'https://api.github.com/repos/vmatoussevitch-ops/vat-articles/contents/articles.json';
+
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[äÄ]/g, 'ae').replace(/[öÖ]/g, 'oe').replace(/[üÜ]/g, 'ue')
+    .replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '').substring(0, 60);
+}
+
+function fetchArticles() {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.github.com',
+      path: '/repos/vmatoussevitch-ops/vat-articles/contents/articles.json',
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'vascular-access-talk-build'
+      }
+    };
+    https.get(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const content = JSON.parse(Buffer.from(json.content, 'base64').toString('utf8'));
+          resolve(content.articles || []);
+        } catch(e) { reject(e); }
+      });
+    }).on('error', reject);
+  });
+}
+
+function getLocalized(a, field, lang) {
+  if (lang === 'en') return a[field+'En'] || a[field] || '';
+  if (lang === 'ru') return a[field+'Ru'] || a[field+'En'] || a[field] || '';
+  if (lang === 'he') return a[field+'He'] || a[field+'En'] || a[field] || '';
+  return a[field] || a[field+'En'] || '';
+}
+
+function generateArticlePage(article, allArticles) {
+  const slug = slugify(article.title || article.titleEn || 'artikel');
+  const title = article.title || article.titleEn || '';
+  const excerpt = article.excerpt || article.excerptEn || '';
+  const body = article.body || article.bodyEn || '';
+  const date = article.date || '';
+  const author = article.author || 'Dr. V. Matoussevitch';
+  const img = article.img && (article.img.startsWith('data:image') || article.img.match(/\.(jpg|jpeg|png|webp)$/i)) ? article.img : '';
+
+  return { slug, html: `<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} – Vascular Access Talk</title>
+<meta name="description" content="${excerpt.substring(0, 155)}">
+<meta name="author" content="${author}">
+<link rel="canonical" href="https://vascularaccesstalk.com/artikel/${slug}/">
+<!-- Open Graph for LinkedIn -->
+<meta property="og:title" content="${title} – Vascular Access Talk">
+<meta property="og:description" content="${excerpt.substring(0, 155)}">
+<meta property="og:url" content="https://vascularaccesstalk.com/artikel/${slug}/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vascular Access Talk">
+${img ? `<meta property="og:image" content="${img}">` : ''}
+<meta property="article:published_time" content="${date}">
+<meta property="article:author" content="${author}">
+<!-- Article Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "headline": "${title}",
+  "description": "${excerpt.substring(0, 155)}",
+  "author": {"@type": "Person", "name": "${author}"},
+  "datePublished": "${date}",
+  "publisher": {"@type": "Organization", "name": "Vascular Access Talk", "url": "https://vascularaccesstalk.com"},
+  "url": "https://vascularaccesstalk.com/artikel/${slug}/"
+}
+</script>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css2?family=playfair-display:ital,wght@0,400;0,600;1,400&family=lora:ital,wght@0,400;0,500;1,400&family=jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bordeaux:#4d1520;--bordeaux-d:#2a0a0e;--gold:#b08a50;--beige:#f2ece0;--text:#2a1a1a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);line-height:1.7;}
+.nav{background:var(--bordeaux-d);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--beige);text-decoration:none;}
+.nav-logo em{color:var(--gold);font-style:italic;}
+.nav-back{color:rgba(242,236,224,0.6);text-decoration:none;font-size:0.8rem;letter-spacing:0.1em;}
+.nav-back:hover{color:var(--gold);}
+.article-wrap{max-width:720px;margin:3rem auto;padding:0 1.5rem 4rem;}
+.article-cat{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.article-title{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:400;line-height:1.25;margin-bottom:1rem;}
+.article-meta{font-size:0.8rem;color:#8a7060;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(42,26,26,0.1);}
+.article-img{width:100%;max-height:400px;object-fit:cover;margin-bottom:2rem;}
+.article-body{font-family:'Lora',serif;font-size:1rem;line-height:1.85;color:var(--text);white-space:pre-wrap;}
+.article-body p{margin-bottom:1.25rem;}
+.article-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(42,26,26,0.1);display:flex;justify-content:space-between;align-items:center;}
+.back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em;}
+.back-link:hover{color:var(--gold);}
+.li-btn{background:#0077b5;color:#fff;border:none;padding:0.5rem 1.25rem;font-size:0.8rem;cursor:pointer;text-decoration:none;display:inline-block;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-logo">Vascular Access <em>Talk</em></a>
+  <a href="/#artikel" class="nav-back">← Alle Artikel</a>
+</nav>
+<article class="article-wrap">
+  <p class="article-cat">${article.cat || 'Allgemeines'}</p>
+  <h1 class="article-title">${title}</h1>
+  <p class="article-meta">${author} · ${date}</p>
+  ${img ? `<img src="${img}" class="article-img" alt="${title}">` : ''}
+  <div class="article-body">${body}</div>
+  <div class="article-footer">
+    <a href="/#artikel" class="back-link">← Zurück zur Übersicht</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/${slug}/" target="_blank" class="li-btn">Auf LinkedIn teilen</a>
+  </div>
+</article>
+</body>
+</html>`};
+}
+
+function generateSitemap(articles) {
+  const urls = [
+    '<url><loc>https://vascularaccesstalk.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>'
+  ];
+  articles.forEach(a => {
+    const slug = slugify(a.title || a.titleEn || 'artikel');
+    urls.push(`<url><loc>https://vascularaccesstalk.com/artikel/${slug}/</loc><lastmod>${a.date || new Date().toISOString().split('T')[0]}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`);
+  });
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>`;
+}
+
+async function build() {
+  console.log('Starting build...');
+  
+  let articles = [];
+  try {
+    articles = await fetchArticles();
+    console.log(`Found ${articles.length} articles`);
+  } catch(e) {
+    console.log('Could not fetch articles:', e.message);
+  }
+
+  // Create artikel directory
+  if (!fs.existsSync('artikel')) fs.mkdirSync('artikel');
+
+  // Generate article pages
+  const redirects = [];
+  articles.forEach(article => {
+    const { slug, html } = generateArticlePage(article, articles);
+    const dir = `artikel/${slug}`;
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(`${dir}/index.html`, html);
+    redirects.push(`/artikel/${slug} /artikel/${slug}/ 301`);
+    console.log(`Generated: /artikel/${slug}/`);
+  });
+
+  // Generate sitemap
+  fs.writeFileSync('sitemap.xml', generateSitemap(articles));
+  console.log('Generated: sitemap.xml');
+
+  // Update article count in index.html
+  let indexHtml = fs.readFileSync('index.html', 'utf8');
+  indexHtml = indexHtml.replace(
+    /id="stat-count">[^<]*/,
+    `id="stat-count">${articles.length}`
+  );
+  fs.writeFileSync('index.html', indexHtml);
+  console.log(`Updated article count: ${articles.length}`);
+
+  console.log('Build complete!');
+}
+
+build().catch(console.error);
