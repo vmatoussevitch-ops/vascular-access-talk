@@ -1,3 +1,10 @@
+[build]
+  command = "node build.js"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "18"
+
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
@@ -8,12 +15,18 @@
   to = "/admin/index.html"
   status = 200
 
+[[redirects]]
+  from = "/artikel/:slug"
+  to = "/artikel/:slug/index.html"
+  status = 200
+
 [[headers]]
   for = "/admin/*"
   [headers.values]
     X-Robots-Tag = "noindex"
     Cache-Control = "no-store"
 
-[template.environment]
-  EMAIL_CONFIRM_PATH = "/admin"
-  INVITE_PATH = "/admin"
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
