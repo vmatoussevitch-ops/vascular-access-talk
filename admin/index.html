@@ -1393,10 +1393,15 @@ async function loadArticlesFromGitHub() {
     const r = await fetch('/.netlify/functions/articles');
     if (!r.ok) throw new Error('Failed to load');
     const ghData = await r.json();
-    const decoded = JSON.parse(atob(ghData.content.replace(/\n/g, '')));
+    // Correct UTF-8 decoding of base64
+    const base64 = ghData.content.replace(/\n/g, '');
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for(let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const decoded = JSON.parse(new TextDecoder('utf-8').decode(bytes));
     articles = decoded.articles || [];
     window._githubSha = ghData.sha;
-    console.log('✓ Loaded', articles.length, 'articles from GitHub');
+    console.log('✓ Loaded', articles.length, 'articles');
     return true;
   } catch(e) {
     console.error('GitHub load error:', e);
