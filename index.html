@@ -877,7 +877,7 @@ function renderBlog() {
 
     const slug = slugify(locTitle);
     const artUrl = `/artikel/${slug}/`;
-    return `<div class="article-row" ${isRTL?'dir="rtl"':''} onclick="window.location='${artUrl}'" style="cursor:pointer;">
+    return `<a class="article-row" href="${artUrl}" ${isRTL?'dir="rtl"':''} style="cursor:pointer;display:flex;text-decoration:none;color:inherit;">
       <div class="article-num">${String(i+1).padStart(2,'0')}</div>
       <div class="article-body">
         ${imgHtml}
