@@ -833,6 +833,13 @@ function updateCounts() {
   const cats = loadCategories();
   cats.forEach((c,i) => { const el = document.getElementById('cnt-cat-'+i); if(el) el.textContent = articles.filter(a => a.cat===c).length; });
 }
+function slugify(text) {
+  return (text||'').toLowerCase()
+    .replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue')
+    .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'').substring(0,60);
+}
+
 function renderBlog() {
   document.getElementById('stat-count').textContent = articles.length;
   const list = document.getElementById('article-list');
@@ -868,12 +875,14 @@ function renderBlog() {
     const bodyHtml = locBody ? `<div class="article-full-body" style="font-size:0.9rem;line-height:1.8;color:var(--text);margin-top:0.75rem;white-space:pre-wrap;">${locBody}</div>` : '';
     const authorHtml = a.author ? `<p class="article-author">— ${a.author}</p>` : '';
 
-    return `<div class="article-row" ${isRTL?'dir="rtl"':''}>
+    const slug = slugify(locTitle);
+    const artUrl = `/artikel/${slug}/`;
+    return `<div class="article-row" ${isRTL?'dir="rtl"':''} onclick="window.location='${artUrl}'" style="cursor:pointer;">
       <div class="article-num">${String(i+1).padStart(2,'0')}</div>
       <div class="article-body">
         ${imgHtml}
         <p class="article-cat">${a.cat||''}</p>
-        <h3 class="article-title">${locTitle}</h3>
+        <h3 class="article-title"><a href="${artUrl}" style="color:inherit;text-decoration:none;">${locTitle}</a></h3>
         <p class="article-excerpt">${locExcerpt}</p>
         ${bodyHtml}
         ${ytHtml}
@@ -882,8 +891,8 @@ function renderBlog() {
       </div>
       <div class="article-aside">
         <p class="article-date">${fmtDate(a.date)}</p>
-        <a class="li-share" href="${getLiShare(locTitle)}" target="_blank" rel="noopener">${lisvg} ${shareLabel}</a>
-        <div class="read-btn">${svg}</div>
+        <a class="li-share" href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com${artUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${lisvg} ${shareLabel}</a>
+        <a href="${artUrl}" class="read-btn" onclick="event.stopPropagation()">${svg}</a>
       </div>
     </div>`;
   }).join('');
