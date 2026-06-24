@@ -1390,16 +1390,13 @@ const GITHUB = {
 async function loadArticlesFromGitHub() {
   articles = [];
   try {
-    // vat-articles repo is public - no token needed for reading
-    const url = 'https://raw.githubusercontent.com/vmatoussevitch-ops/vat-articles/main/articles.json?t=' + Date.now();
-    const r = await fetch(url);
+    const r = await fetch('/.netlify/functions/articles');
     if (!r.ok) throw new Error('Failed to load');
-    const data = await r.json();
-    articles = data.articles || [];
-    // Get SHA separately for saving
-    const shaR = await fetch('https://api.github.com/repos/vmatoussevitch-ops/vat-articles/contents/articles.json');
-    const shaData = await shaR.json();
-    window._githubSha = shaData.sha;
+    const ghData = await r.json();
+    const decoded = JSON.parse(atob(ghData.content.replace(/\n/g, '')));
+    articles = decoded.articles || [];
+    window._githubSha = ghData.sha;
+    console.log('✓ Loaded', articles.length, 'articles from GitHub');
     return true;
   } catch(e) {
     console.error('GitHub load error:', e);
