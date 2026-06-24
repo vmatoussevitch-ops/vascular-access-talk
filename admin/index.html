@@ -1388,20 +1388,22 @@ const GITHUB = {
 };
 
 async function loadArticlesFromGitHub() {
+  articles = [];
   try {
-    const r = await fetch(GITHUB.apiUrl, {
-      headers: { 'Authorization': `token ${GITHUB.token}`, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (!r.ok) throw new Error('GitHub load failed');
+    // vat-articles repo is public - no token needed for reading
+    const url = 'https://raw.githubusercontent.com/vmatoussevitch-ops/vat-articles/main/articles.json?t=' + Date.now();
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('Failed to load');
     const data = await r.json();
-    const decoded = JSON.parse(atob(data.content.replace(/\n/g, '')));
-    articles = decoded.articles || [];
-    window._githubSha = data.sha;
+    articles = data.articles || [];
+    // Get SHA separately for saving
+    const shaR = await fetch('https://api.github.com/repos/vmatoussevitch-ops/vat-articles/contents/articles.json');
+    const shaData = await shaR.json();
+    window._githubSha = shaData.sha;
     return true;
   } catch(e) {
     console.error('GitHub load error:', e);
-    // Fallback to localStorage
-    try { articles = JSON.parse(localStorage.getItem(KEYS.articles) || '[]'); } catch(e2) { articles = []; }
+    articles = [];
     return false;
   }
 }
