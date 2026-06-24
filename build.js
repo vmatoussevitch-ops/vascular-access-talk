@@ -29,7 +29,7 @@ function fetchArticles() {
       res.on('end', () => {
         try {
           const json = JSON.parse(data);
-          const content = JSON.parse(Buffer.from(json.content, 'base64').toString('utf8'));
+          const content = JSON.parse(Buffer.from(json.content.replace(/\n/g,''), 'base64').toString('utf8'));
           resolve(content.articles || []);
         } catch(e) { reject(e); }
       });
