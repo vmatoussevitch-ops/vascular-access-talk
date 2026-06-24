@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – Vascular Access Talk</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital@0;1&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+:root{--bordeaux:#6b1e2e;--bordeaux-d:#4d1520;--bordeaux-l:#8c2a3e;--beige:#f2ece0;--beige-d:#e8dfc8;--beige-dd:#d9cdb4;--warm-white:#faf7f2;--text:#2c1a10;--muted:#7a6555;--gold:#b08a50;--gold-l:#c9a96e;--rule:rgba(107,30,46,0.15);--linkedin:#0077b5;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-white);color:var(--text);line-height:1.7;overflow-x:hidden;}
+/* BSD BAR */
+.bsd-bar{background:var(--bordeaux-d);text-align:right;padding:0.25rem 1.5rem;font-size:0.68rem;color:rgba(242,236,224,0.4);letter-spacing:0.12em;font-family:'Lora',serif;font-style:italic;border-bottom:1px solid rgba(201,169,110,0.08);}
+body.rtl .bsd-bar{text-align:right;letter-spacing:0;font-style:normal;font-size:0.8rem;direction:rtl;}
+body:not(.rtl) .bsd-bar{text-align:left;}
+nav{position:fixed;top:28px;left:0;right:0;z-index:200;background:var(--bordeaux-d);border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:62px;flex-wrap:nowrap;}
+@media(max-width:600px){
+  nav{flex-wrap:wrap;height:auto;padding:0.5rem 1.5rem;}
+  .nav-logo{font-size:1rem;flex:1;}
+  .nav-links{width:100%;justify-content:flex-end;gap:0.6rem;padding-bottom:0.4rem;}
+  .nav-links li:not(:last-child){display:none;}
+  .lang-switcher{order:-1;}
+  .bsd-bar{padding:0.25rem 1.5rem;}
+  .nav-linkedin{display:none !important;}
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--beige);}
+.nav-logo span{color:var(--gold-l);font-style:italic;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center;}
+.nav-links a{color:rgba(242,236,224,0.65);text-decoration:none;font-size:0.78rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold-l);}
+.nav-linkedin{display:flex;align-items:center;gap:0.4rem;background:var(--linkedin);color:#fff;text-decoration:none;padding:0.4rem 0.9rem;font-size:0.72rem;font-weight:500;transition:background 0.2s;border-radius:2px;}
+.nav-linkedin:hover{background:#005f94;}
+@media(max-width:768px){nav .nav-linkedin{display:none !important;}}
+.admin-btn{display:none;}
+.hero{min-height:100vh;background:var(--bordeaux-d);position:relative;display:flex;align-items:stretch;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.hero::after{content:'';position:absolute;right:0;top:0;bottom:0;width:42%;background:var(--bordeaux-l);clip-path:polygon(8% 0,100% 0,100% 100%,0% 100%);}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:1300px;margin:0 auto;padding:0 3rem;position:relative;z-index:2;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:9rem 3rem 5rem 0;animation:fadeUp 0.9s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{display:flex;align-items:center;gap:0.75rem;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.75rem;font-weight:500;}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:400;color:var(--beige);line-height:1.12;margin-bottom:1.5rem;}
+.hero h1 em{font-style:italic;color:var(--gold-l);}
+.hero-desc{font-family:'Lora',serif;font-size:1rem;color:rgba(242,236,224,0.6);max-width:420px;line-height:1.85;margin-bottom:0.75rem;}
+.hero-disclaimer{font-size:0.72rem;color:rgba(242,236,224,0.35);font-style:italic;margin-bottom:2.5rem;max-width:400px;line-height:1.5;}
+.btn-primary{display:inline-flex;align-items:center;gap:0.75rem;background:var(--gold);color:var(--bordeaux-d);text-decoration:none;padding:0.85rem 2rem;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:background 0.2s,transform 0.2s;align-self:flex-start;}
+.btn-primary:hover{background:var(--gold-l);transform:translateY(-2px);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(242,236,224,0.1);animation:fadeUp 0.9s 0.25s ease both;}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-l);display:block;line-height:1;}
+.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(242,236,224,0.35);margin-top:0.3rem;}
+.hero-right{display:flex;flex-direction:column;justify-content:center;padding:8rem 0 5rem 4rem;animation:fadeUp 0.9s 0.15s ease both;}
+.featured-card{background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,110,0.2);padding:2.25rem;position:relative;}
+.featured-card::before{content:'Aktuell';position:absolute;top:-1px;left:2rem;background:var(--gold);color:var(--bordeaux-d);font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.7rem;}
+.featured-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--beige);margin:1rem 0 0.75rem;line-height:1.3;}
+.featured-card p{font-size:0.875rem;color:rgba(242,236,224,0.5);line-height:1.75;margin-bottom:1.25rem;}
+.card-meta{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+.tag{background:rgba(107,30,46,0.5);color:var(--gold-l);padding:0.2rem 0.65rem;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;}
+.meta-date{font-size:0.75rem;color:rgba(242,236,224,0.3);}
+section{padding:6rem 0;}
+.container{max-width:1200px;margin:0 auto;padding:0 2.5rem;}
+.section-eyebrow{display:flex;align-items:center;gap:0.6rem;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--bordeaux);margin-bottom:0.75rem;font-weight:500;}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--bordeaux);}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,2.8vw,2.6rem);font-weight:400;color:var(--text);line-height:1.2;margin-bottom:0.75rem;}
+.section-sub{font-family:'Lora',serif;font-size:0.95rem;color:var(--muted);max-width:500px;font-style:italic;}
+.articles-section{background:var(--warm-white);}
+.articles-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--rule);}
+.article-list{display:flex;flex-direction:column;}
+.article-row{display:grid;grid-template-columns:80px 1fr auto;gap:2rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:background 0.2s;}
+.article-row:hover{background:var(--beige);margin:0 -1rem;padding:2rem 1rem;}
+.article-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:400;color:var(--beige-dd);line-height:1;text-align:right;}
+.article-cat{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--bordeaux);margin-bottom:0.4rem;font-weight:500;}
+.article-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--text);margin-bottom:0.5rem;line-height:1.35;}
+.article-excerpt{font-size:0.875rem;color:var(--muted);line-height:1.7;font-weight:300;}
+.article-author{font-size:0.72rem;color:var(--muted);margin-top:0.4rem;}
+.article-img{width:100%;max-height:160px;object-fit:cover;margin-bottom:0.75rem;display:block;}
+.article-aside{text-align:right;padding-top:0.3rem;display:flex;flex-direction:column;align-items:flex-end;gap:0.6rem;}
+.article-date{font-size:0.72rem;color:var(--muted);letter-spacing:0.05em;white-space:nowrap;}
+.read-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--rule);color:var(--bordeaux);transition:all 0.2s;}
+.article-row:hover .read-btn{background:var(--bordeaux);color:var(--beige);border-color:var(--bordeaux);}
+.li-share{display:inline-flex;align-items:center;gap:0.35rem;background:var(--linkedin);color:#fff;border:none;padding:0.3rem 0.7rem;font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:500;cursor:pointer;text-decoration:none;transition:background 0.2s;border-radius:2px;white-space:nowrap;}
+.li-share:hover{background:#005f94;}
+.empty-state{padding:3rem;text-align:center;color:var(--muted);font-family:'Lora',serif;font-style:italic;border:1px dashed var(--rule);}
+.content-topics{background:var(--beige);}
+.two-col{display:grid;grid-template-columns:2fr 1fr;gap:5rem;align-items:start;}
+.sidebar-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--bordeaux);display:flex;justify-content:space-between;align-items:baseline;}
+.sidebar-title span{font-size:0.65rem;font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.topic-list{list-style:none;}
+.topic-list li{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:padding-left 0.2s;}
+.topic-list li:hover{padding-left:0.5rem;}
+.topic-name-wrap{display:flex;align-items:center;gap:0.75rem;}
+.topic-dot{width:6px;height:6px;background:var(--bordeaux);border-radius:50%;flex-shrink:0;}
+.topic-name-text{font-family:'Lora',serif;font-size:0.95rem;color:var(--text);}
+.topic-count{font-size:0.7rem;background:var(--bordeaux);color:var(--beige);padding:0.15rem 0.5rem;}
+.info-box{background:var(--bordeaux-d);padding:2.5rem;margin-top:2.5rem;position:relative;}
+
+/* AUTHOR PHOTO */
+.author-photo-wrap{text-align:center;margin-bottom:1.25rem;}
+.author-photo{width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--gold);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.info-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);}
+.info-box h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--beige);margin-bottom:0.75rem;}
+.info-box p{font-size:0.85rem;color:rgba(242,236,224,0.55);line-height:1.75;margin-bottom:1rem;}
+.newsletter-section{background:var(--bordeaux);padding:5rem 0;position:relative;overflow:hidden;}
+.newsletter-section::before{content:'';position:absolute;right:-5%;top:-30%;bottom:-30%;width:40%;background:var(--bordeaux-l);transform:skewX(-6deg);}
+.newsletter-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;}
+.nl-eyebrow{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-l);margin-bottom:0.75rem;font-weight:500;}
+.nl-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--beige);margin-bottom:0.75rem;line-height:1.2;}
+.nl-sub{font-family:'Lora',serif;font-size:0.9rem;color:rgba(242,236,224,0.55);font-style:italic;line-height:1.7;}
+.nl-form{display:flex;flex-direction:column;gap:0.75rem;}
+.nl-input{padding:0.9rem 1.25rem;background:rgba(255,255,255,0.08);border:1px solid rgba(242,236,224,0.2);color:var(--beige);font-family:'Jost',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+.nl-input:focus{border-color:var(--gold);}
+.nl-input::placeholder{color:rgba(242,236,224,0.35);}
+.nl-btn{padding:0.9rem;background:var(--gold);color:var(--bordeaux-d);border:none;font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.nl-btn:hover{background:var(--gold-l);}
+.nl-note{font-size:0.72rem;color:rgba(242,236,224,0.3);text-align:center;}
+.contact-section{background:var(--warm-white);padding:6rem 0;}
+.contact-inner{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start;}
+.contact-info p{font-family:'Lora',serif;font-size:0.95rem;color:var(--muted);line-height:1.8;font-style:italic;margin-bottom:1.5rem;}
+.contact-types{display:flex;flex-direction:column;gap:0.65rem;margin-top:1.25rem;}
+.contact-type-item{display:flex;align-items:center;gap:0.75rem;font-size:0.875rem;color:var(--text);}
+.contact-type-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+.contact-note{margin-top:2rem;padding:1.25rem 1.5rem;background:var(--beige);border-left:3px solid var(--gold);font-size:0.8rem;color:var(--muted);line-height:1.6;font-style:italic;}
+.contact-form-wrap{background:#fff;border:1px solid var(--rule);padding:2.5rem;position:relative;}
+.contact-form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--bordeaux),var(--gold));}
+.contact-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:0.4rem;}
+.contact-form-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1.75rem;}
+.cf-group{margin-bottom:1.2rem;}
+.cf-label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.4rem;font-weight:500;}
+.cf-input,.cf-select,.cf-textarea{width:100%;padding:0.8rem 1rem;background:var(--warm-white);border:1px solid var(--beige-dd);color:var(--text);font-family:'Jost',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+.cf-input:focus,.cf-select:focus,.cf-textarea:focus{border-color:var(--bordeaux);}
+.cf-textarea{min-height:130px;resize:vertical;line-height:1.6;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.cf-submit{width:100%;padding:0.9rem;background:var(--bordeaux);color:var(--beige);border:none;font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+.cf-submit:hover{background:var(--bordeaux-l);}
+.cf-success{display:none;text-align:center;padding:2rem 1rem;}
+.cf-success-icon{font-size:2.5rem;margin-bottom:0.75rem;}
+.cf-success h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--bordeaux);margin-bottom:0.5rem;}
+.cf-success p{font-family:'Lora',serif;font-size:0.9rem;color:var(--muted);font-style:italic;}
+.cf-privacy{font-size:0.68rem;color:var(--muted);text-align:center;margin-top:0.75rem;line-height:1.5;}
+@media(max-width:900px){.contact-inner{grid-template-columns:1fr;gap:2.5rem;}.cf-row{grid-template-columns:1fr;}}
+footer{background:var(--bordeaux-d);padding:3rem 0 1.5rem;border-top:1px solid rgba(201,169,110,0.15);}
+.footer-main{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--beige);margin-bottom:0.5rem;}
+.footer-logo span{color:var(--gold);font-style:italic;}
+.footer-tagline{font-size:0.8rem;color:rgba(242,236,224,0.35);line-height:1.6;margin-bottom:1rem;}
+.footer-disclaimer{font-size:0.72rem;color:rgba(242,236,224,0.25);line-height:1.6;font-style:italic;}
+.footer-col-title{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);margin-bottom:1rem;font-weight:500;}
+.footer-links-col{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.footer-links-col a{font-size:0.8rem;color:rgba(242,236,224,0.4);text-decoration:none;transition:color 0.2s;}
+.footer-links-col a:hover{color:var(--gold-l);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:0.72rem;color:rgba(242,236,224,0.2);}
+.footer-li-link{display:flex;align-items:center;gap:0.5rem;color:rgba(242,236,224,0.35);text-decoration:none;font-size:0.75rem;transition:color 0.2s;}
+.footer-li-link:hover{color:var(--linkedin);}
+.page-modal{display:none;position:fixed;inset:0;z-index:500;background:rgba(20,8,4,0.8);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+.page-modal.open{display:flex;}
+.page-modal-inner{background:var(--warm-white);width:90%;max-width:720px;max-height:88vh;overflow-y:auto;border-top:4px solid var(--bordeaux);}
+.page-modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;background:var(--bordeaux-d);position:sticky;top:0;z-index:10;}
+.page-modal-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--beige);font-weight:400;}
+.page-modal-body{padding:2.5rem 2.5rem 3rem;}
+.page-modal-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--bordeaux);margin:1.5rem 0 0.5rem;}
+.page-modal-body p,.page-modal-body li{font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:0.5rem;}
+.page-modal-body a{color:var(--bordeaux);}
+.placeholder{background:var(--beige);padding:0.2rem 0.5rem;font-weight:500;color:var(--bordeaux);}
+.close-btn{background:none;border:none;color:rgba(242,236,224,0.5);cursor:pointer;font-size:1.5rem;line-height:1;transition:color 0.2s;}
+.close-btn:hover{color:var(--gold-l);}
+#admin-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(20,8,4,0.75);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+#admin-overlay.open{display:flex;}
+.admin-panel{background:var(--warm-white);width:92%;max-width:840px;max-height:92vh;overflow-y:auto;border-top:4px solid var(--bordeaux);box-shadow:0 32px 80px rgba(0,0,0,0.4);display:flex;flex-direction:column;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;background:var(--bordeaux-d);position:sticky;top:0;z-index:10;}
+.admin-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--beige);font-weight:400;}
+.admin-header p{font-size:0.72rem;color:rgba(242,236,224,0.4);margin-top:0.15rem;}
+.admin-tabs{display:flex;border-bottom:1px solid var(--rule);background:var(--beige);overflow-x:auto;flex-wrap:wrap;}
+.admin-tab{padding:0.75rem 0.9rem;font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;white-space:nowrap;}
+.admin-tab.active{color:var(--bordeaux);border-bottom-color:var(--bordeaux);}
+.admin-tab:hover{color:var(--bordeaux);}
+.admin-body{padding:2rem;flex:1;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.form-group{margin-bottom:1.4rem;}
+.form-label{display:block;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.4rem;font-weight:500;}
+.form-hint{font-size:0.68rem;color:var(--muted);margin-top:0.3rem;font-style:italic;}
+.form-input,.form-select,.form-textarea{width:100%;padding:0.75rem 1rem;background:#fff;border:1px solid var(--beige-dd);color:var(--text);font-family:'Jost',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--bordeaux);}
+.form-textarea{min-height:90px;resize:vertical;line-height:1.6;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.img-upload-area{border:2px dashed var(--beige-dd);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
+.img-upload-area:hover{border-color:var(--bordeaux);background:var(--beige);}
+.img-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload-icon{font-size:1.75rem;margin-bottom:0.4rem;color:var(--beige-dd);}
+.img-upload-text{font-size:0.82rem;color:var(--muted);}
+.img-upload-text strong{color:var(--bordeaux);}
+.img-preview{width:100%;max-height:180px;object-fit:cover;margin-top:1rem;display:none;border:1px solid var(--beige-dd);}
+.btn-save{background:var(--bordeaux);color:var(--beige);border:none;padding:0.85rem 2rem;font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.btn-save:hover{background:var(--bordeaux-l);}
+.btn-delete{background:none;border:1px solid #c0392b;color:#c0392b;padding:0.4rem 0.85rem;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.btn-delete:hover{background:#c0392b;color:#fff;}
+.btn-edit{background:none;border:1px solid var(--bordeaux);color:var(--bordeaux);padding:0.4rem 0.85rem;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-right:0.5rem;}
+.btn-edit:hover{background:var(--bordeaux);color:var(--beige);}
+.form-actions{display:flex;gap:1rem;align-items:center;margin-top:0.5rem;}
+.btn-cancel{background:none;border:none;color:var(--muted);font-size:0.8rem;cursor:pointer;text-decoration:underline;}
+.admin-article-list{display:flex;flex-direction:column;}
+.admin-article-item{display:flex;align-items:start;justify-content:space-between;gap:1rem;padding:1.25rem 0;border-bottom:1px solid var(--rule);}
+.admin-article-info{flex:1;}
+.admin-article-cat{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--bordeaux);margin-bottom:0.2rem;}
+.admin-article-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--text);line-height:1.3;}
+.admin-article-date{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;}
+.admin-article-thumb{width:60px;height:50px;object-fit:cover;flex-shrink:0;}
+.admin-article-actions{display:flex;align-items:center;flex-shrink:0;}
+.s-section{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--bordeaux);margin:1.75rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--rule);}
+.s-section:first-child{margin-top:0;}
+.login-form{max-width:340px;margin:2rem auto;text-align:center;}
+.login-form h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+.login-form p{font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:'Lora',serif;font-style:italic;}
+.login-error{color:#c0392b;font-size:0.8rem;margin-top:0.5rem;display:none;}
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:2000;background:var(--bordeaux-d);color:var(--beige);padding:0.85rem 1.5rem;font-size:0.85rem;border-left:3px solid var(--gold);box-shadow:0 8px 32px rgba(0,0,0,0.3);transform:translateY(100px);opacity:0;transition:all 0.35s ease;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:9rem 1.5rem 4rem 1.5rem;}
+  .article-row{grid-template-columns:1fr;}
+  .article-num{display:none;}
+  .two-col{grid-template-columns:1fr;}
+  .newsletter-inner{grid-template-columns:1fr;}
+  .footer-main{grid-template-columns:1fr;gap:2rem;}
+  .form-row,.form-row-3{grid-template-columns:1fr;}
+  .container{padding:0 1.5rem;}
+  .nl-title{font-size:1.5rem;}
+  .section-title{font-size:1.6rem;}
+  .hero h1{font-size:2.4rem;}
+  .hero-eyebrow{font-size:0.62rem;letter-spacing:0.12em;}
+  .footer-bottom{flex-direction:column;gap:0.75rem;}
+  nav{padding:0 1.5rem;}
+  .nav-links{gap:1rem;}
+  .bsd-bar{padding:0.25rem 1.5rem;}
+}
+/* LANGUAGE SWITCHER */
+.lang-switcher{display:flex;align-items:center;gap:0.25rem;background:rgba(255,255,255,0.06);border:1px solid rgba(242,236,224,0.12);padding:0.25rem 0.6rem;border-radius:3px;}
+.lang-btn{background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.08em;padding:0.2rem 0.35rem;color:rgba(242,236,224,0.45);transition:color 0.2s;border-radius:2px;}
+.lang-btn:hover{color:var(--gold-l);}
+.lang-btn.active{color:var(--gold);font-weight:600;}
+/* RTL support for Hebrew */
+body.rtl{direction:rtl;}
+body.rtl nav{flex-direction:row-reverse;}
+body.rtl .hero-inner{direction:rtl;}
+body.rtl .hero-left{padding:8rem 0 5rem 3rem;}
+body.rtl .hero-eyebrow::before{display:none;}
+body.rtl .section-eyebrow::before{display:none;}
+body.rtl .article-num{text-align:left;}
+body.rtl .article-aside{text-align:left;align-items:flex-start;}
+body.rtl .footer-main{direction:rtl;}
+body.rtl 
+/* AUTHOR PHOTO */
+.author-photo-wrap{text-align:center;margin-bottom:1.25rem;}
+.author-photo{width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--gold);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.info-box::before{background:linear-gradient(to left,var(--gold),transparent);}
+/* Hebrew/Russian font support */
+body.lang-he{font-family:'Segoe UI','Arial Hebrew',sans-serif;}
+body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
+</style>
+<style>
+body{margin:0;padding:0;background:var(--beige-dd);min-height:100vh;}
+#gate{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bordeaux-d);}
+.gate-box{text-align:center;padding:3rem;}
+.gate-box h1{font-family:'Playfair Display',serif;font-size:2rem;color:var(--beige);font-weight:400;margin-bottom:0.5rem;}
+.gate-box p{color:rgba(242,236,224,0.5);font-size:0.875rem;margin-bottom:2rem;}
+.gate-btn{background:var(--gold);color:var(--bordeaux-d);border:none;padding:0.85rem 2.5rem;font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;}
+.gate-btn:hover{background:var(--gold-l);}
+#admin-area{display:none;}
+.admin-topbar{background:var(--bordeaux-d);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100;}
+.admin-topbar h1{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--beige);font-weight:400;margin:0;}
+.admin-topbar-right{display:flex;align-items:center;gap:1rem;}
+.admin-user{font-size:0.75rem;color:rgba(242,236,224,0.5);}
+.logout-btn{background:none;border:1px solid rgba(242,236,224,0.3);color:var(--beige);padding:0.4rem 1rem;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.08em;}
+.logout-btn:hover{background:rgba(242,236,224,0.1);}
+.admin-wrap{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <h1>Vascular Access <em>Talk</em></h1>
+    <p>Admin-Bereich – Nur für autorisierte Nutzer</p>
+    <button class="gate-btn" onclick="netlifyIdentity.open('login')">Einloggen</button>
+  </div>
+</div>
+
+<!-- ADMIN AREA -->
+<div id="admin-area">
+  <div class="admin-topbar">
+    <h1>⚙ Blog-Verwaltung</h1>
+    <div class="admin-topbar-right">
+      <span class="admin-user" id="admin-user-email"></span>
+      <button class="logout-btn" onclick="netlifyIdentity.logout()">Ausloggen</button>
+    </div>
+  </div>
+  <div class="admin-wrap">
+    <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchTab('new',this)">✏ Neuer Artikel</button>
+        <button class="admin-tab" onclick="switchTab('list',this)">📋 Alle Artikel</button>
+        <button class="admin-tab" onclick="switchTab('calendar',this)">📅 Kalender</button>
+        <button class="admin-tab" onclick="switchTab('cats',this)">🏷 Kategorien</button>
+        <button class="admin-tab" onclick="switchTab('site',this)">🏠 Website-Texte</button>
+        <button class="admin-tab" onclick="switchTab('i18n',this)">🌐 Übersetzungen</button>
+        <button class="admin-tab" onclick="switchTab('settings',this)">⚙ Einstellungen</button>
+      </div>
+      <div class="admin-body">
+
+        <!-- NEW ARTICLE -->
+        <div class="tab-panel active" id="tab-new">
+          <div class="form-group"><label class="form-label">Kategorie</label><select class="form-select" id="f-cat"></select></div>
+          <!-- Language tabs -->
+          <div style="margin-bottom:1.5rem;">
+            <div style="display:flex;gap:0;border-bottom:2px solid var(--rule);margin-bottom:1rem;">
+              <button type="button" class="art-lang-tab active" onclick="switchArtLang('de',this)" style="padding:0.6rem 1.25rem;border:none;border-bottom:3px solid var(--bordeaux);background:none;color:var(--bordeaux);font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;cursor:pointer;margin-bottom:-2px;">🇩🇪 Deutsch</button>
+              <button type="button" class="art-lang-tab" onclick="switchArtLang('en',this)" style="padding:0.6rem 1.25rem;border:none;border-bottom:3px solid transparent;background:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;margin-bottom:-2px;">🇬🇧 English</button>
+              <button type="button" class="art-lang-tab" onclick="switchArtLang('ru',this)" style="padding:0.6rem 1.25rem;border:none;border-bottom:3px solid transparent;background:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;margin-bottom:-2px;">🇷🇺 Русский</button>
+              <button type="button" class="art-lang-tab" onclick="switchArtLang('he',this)" style="padding:0.6rem 1.25rem;border:none;border-bottom:3px solid transparent;background:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;margin-bottom:-2px;">🇮🇱 עברית</button>
+            </div>
+            <p class="form-hint">Mindestens 🇩🇪 DE <strong>oder</strong> 🇬🇧 EN ausfüllen. RU und HE optional.</p>
+          </div>
+
+          <!-- DE -->
+          <div id="art-fields-de">
+            <div class="form-group"><label class="form-label">Titel 🇩🇪 *</label><input class="form-input" type="text" id="f-title" placeholder="Titel auf Deutsch"></div>
+            <div class="form-group"><label class="form-label">Kurztext 🇩🇪 *</label><textarea class="form-textarea" id="f-excerpt" placeholder="Kurze Zusammenfassung (2–4 Sätze)..."></textarea></div>
+            <div class="form-group"><label class="form-label">Volltext 🇩🇪</label><textarea class="form-textarea" id="f-body" style="min-height:200px;" placeholder="Vollständiger Artikel auf Deutsch..."></textarea></div>
+          </div>
+
+          <!-- EN -->
+          <div id="art-fields-en" style="display:none;">
+            <div class="form-group"><label class="form-label">Title 🇬🇧</label><input class="form-input" type="text" id="f-title-en" placeholder="Article title in English"></div>
+            <div class="form-group"><label class="form-label">Excerpt 🇬🇧</label><textarea class="form-textarea" id="f-excerpt-en" placeholder="Short summary (2–4 sentences)..."></textarea></div>
+            <div class="form-group"><label class="form-label">Full text 🇬🇧</label><textarea class="form-textarea" id="f-body-en" style="min-height:200px;" placeholder="Full article in English..."></textarea></div>
+          </div>
+
+          <!-- RU -->
+          <div id="art-fields-ru" style="display:none;">
+            <div class="form-group"><label class="form-label">Заголовок 🇷🇺</label><input class="form-input" type="text" id="f-title-ru" placeholder="Заголовок на русском"></div>
+            <div class="form-group"><label class="form-label">Краткое описание 🇷🇺</label><textarea class="form-textarea" id="f-excerpt-ru" placeholder="Краткое резюме (2–4 предложения)..."></textarea></div>
+            <div class="form-group"><label class="form-label">Полный текст 🇷🇺</label><textarea class="form-textarea" id="f-body-ru" style="min-height:200px;" placeholder="Полный текст на русском..."></textarea></div>
+          </div>
+
+          <!-- HE -->
+          <div id="art-fields-he" style="display:none;" dir="rtl">
+            <div class="form-group"><label class="form-label">כותרת 🇮🇱</label><input class="form-input" type="text" id="f-title-he" placeholder="כותרת בעברית" dir="rtl"></div>
+            <div class="form-group"><label class="form-label">תקציר 🇮🇱</label><textarea class="form-textarea" id="f-excerpt-he" placeholder="סיכום קצר..." dir="rtl"></textarea></div>
+            <div class="form-group"><label class="form-label">טקסט מלא 🇮🇱</label><textarea class="form-textarea" id="f-body-he" style="min-height:200px;" dir="rtl" placeholder="טקסט מלא בעברית..."></textarea></div>
+          </div>
+
+          <!-- Date, Author, Publish -->
+          <div class="form-row" style="margin-top:1rem;">
+            <div class="form-group"><label class="form-label">Datum</label><input class="form-input" type="date" id="f-date"></div>
+            <div class="form-group"><label class="form-label">Autor</label><input class="form-input" type="text" id="f-author" placeholder="Dr. V. Matoussevitch"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Geplante Veröffentlichung (optional)</label>
+            <div class="form-row">
+              <input class="form-input" type="date" id="f-publish-date">
+              <input class="form-input" type="time" id="f-publish-time">
+            </div>
+            <p class="form-hint">Leer lassen = sofort veröffentlichen.</p>
+          </div>
+
+          <!-- Images -->
+          <div class="form-group"><label class="form-label">Titelbild (optional)</label>
+            <div class="img-upload-area" onclick="document.getElementById('f-img').click()">
+              <input type="file" id="f-img" accept="image/*" onchange="previewImage(this)" style="display:none;">
+              <div class="img-upload-icon">🖼</div>
+              <p class="img-upload-text">Klicken zum Hochladen · <strong>JPG, PNG, WebP</strong></p>
+              <img id="img-preview" class="img-preview" src="" alt="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Weitere Bilder (optional)</label>
+            <div id="extra-imgs-container" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+            <button type="button" onclick="addExtraImageField()" style="background:none;border:1px dashed var(--bordeaux);color:var(--bordeaux);padding:0.6rem 1.25rem;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;margin-top:0.5rem;width:100%;">+ Weiteres Bild hinzufügen</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🎬 YouTube-Video (optional)</label>
+            <input class="form-input" type="text" id="f-youtube" placeholder="https://www.youtube.com/watch?v=...">
+          </div>
+          <input type="hidden" id="f-edit-id" value="">
+          <div class="form-actions">
+            <button class="btn-save" onclick="saveArticle()">Artikel speichern</button>
+            <button class="btn-cancel" id="cancel-edit-btn" style="display:none;" onclick="cancelEdit()">Abbrechen</button>
+          </div>
+        </div>
+
+        <!-- LIST -->
+        <div class="tab-panel" id="tab-list">
+          <div class="admin-article-list" id="admin-article-list"><p style="color:var(--muted);font-style:italic;">Noch keine Artikel.</p></div>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="tab-panel" id="tab-calendar">
+          <p class="s-section">📅 Redaktionskalender</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:'Lora',serif;font-style:italic;">Planen Sie Ihre Blog-Artikel und LinkedIn-Posts. Geplante Artikel erscheinen automatisch zum gewählten Zeitpunkt.</p>
+
+          <!-- New plan entry -->
+          <div style="background:var(--beige);padding:1.5rem;margin-bottom:1.5rem;border-left:3px solid var(--gold);">
+            <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--bordeaux);margin-bottom:1rem;">+ Neuen Eintrag planen</p>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Titel / Thema *</label><input class="form-input" type="text" id="cal-title" placeholder="Thema des Beitrags"></div>
+              <div class="form-group"><label class="form-label">Kanal</label>
+                <select class="form-select" id="cal-channel">
+                  <option value="blog">📝 Blog</option>
+                  <option value="linkedin">💼 LinkedIn</option>
+                  <option value="both">📝 + 💼 Beides</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Geplantes Datum</label><input class="form-input" type="date" id="cal-date"></div>
+              <div class="form-group"><label class="form-label">Uhrzeit</label><input class="form-input" type="time" id="cal-time" value="08:00"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Status</label>
+              <select class="form-select" id="cal-status">
+                <option value="idea">💡 Idee</option>
+                <option value="draft">✏️ In Arbeit</option>
+                <option value="ready">✅ Fertig</option>
+                <option value="scheduled">⏰ Geplant</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">LinkedIn-Post Text (optional)</label>
+              <textarea class="form-textarea" id="cal-linkedin-text" style="min-height:100px;" placeholder="Text für LinkedIn-Post vorschreiben...&#10;&#10;#VascularSurgery #DialysisAccess #AVFistula"></textarea>
+              <p class="form-hint">Diesen Text können Sie später direkt auf LinkedIn kopieren.</p>
+            </div>
+            <div class="form-group"><label class="form-label">Notizen</label>
+              <textarea class="form-textarea" id="cal-notes" style="min-height:70px;" placeholder="Quellen, Ideen, Stichworte..."></textarea>
+            </div>
+            <button class="btn-save" onclick="saveCalEntry()">Eintrag speichern</button>
+          </div>
+
+          <!-- This week -->
+          <div id="cal-thisweek-section" style="margin-bottom:1.5rem;display:none;">
+            <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--bordeaux);margin-bottom:0.75rem;">⚡ Diese Woche fällig</p>
+            <div id="cal-thisweek"></div>
+          </div>
+
+          <!-- All entries -->
+          <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.75rem;">Alle Einträge</p>
+          <div id="cal-list"><p style="color:var(--muted);font-style:italic;font-size:0.875rem;">Noch keine Einträge.</p></div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="tab-panel" id="tab-cats">
+          <p class="s-section">🏷 Kategorien verwalten</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:'Lora',serif;font-style:italic;">Kategorien erscheinen im Dropdown beim Schreiben, in der Themenübersicht auf der Seite und im Kontaktformular.</p>
+          <div id="cats-list" style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;"></div>
+          <div style="display:flex;gap:0.75rem;align-items:center;margin-bottom:1.5rem;">
+            <input class="form-input" type="text" id="new-cat-input" placeholder="Neue Kategorie eingeben…" style="flex:1;" onkeydown="if(event.key==='Enter')addCategory()">
+            <button class="btn-save" style="padding:0.8rem 1.5rem;white-space:nowrap;" onclick="addCategory()">+ Hinzufügen</button>
+          </div>
+          <button class="btn-save" onclick="saveCategories()">Kategorien speichern</button>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-style:italic;">⚠ Bestehende Artikel behalten ihre alte Kategorie, auch wenn der Name geändert wird.</p>
+        </div>
+
+        <!-- WEBSITE TEXTS -->
+        <div class="tab-panel" id="tab-site">
+          <p class="s-section">🏠 Startseite – Hauptbereich</p>
+          <div class="form-group"><label class="form-label">Kleiner Text über dem Titel</label><input class="form-input" type="text" id="st-eyebrow" placeholder="Vascular Access Surgery · Dialyseshuntchirurgie"><p class="form-hint">Erscheint in Goldfarbe über dem Haupttitel</p></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Titel – Zeile 1 (normal, beige)</label><input class="form-input" type="text" id="st-title1" placeholder="Vascular"></div>
+            <div class="form-group"><label class="form-label">Titel – Zeile 2 (kursiv, gold)</label><input class="form-input" type="text" id="st-title2" placeholder="Access Talk"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Beschreibungstext</label><textarea class="form-textarea" id="st-desc" placeholder="Fundierte Beiträge zu AV-Fisteln..."></textarea><p class="form-hint">Haupttext unter dem Titel</p></div>
+          <div class="form-group"><label class="form-label">Haftungshinweis (kursiv, klein)</label><textarea class="form-textarea" style="min-height:70px;" id="st-disclaimer" placeholder="Alle Inhalte geben ausschließlich die persönliche Meinung..."></textarea></div>
+
+          <p class="s-section">📊 Statistiken</p>
+          <div class="form-row-3">
+            <div class="form-group"><label class="form-label">Zahl 2</label><input class="form-input" type="text" id="st-stat2" placeholder="8"></div>
+            <div class="form-group"><label class="form-label">Beschriftung 2</label><input class="form-input" type="text" id="st-label2" placeholder="Themenbereiche"></div>
+            <div class="form-group"><label class="form-label">Zahl 3</label><input class="form-input" type="text" id="st-stat3" placeholder="2024"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Beschriftung 3</label><input class="form-input" type="text" id="st-label3" placeholder="Seit"></div>
+
+          <p class="s-section">👤 Autor-Box</p>
+          <div class="form-group"><label class="form-label">Ihr Name</label><input class="form-input" type="text" id="st-author-name" placeholder="Dr. V. Matoussevitch"></div>
+          <div class="form-group"><label class="form-label">Kurze Biographie</label><textarea class="form-textarea" style="min-height:75px;" id="st-author-bio" placeholder="Facharzt für Gefäßchirurgie..."></textarea></div>
+          <div class="form-group"><label class="form-label">Disclaimer in der Autor-Box</label><textarea class="form-textarea" style="min-height:75px;" id="st-sidebar-disclaimer"></textarea></div>
+
+          <p class="s-section">🦶 Footer</p>
+          <div class="form-group"><label class="form-label">Tagline (unter dem Logo)</label><input class="form-input" type="text" id="st-footer-tagline" placeholder="Fachblog für Dialyseshuntchirurgie von Dr. V. Matoussevitch"></div>
+          <div class="form-group"><label class="form-label">Footer-Disclaimer</label><textarea class="form-textarea" style="min-height:70px;" id="st-footer-disclaimer"></textarea></div>
+          <div class="form-group"><label class="form-label">Copyright-Zeile</label><input class="form-input" type="text" id="st-copyright" placeholder="© 2026 Dr. V. Matoussevitch · Vascular Access Talk"></div>
+
+          <button class="btn-save" onclick="saveSiteTexts()">Alle Website-Texte speichern</button>
+        </div>
+
+        <!-- TRANSLATIONS -->
+        <div class="tab-panel" id="tab-i18n">
+          <p class="s-section">🌐 Übersetzungen bearbeiten</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;font-family:'Lora',serif;font-style:italic;">Wählen Sie eine Sprache und passen Sie die Texte an. Klicken Sie danach auf „Speichern".</p>
+
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+            <button class="i18n-lang-tab active" onclick="switchI18nLang('de',this)" style="padding:0.5rem 1.2rem;background:var(--bordeaux);color:var(--beige);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:500;">Deutsch</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('en',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">English</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('ru',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">Русский</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('he',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">עברית</button>
+          </div>
+
+          <div id="i18n-fields"></div>
+          <button class="btn-save" onclick="saveI18n()">Übersetzungen speichern</button>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-style:italic;">Änderungen gelten sofort nach dem Speichern.</p>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="tab-panel" id="tab-settings">
+          <p class="s-section">🔗 LinkedIn</p>
+          <div class="form-group"><label class="form-label">Ihr LinkedIn-Profil URL</label><input class="form-input" type="text" id="s-linkedin" placeholder="https://www.linkedin.com/in/ihr-name"><p class="form-hint">Wird für alle LinkedIn-Buttons verwendet</p></div>
+          <p class="s-section">🔒 Passwort</p>
+          <div class="form-group"><label class="form-label">Neues Admin-Passwort</label><input class="form-input" type="password" id="s-pw1" placeholder="Neues Passwort"></div>
+          <div class="form-group"><label class="form-label">Passwort bestätigen</label><input class="form-input" type="password" id="s-pw2" placeholder="Wiederholen"></div>
+          <button class="btn-save" onclick="saveSettings()">Einstellungen speichern</button>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:1.5rem;font-style:italic;">⚠ Daten werden im Browser gespeichert.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+</body>
+
+        <div class="tab-panel" id="tab-list">
+          <div class="admin-article-list" id="admin-article-list"><p style="color:var(--muted);font-style:italic;">Noch keine Artikel.</p></div>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="tab-panel" id="tab-calendar">
+          <p class="s-section">📅 Redaktionskalender</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:'Lora',serif;font-style:italic;">Planen Sie Ihre Blog-Artikel und LinkedIn-Posts. Geplante Artikel erscheinen automatisch zum gewählten Zeitpunkt.</p>
+
+          <!-- New plan entry -->
+          <div style="background:var(--beige);padding:1.5rem;margin-bottom:1.5rem;border-left:3px solid var(--gold);">
+            <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--bordeaux);margin-bottom:1rem;">+ Neuen Eintrag planen</p>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Titel / Thema *</label><input class="form-input" type="text" id="cal-title" placeholder="Thema des Beitrags"></div>
+              <div class="form-group"><label class="form-label">Kanal</label>
+                <select class="form-select" id="cal-channel">
+                  <option value="blog">📝 Blog</option>
+                  <option value="linkedin">💼 LinkedIn</option>
+                  <option value="both">📝 + 💼 Beides</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Geplantes Datum</label><input class="form-input" type="date" id="cal-date"></div>
+              <div class="form-group"><label class="form-label">Uhrzeit</label><input class="form-input" type="time" id="cal-time" value="08:00"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Status</label>
+              <select class="form-select" id="cal-status">
+                <option value="idea">💡 Idee</option>
+                <option value="draft">✏️ In Arbeit</option>
+                <option value="ready">✅ Fertig</option>
+                <option value="scheduled">⏰ Geplant</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">LinkedIn-Post Text (optional)</label>
+              <textarea class="form-textarea" id="cal-linkedin-text" style="min-height:100px;" placeholder="Text für LinkedIn-Post vorschreiben...&#10;&#10;#VascularSurgery #DialysisAccess #AVFistula"></textarea>
+              <p class="form-hint">Diesen Text können Sie später direkt auf LinkedIn kopieren.</p>
+            </div>
+            <div class="form-group"><label class="form-label">Notizen</label>
+              <textarea class="form-textarea" id="cal-notes" style="min-height:70px;" placeholder="Quellen, Ideen, Stichworte..."></textarea>
+            </div>
+            <button class="btn-save" onclick="saveCalEntry()">Eintrag speichern</button>
+          </div>
+
+          <!-- This week -->
+          <div id="cal-thisweek-section" style="margin-bottom:1.5rem;display:none;">
+            <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--bordeaux);margin-bottom:0.75rem;">⚡ Diese Woche fällig</p>
+            <div id="cal-thisweek"></div>
+          </div>
+
+          <!-- All entries -->
+          <p style="font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.75rem;">Alle Einträge</p>
+          <div id="cal-list"><p style="color:var(--muted);font-style:italic;font-size:0.875rem;">Noch keine Einträge.</p></div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="tab-panel" id="tab-cats">
+          <p class="s-section">🏷 Kategorien verwalten</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:'Lora',serif;font-style:italic;">Kategorien erscheinen im Dropdown beim Schreiben, in der Themenübersicht auf der Seite und im Kontaktformular.</p>
+          <div id="cats-list" style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;"></div>
+          <div style="display:flex;gap:0.75rem;align-items:center;margin-bottom:1.5rem;">
+            <input class="form-input" type="text" id="new-cat-input" placeholder="Neue Kategorie eingeben…" style="flex:1;" onkeydown="if(event.key==='Enter')addCategory()">
+            <button class="btn-save" style="padding:0.8rem 1.5rem;white-space:nowrap;" onclick="addCategory()">+ Hinzufügen</button>
+          </div>
+          <button class="btn-save" onclick="saveCategories()">Kategorien speichern</button>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-style:italic;">⚠ Bestehende Artikel behalten ihre alte Kategorie, auch wenn der Name geändert wird.</p>
+        </div>
+
+        <!-- WEBSITE TEXTS -->
+        <div class="tab-panel" id="tab-site">
+          <p class="s-section">🏠 Startseite – Hauptbereich</p>
+          <div class="form-group"><label class="form-label">Kleiner Text über dem Titel</label><input class="form-input" type="text" id="st-eyebrow" placeholder="Vascular Access Surgery · Dialyseshuntchirurgie"><p class="form-hint">Erscheint in Goldfarbe über dem Haupttitel</p></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Titel – Zeile 1 (normal, beige)</label><input class="form-input" type="text" id="st-title1" placeholder="Vascular"></div>
+            <div class="form-group"><label class="form-label">Titel – Zeile 2 (kursiv, gold)</label><input class="form-input" type="text" id="st-title2" placeholder="Access Talk"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Beschreibungstext</label><textarea class="form-textarea" id="st-desc" placeholder="Fundierte Beiträge zu AV-Fisteln..."></textarea><p class="form-hint">Haupttext unter dem Titel</p></div>
+          <div class="form-group"><label class="form-label">Haftungshinweis (kursiv, klein)</label><textarea class="form-textarea" style="min-height:70px;" id="st-disclaimer" placeholder="Alle Inhalte geben ausschließlich die persönliche Meinung..."></textarea></div>
+
+          <p class="s-section">📊 Statistiken</p>
+          <div class="form-row-3">
+            <div class="form-group"><label class="form-label">Zahl 2</label><input class="form-input" type="text" id="st-stat2" placeholder="8"></div>
+            <div class="form-group"><label class="form-label">Beschriftung 2</label><input class="form-input" type="text" id="st-label2" placeholder="Themenbereiche"></div>
+            <div class="form-group"><label class="form-label">Zahl 3</label><input class="form-input" type="text" id="st-stat3" placeholder="2024"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Beschriftung 3</label><input class="form-input" type="text" id="st-label3" placeholder="Seit"></div>
+
+          <p class="s-section">👤 Autor-Box</p>
+          <div class="form-group"><label class="form-label">Ihr Name</label><input class="form-input" type="text" id="st-author-name" placeholder="Dr. V. Matoussevitch"></div>
+          <div class="form-group"><label class="form-label">Kurze Biographie</label><textarea class="form-textarea" style="min-height:75px;" id="st-author-bio" placeholder="Facharzt für Gefäßchirurgie..."></textarea></div>
+          <div class="form-group"><label class="form-label">Disclaimer in der Autor-Box</label><textarea class="form-textarea" style="min-height:75px;" id="st-sidebar-disclaimer"></textarea></div>
+
+          <p class="s-section">🦶 Footer</p>
+          <div class="form-group"><label class="form-label">Tagline (unter dem Logo)</label><input class="form-input" type="text" id="st-footer-tagline" placeholder="Fachblog für Dialyseshuntchirurgie von Dr. V. Matoussevitch"></div>
+          <div class="form-group"><label class="form-label">Footer-Disclaimer</label><textarea class="form-textarea" style="min-height:70px;" id="st-footer-disclaimer"></textarea></div>
+          <div class="form-group"><label class="form-label">Copyright-Zeile</label><input class="form-input" type="text" id="st-copyright" placeholder="© 2026 Dr. V. Matoussevitch · Vascular Access Talk"></div>
+
+          <button class="btn-save" onclick="saveSiteTexts()">Alle Website-Texte speichern</button>
+        </div>
+
+        <!-- TRANSLATIONS -->
+        <div class="tab-panel" id="tab-i18n">
+          <p class="s-section">🌐 Übersetzungen bearbeiten</p>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;font-family:'Lora',serif;font-style:italic;">Wählen Sie eine Sprache und passen Sie die Texte an. Klicken Sie danach auf „Speichern".</p>
+
+          <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+            <button class="i18n-lang-tab active" onclick="switchI18nLang('de',this)" style="padding:0.5rem 1.2rem;background:var(--bordeaux);color:var(--beige);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:500;">Deutsch</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('en',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">English</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('ru',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">Русский</button>
+            <button class="i18n-lang-tab" onclick="switchI18nLang('he',this)" style="padding:0.5rem 1.2rem;background:var(--beige-dd);color:var(--text);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.8rem;">עברית</button>
+          </div>
+
+          <div id="i18n-fields"></div>
+          <button class="btn-save" onclick="saveI18n()">Übersetzungen speichern</button>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-style:italic;">Änderungen gelten sofort nach dem Speichern.</p>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="tab-panel" id="tab-settings">
+          <p class="s-section">🔗 LinkedIn</p>
+          <div class="form-group"><label class="form-label">Ihr LinkedIn-Profil URL</label><input class="form-input" type="text" id="s-linkedin" placeholder="https://www.linkedin.com/in/ihr-name"><p class="form-hint">Wird für alle LinkedIn-Buttons verwendet</p></div>
+          <p class="s-section">🔒 Passwort</p>
+          <div class="form-group"><label class="form-label">Neues Admin-Passwort</label><input class="form-input" type="password" id="s-pw1" placeholder="Neues Passwort"></div>
+          <div class="form-group"><label class="form-label">Passwort bestätigen</label><input class="form-input" type="password" id="s-pw2" placeholder="Wiederholen"></div>
+          <button class="btn-save" onclick="saveSettings()">Einstellungen speichern</button>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:1.5rem;font-style:italic;">⚠ Daten werden im Browser gespeichert.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// TRANSLATIONS – must be first so t() works everywhere
+// ═══════════════════════════════════════════════════════
+const TRANSLATIONS = {
+  de: {
+    'nav.articles':'Artikel','nav.topics':'Themen','nav.newsletter':'Newsletter','nav.contact':'Kontakt',
+    'hero.eyebrow':'Vascular Access Surgery · Dialyseshuntchirurgie',
+    'hero.title':'Vascular<br><em>Access Talk</em>',
+    'hero.desc':'Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.',
+    'hero.disclaimer':'Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.',
+    'hero.cta':'Artikel lesen →','hero.stat1':'Beiträge','hero.stat2':'Themenbereiche','hero.stat3':'Jahre Erfahrung',
+    'articles.eyebrow':'Beiträge','articles.title':'Aktuelle Artikel','articles.sub':'Vascular access surgery – von der Anlage bis zur Revision.',
+    'topics.eyebrow':'Übersicht','topics.title':'Themenbereiche','topics.sub':'Dialysis access surgery – alle Aspekte von Anlage bis Langzeitbetreuung.',
+    'contact.eyebrow':'Kontakt','contact.title':'Schreiben Sie mir',
+    'contact.intro':'Ich freue mich über Rückmeldungen, Fragen und Anfragen – von Kollegen ebenso wie von Patienten. Nutzen Sie das Formular für:',
+    'nl.eyebrow':'Newsletter','nl.title':'Neue Beiträge direkt ins Postfach','nl.sub':'Monatlich – ohne Werbung, nur Fachinhalte.',
+    'footer.tagline':'Fachblog für Dialyseshuntchirurgie','footer.disclaimer':'Alle Inhalte geben ausschließlich die persönliche Meinung des Autors wieder.',
+    'empty.articles':'Bald verfügbar – neue Beiträge erscheinen in Kürze.',
+  },
+  en: {
+    'nav.articles':'Articles','nav.topics':'Topics','nav.newsletter':'Newsletter','nav.contact':'Contact',
+    'hero.eyebrow':'Vascular Access Surgery · Dialysis Shunt Surgery',
+    'hero.title':'Vascular<br><em>Access Talk</em>',
+    'hero.desc':'A personal specialist blog on dialysis access, shunt surgery, complications and clinical decisions – from the daily practice of a vascular surgeon.',
+    'hero.disclaimer':'All content reflects solely the personal opinion and experience of the author and does not represent an official statement of any institution.',
+    'hero.cta':'Read articles →','hero.stat1':'Articles','hero.stat2':'Topics','hero.stat3':'20+ Years Experience',
+    'articles.eyebrow':'Articles','articles.title':'Latest Articles','articles.sub':'Vascular access surgery – from creation to revision.',
+    'topics.eyebrow':'Overview','topics.title':'Topics','topics.sub':'Dialysis access surgery – all aspects from placement to long-term care.',
+    'contact.eyebrow':'Contact','contact.title':'Write to me',
+    'contact.intro':'I welcome feedback, questions and enquiries – from colleagues as well as patients. Use the form for:',
+    'nl.eyebrow':'Newsletter','nl.title':'New articles straight to your inbox','nl.sub':'Monthly – no advertising, only specialist content.',
+    'footer.tagline':'Specialist blog for dialysis access surgery',
+    'author.bio':'Welcome! I am Dr. V. Matoussevitch, a vascular surgeon with a particular passion for dialysis access surgery — from the creation of the first AV fistula to complex revision procedures. With this blog, I would like to share practical expertise, clinical experience, and personal reflections, while encouraging dialogue between surgeons, nephrologists, patients, and everyone involved in dialysis access care.','footer.disclaimer':'All content reflects solely the personal opinion of the author.',
+    'author.bio':'Welcome! I am Dr. V. Matoussevitch, a vascular surgeon with a particular passion for dialysis access surgery — from the creation of the first AV fistula to complex revision procedures. With this blog, I would like to share practical expertise, clinical experience, and personal reflections, while encouraging dialogue between surgeons, nephrologists, patients, and everyone involved in dialysis access care.',
+    'empty.articles':'Coming soon – new articles will appear here shortly.',
+  },
+  ru: {
+    'nav.articles':'Статьи','nav.topics':'Темы','nav.newsletter':'Рассылка','nav.contact':'Контакт',
+    'hero.eyebrow':'Сосудистый доступ · Хирургия диализного шунта',
+    'hero.title':'Vascular<br><em>Access Talk</em>',
+    'hero.desc':'Личный профессиональный блог о диализном доступе, хирургии шунтов, осложнениях и клинических решениях – из ежедневной практики сосудистого хирурга.',
+    'hero.disclaimer':'Все материалы отражают исключительно личное мнение и опыт автора и не являются официальной позицией какого-либо учреждения.',
+    'hero.cta':'Читать статьи →','hero.stat1':'Статей','hero.stat2':'Темы','hero.stat3':'20+ лет опыта',
+    'articles.eyebrow':'Статьи','articles.title':'Последние статьи','articles.sub':'Хирургия сосудистого доступа – от создания до ревизии.',
+    'topics.eyebrow':'Обзор','topics.title':'Темы','topics.sub':'Хирургия диализного доступа – все аспекты от создания до долгосрочного ухода.',
+    'contact.eyebrow':'Контакт','contact.title':'Напишите мне',
+    'contact.intro':'Я рад отзывам, вопросам и запросам – от коллег и пациентов. Используйте форму для:',
+    'nl.eyebrow':'Рассылка','nl.title':'Новые статьи прямо на почту','nl.sub':'Ежемесячно – без рекламы, только профессиональный контент.',
+    'footer.tagline':'Профессиональный блог о хирургии диализного доступа',
+    'author.bio':'Добро пожаловать! Я доктор В. Матуссевич, специалист по сосудистой хирургии. Моя особая профессиональная страсть — хирургия диализного доступа: от создания первой артериовенозной фистулы до сложных реконструктивных и ревизионных операций. В этом блоге я хочу делиться практическим опытом, профессиональными знаниями и личными размышлениями, а также способствовать открытому диалогу между хирургами, нефрологами, пациентами и всеми, кто участвует в лечении пациентов на диализе.','footer.disclaimer':'Все материалы отражают исключительно личное мнение автора.',
+    'author.bio':'Добро пожаловать! Я доктор В. Матуссевич, специалист по сосудистой хирургии. Моя особая профессиональная страсть — хирургия диализного доступа: от создания первой артериовенозной фистулы до сложных реконструктивных и ревизионных операций. В этом блоге я хочу делиться практическим опытом, профессиональными знаниями и личными размышлениями, а также способствовать открытому диалогу между хирургами, нефрологами, пациентами и всеми, кто участвует в лечении пациентов на диализе.',
+    'empty.articles':'Скоро – новые статьи появятся здесь в ближайшее время.',
+  },
+  he: {
+    'nav.articles':'מאמרים','nav.topics':'נושאים','nav.newsletter':'ניוזלטר','nav.contact':'צור קשר',
+    'hero.eyebrow':'גישה וסקולרית · כירורגיית שאנט דיאליזה',
+    'hero.title':'Vascular<br><em>Access Talk</em>',
+    'hero.desc':'מאמרים על גישה לדיאליזה, ניהול סיבוכים ומחקר עדכני – לכירורגים, נפרולוגים, צוות רפואי ומטופלים.',
+    'hero.disclaimer':'כל התכנים משקפים אך ורק את דעתו האישית וניסיונו של המחבר ואינם מהווים עמדה רשמית של כל מוסד.',
+    'hero.cta':'קרא מאמרים ←','hero.stat1':'מאמרים','hero.stat2':'נושאים','hero.stat3':'20+ שנות ניסיון',
+    'articles.eyebrow':'מאמרים','articles.title':'מאמרים אחרונים','articles.sub':'כירורגיית גישה וסקולרית – מהנחה ועד תיקון.',
+    'topics.eyebrow':'סקירה','topics.title':'נושאים','topics.sub':'כירורגיית גישה לדיאליזה – כל ההיבטים מהנחה ועד טיפול ארוך טווח.',
+    'contact.eyebrow':'צור קשר','contact.title':'כתוב לי',
+    'contact.intro':'אני שמח לקבל משוב, שאלות ובקשות – מעמיתים וממטופלים. השתמש בטופס עבור:',
+    'nl.eyebrow':'ניוזלטר','nl.title':'מאמרים חדשים ישירות לתיבת הדואר','nl.sub':'חודשי – ללא פרסומות, רק תוכן מקצועי.',
+    'footer.tagline':'בלוג מקצועי לכירורגיית גישה לדיאליזה',
+    'author.bio':'ברוכים הבאים! אני ד"ר ו. מטוסביץ, מומחה בכירורגיית כלי דם. תחום העיסוק הקרוב במיוחד ללבי הוא כירורגיית גישה לדיאליזה — החל מיצירת פיסטולה עורקית־ורידית ראשונה ועד לניתוחים מורכבים של תיקון ושחזור. בבלוג זה אני מבקש לשתף ידע מקצועי, ניסיון קליני ותובנות אישיות, ולעודד דיאלוג פתוח בין כירורגים, נפרולוגים, מטופלים וכל מי שעוסק בטיפול בגישה לדיאליזה.','footer.disclaimer':'כל התכנים משקפים אך ורק את דעתו האישית של המחבר.',
+    'author.bio':'ברוכים הבאים! אני ד"ר ו. מטוסביץ, מומחה בכירורגיית כלי דם. תחום העיסוק הקרוב במיוחד ללבי הוא כירורגיית גישה לדיאליזה — החל מיצירת פיסטולה עורקית־ורידית ראשונה ועד לניתוחים מורכבים של תיקון ושחזור. בבלוג זה אני מבקש לשתף ידע מקצועי, ניסיון קליני ותובנות אישיות, ולעודד דיאלוג פתוח בין כירורגים, נפרולוגים, מטופלים וכל מי שעוסק בטיפול בגישה לדיאליזה.',
+    'empty.articles':'בקרוב – מאמרים חדשים יופיעו כאן בקרוב.',
+  }
+};
+
+// Current language (persisted)
+let currentLang = localStorage.getItem('vat_lang') || 'de';
+let currentI18nLang = 'de';
+
+// Translation helper
+function t(key) {
+  const tr = TRANSLATIONS[currentLang] || TRANSLATIONS.de;
+  return tr[key] || TRANSLATIONS.de[key] || key;
+}
+
+// Custom i18n overrides stored in localStorage
+const I18N_CUSTOM_KEY = 'vat_i18n_custom';
+function loadCustomI18n() {
+  try { return JSON.parse(localStorage.getItem(I18N_CUSTOM_KEY) || '{}'); } catch(e) { return {}; }
+}
+function loadAndApplyCustomI18n() {
+  const custom = loadCustomI18n();
+  Object.keys(custom).forEach(lang => {
+    if (TRANSLATIONS[lang]) Object.assign(TRANSLATIONS[lang], custom[lang]);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// DATA & STATE
+// ═══════════════════════════════════════════════════════
+const KEYS = {articles:'vat_articles', pw:'vat_pw', linkedin:'vat_linkedin', site:'vat_site', cats:'vat_cats'};
+let articles = [], loggedIn = false;
+
+const DEFAULT_CATS = ['Allgemeines','AV-Fistel','Prothesenshunt','Stenose & Thrombose','Surveillance','Steal-Syndrom','Infektion','Aneurysma','Planung & Mapping'];
+
+// ═══════════════════════════════════════════════════════
+// CATEGORIES
+// ═══════════════════════════════════════════════════════
+function loadCategories() {
+  try { const r = localStorage.getItem(KEYS.cats); return r ? JSON.parse(r) : DEFAULT_CATS; } catch(e) { return DEFAULT_CATS; }
+}
+function saveCategories() {
+  const cats = getCatsFromUI();
+  localStorage.setItem(KEYS.cats, JSON.stringify(cats));
+  renderCategoryDropdown();
+  renderTopicList();
+  showToast('✓ Kategorien gespeichert!');
+}
+function getCatsFromUI() {
+  return Array.from(document.querySelectorAll('.cat-input')).map(i => i.value.trim()).filter(Boolean);
+}
+function renderCategoryDropdown() {
+  const cats = loadCategories();
+  const sel = document.getElementById('f-cat');
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  if (cur) sel.value = cur;
+}
+function renderCatsAdmin() {
+  const cats = loadCategories();
+  const el = document.getElementById('cats-list');
+  if (!el) return;
+  el.innerHTML = cats.map(c => `
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <input class="form-input cat-input" type="text" value="${c}" style="flex:1;">
+      <button onclick="removeCatRow(this)" style="background:none;border:1px solid #c0392b;color:#c0392b;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.8rem;font-family:'Jost',sans-serif;" onmouseover="this.style.background='#c0392b';this.style.color='#fff'" onmouseout="this.style.background='none';this.style.color='#c0392b'">✕</button>
+    </div>`).join('');
+}
+function addCategory() {
+  const inp = document.getElementById('new-cat-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  document.getElementById('cats-list').insertAdjacentHTML('beforeend', `
+    <div style="display:flex;align-items:center;gap:0.6rem;">
+      <input class="form-input cat-input" type="text" value="${val}" style="flex:1;">
+      <button onclick="removeCatRow(this)" style="background:none;border:1px solid #c0392b;color:#c0392b;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.8rem;font-family:'Jost',sans-serif;" onmouseover="this.style.background='#c0392b';this.style.color='#fff'" onmouseout="this.style.background='none';this.style.color='#c0392b'">✕</button>
+    </div>`);
+  inp.value = ''; inp.focus();
+}
+function removeCatRow(btn) { btn.parentElement.remove(); }
+function renderTopicList() {
+  const cats = loadCategories();
+  const el = document.getElementById('topic-list-dynamic');
+  if (!el) return;
+  el.innerHTML = cats.map((c,i) => `<li><span class="topic-name-wrap"><span class="topic-dot"></span><span class="topic-name-text">${c}</span></span><span class="topic-count" id="cnt-cat-${i}">0</span></li>`).join('');
+  updateCounts();
+}
+
+// ═══════════════════════════════════════════════════════
+// SITE TEXTS (stored settings)
+// ═══════════════════════════════════════════════════════
+const DEF = {
+  eyebrow:'Vascular Access Surgery · Dialyseshuntchirurgie',
+  title1:'Vascular', title2:'Access Talk',
+  desc:'Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.',
+  disclaimer:'Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.',
+  stat2:'8', label2:'Themenbereiche', stat3:'20+', label3:'Jahre Erfahrung',
+  authorName:'Dr. V. Matoussevitch',
+  authorBio:'Willkommen auf meiner Seite! Mein Name ist Dr. V. Matoussevitch, ich bin Facharzt für Gefäßchirurgie und mein besonderer Schwerpunkt und meine Leidenschaft gilt der Dialysezugangschirurgie – von der Anlage der AV-Fistel bis zur komplexen Revision. Mit diesem Blog möchte ich Fachwissen zugänglich machen und den Austausch zwischen Chirurgen, Nephrologen und Patienten fördern.',
+  sidebarDisclaimer:'Dieser Blog gibt ausschließlich die persönliche Meinung und klinische Erfahrung des Autors wieder.',
+  footerTagline:'Fachblog für Dialyseshuntchirurgie\nvon Dr. V. Matoussevitch',
+  footerDisclaimer:'Alle Inhalte geben ausschließlich die persönliche Meinung des Autors wieder.',
+  copyright:'© 2026 Dr. V. Matoussevitch · Vascular Access Talk'
+};
+function loadSiteTexts() {
+  let s = DEF;
+  try { const r = localStorage.getItem(KEYS.site); if (r) s = {...DEF, ...JSON.parse(r)}; } catch(e) {}
+  applySiteTexts(s); return s;
+}
+function applySiteTexts(s) {
+  setTxt('hero-eyebrow', s.eyebrow);
+  document.getElementById('hero-title').innerHTML = s.title1 + '<br><em>' + s.title2 + '</em>';
+  setTxt('hero-desc', s.desc); setTxt('hero-disclaimer', s.disclaimer);
+  setTxt('stat-num-2', s.stat2); setTxt('stat-label-2', s.label2);
+  setTxt('stat-num-3', s.stat3); setTxt('stat-label-3', s.label3);
+  setTxt('author-name', s.authorName); setTxt('author-bio', s.authorBio);
+  setTxt('sidebar-disclaimer', s.sidebarDisclaimer);
+  document.getElementById('footer-tagline').innerHTML = s.footerTagline.replace('\n','<br>');
+  setTxt('footer-disclaimer-text', s.footerDisclaimer); setTxt('footer-copy', s.copyright);
+}
+function setTxt(id, val) { const el = document.getElementById(id); if (el && val !== undefined) el.textContent = val; }
+function populateSiteForm(s) {
+  const m = {'st-eyebrow':s.eyebrow,'st-title1':s.title1,'st-title2':s.title2,'st-desc':s.desc,'st-disclaimer':s.disclaimer,
+    'st-stat2':s.stat2,'st-label2':s.label2,'st-stat3':s.stat3,'st-label3':s.label3,
+    'st-author-name':s.authorName,'st-author-bio':s.authorBio,'st-sidebar-disclaimer':s.sidebarDisclaimer,
+    'st-footer-tagline':s.footerTagline,'st-footer-disclaimer':s.footerDisclaimer,'st-copyright':s.copyright};
+  Object.entries(m).forEach(([id,v]) => { const el = document.getElementById(id); if(el) el.value = v||''; });
+}
+function saveSiteTexts() {
+  const g = id => document.getElementById(id).value;
+  const s = {eyebrow:g('st-eyebrow')||DEF.eyebrow, title1:g('st-title1')||DEF.title1, title2:g('st-title2')||DEF.title2,
+    desc:g('st-desc')||DEF.desc, disclaimer:g('st-disclaimer')||DEF.disclaimer,
+    stat2:g('st-stat2')||DEF.stat2, label2:g('st-label2')||DEF.label2,
+    stat3:g('st-stat3')||DEF.stat3, label3:g('st-label3')||DEF.label3,
+    authorName:g('st-author-name')||DEF.authorName, authorBio:g('st-author-bio')||DEF.authorBio,
+    sidebarDisclaimer:g('st-sidebar-disclaimer')||DEF.sidebarDisclaimer,
+    footerTagline:g('st-footer-tagline')||DEF.footerTagline,
+    footerDisclaimer:g('st-footer-disclaimer')||DEF.footerDisclaimer,
+    copyright:g('st-copyright')||DEF.copyright};
+  localStorage.setItem(KEYS.site, JSON.stringify(s));
+  applySiteTexts(s);
+  showToast('✓ Website-Texte gespeichert!');
+}
+
+// ═══════════════════════════════════════════════════════
+// LINKEDIN
+// ═══════════════════════════════════════════════════════
+function loadLinkedIn() {
+  const url = localStorage.getItem(KEYS.linkedin) || '';
+  if (url) updateLinkedIn(url);
+  const el = document.getElementById('s-linkedin'); if(el) el.value = url;
+}
+function updateLinkedIn(url) {
+  ['nav-li-link','sidebar-li-link','footer-li-link'].forEach(id => { const el = document.getElementById(id); if(el) el.href = url; });
+}
+
+// ═══════════════════════════════════════════════════════
+// ARTICLES
+// ═══════════════════════════════════════════════════════
+function loadArticles() {
+  try { articles = JSON.parse(localStorage.getItem(KEYS.articles) || '[]'); } catch(e) { articles = []; }
+}
+function saveArticlesData() {
+  // Only save to GitHub - localStorage is not used as primary source
+  saveArticlesToGitHub().then(ok => {
+    if(ok) { 
+      console.log("✓ Saved to GitHub");
+    } else {
+      showToast('⚠️ GitHub-Speicherung fehlgeschlagen!');
+    }
+  });
+}
+function getPassword() { return localStorage.getItem(KEYS.pw) || atob('c2h1bnQyMDI0'); }
+function getLiShare(title) {
+  const li = localStorage.getItem(KEYS.linkedin) || '';
+  return 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(li || window.location.href) + '&summary=' + encodeURIComponent(title + ' – Vascular Access Talk');
+}
+function updateCounts() {
+  const cats = loadCategories();
+  cats.forEach((c,i) => { const el = document.getElementById('cnt-cat-'+i); if(el) el.textContent = articles.filter(a => a.cat===c).length; });
+}
+function renderBlog() {
+  document.getElementById('stat-count').textContent = articles.length;
+  const list = document.getElementById('article-list');
+  if (!articles.length) {
+    list.innerHTML = '<div class="empty-state">' + t('empty.articles') + '</div>';
+    updateCounts(); return;
+  }
+  const svg = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  const lisvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>';
+  const shareLabel = currentLang==='he'?'שתף':currentLang==='ru'?'Поделиться':currentLang==='en'?'Share':'Teilen';
+  list.innerHTML = articles.map((a,i) => {
+    const ytEmbed = a.youtube ? `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:1rem 0;"><iframe src="https://www.youtube.com/embed/${a.youtube}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>` : '';
+    const extraImgsHtml = a.extraImgs && a.extraImgs.length ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;margin-top:0.75rem;">${a.extraImgs.map(src=>`<img src="${src}" style="width:100%;height:100px;object-fit:cover;" alt="">`).join('')}</div>` : '';
+    return `<div class="article-row"><div class="article-num">${String(i+1).padStart(2,'0')}</div><div class="article-body">${a.img?`<img src="${a.img}" class="article-img" alt="">`:''}<p class="article-cat">${a.cat}</p><h3 class="article-title">${a.title}</h3><p class="article-excerpt">${a.excerpt}</p>${a.body?`<p style="font-size:0.875rem;color:var(--muted);line-height:1.7;margin-top:0.5rem;">${a.body}</p>`:''} ${ytEmbed} ${extraImgsHtml} ${a.author?`<p class="article-author">— ${a.author}</p>`:''}</div><div class="article-aside"><p class="article-date">${fmtDate(a.date)}</p><a class="li-share" href="${getLiShare(a.title)}" target="_blank" rel="noopener">${lisvg} ${shareLabel}</a><div class="read-btn">${svg}</div></div></div>`;
+  }).join('');
+  const a = articles[0];
+  document.getElementById('hero-featured').innerHTML = `${a.img?`<img src="${a.img}" style="width:100%;max-height:130px;object-fit:cover;margin-bottom:1rem;" alt="">`:''}
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--beige);margin-bottom:0.75rem;line-height:1.3;">${a.title}</h3>
+    <p style="font-size:0.875rem;color:rgba(242,236,224,0.5);line-height:1.75;margin-bottom:1.25rem;">${a.excerpt.substring(0,120)}…</p>
+    <div class="card-meta"><span class="tag">${a.cat}</span><span class="meta-date">${fmtDate(a.date)}</span></div>`;
+  updateCounts();
+}
+function renderAdminList() {
+  const el = document.getElementById('admin-article-list');
+  if (!articles.length) { el.innerHTML = '<p style="color:var(--muted);font-style:italic;">Noch keine Artikel.</p>'; return; }
+  el.innerHTML = articles.map((a,i) => `<div class="admin-article-item">${a.img?`<img src="${a.img}" class="admin-article-thumb" alt="">`:''}<div class="admin-article-info"><p class="admin-article-cat">${a.cat}</p><p class="admin-article-title">${a.title}</p><p class="admin-article-date">${fmtDate(a.date)}${a.author?' · '+a.author:''}</p></div><div class="admin-article-actions"><button class="btn-edit" onclick="editArticle(${i})">Bearbeiten</button><button class="btn-delete" onclick="deleteArticle(${i})">Löschen</button></div></div>`).join('');
+}
+
+// MULTILINGUAL ARTICLE FORM
+// ═══════════════════════════════════════════════════════
+function switchArtLang(lang, btn) {
+  ['de','en','ru','he'].forEach(l => {
+    const el = document.getElementById('art-fields-'+l);
+    if(el) el.style.display = l===lang ? 'block' : 'none';
+  });
+  document.querySelectorAll('.art-lang-tab').forEach(b => {
+    b.style.borderBottomColor = b===btn ? 'var(--bordeaux)' : 'transparent';
+    b.style.color = b===btn ? 'var(--bordeaux)' : 'var(--muted)';
+    b.style.fontWeight = b===btn ? '500' : '400';
+  });
+}
+
+function getArtField(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function setArtField(id, val) {
+  const el = document.getElementById(id);
+  if(el) el.value = val || '';
+}
+
+
+// ═══════════════════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════════════════
+const CAL_KEY = 'vat_calendar';
+let calEntries = [];
+function loadCalEntries() { try { calEntries = JSON.parse(localStorage.getItem(CAL_KEY)||'[]'); } catch(e) { calEntries=[]; } }
+function saveCalEntries() { localStorage.setItem(CAL_KEY, JSON.stringify(calEntries)); }
+const CAL_STATUS_LABELS = {idea:'💡 Idee',draft:'✏️ In Arbeit',ready:'✅ Fertig',scheduled:'⏰ Geplant',done:'🎉 Veröffentlicht'};
+const CAL_CHANNEL_LABELS = {blog:'📝 Blog',linkedin:'💼 LinkedIn',both:'📝 + 💼 Beides'};
+function saveCalEntry() {
+  const title = document.getElementById('cal-title').value.trim();
+  if (!title) { showToast('Bitte Titel eingeben.'); return; }
+  const entry = { id:Date.now(), title, channel:document.getElementById('cal-channel').value,
+    date:document.getElementById('cal-date').value, time:document.getElementById('cal-time').value||'08:00',
+    status:document.getElementById('cal-status').value,
+    linkedinText:document.getElementById('cal-linkedin-text').value.trim(),
+    notes:document.getElementById('cal-notes').value.trim() };
+  calEntries.unshift(entry); saveCalEntries(); renderCalendar();
+  ['cal-title','cal-date','cal-linkedin-text','cal-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cal-time').value='08:00';
+  document.getElementById('cal-channel').selectedIndex=0;
+  document.getElementById('cal-status').selectedIndex=0;
+  showToast('✓ Kalender-Eintrag gespeichert!');
+}
+function deleteCalEntry(id) {
+  if (!confirm('Eintrag löschen?')) return;
+  calEntries = calEntries.filter(e=>e.id!==id); saveCalEntries(); renderCalendar(); showToast('Eintrag gelöscht.');
+}
+function updateCalStatus(id, status) {
+  const e = calEntries.find(e=>e.id===id);
+  if (e) { e.status=status; saveCalEntries(); renderCalendar(); showToast('✓ Status aktualisiert!'); }
+}
+function copyLinkedIn(id) {
+  const e = calEntries.find(e=>e.id===id);
+  if (!e||!e.linkedinText) return;
+  try { navigator.clipboard.writeText(e.linkedinText).then(()=>showToast('✓ LinkedIn-Text kopiert!')); }
+  catch(err) { const ta=document.createElement('textarea'); ta.value=e.linkedinText; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✓ Kopiert!'); }
+}
+function renderCalendar() {
+  const list=document.getElementById('cal-list');
+  const twEl=document.getElementById('cal-thisweek');
+  const twSec=document.getElementById('cal-thisweek-section');
+  if (!list) return;
+  if (!calEntries.length) { list.innerHTML='<p style="color:var(--muted);font-style:italic;font-size:0.875rem;">Noch keine Einträge.</p>'; if(twSec)twSec.style.display='none'; return; }
+  const now=new Date(), weekEnd=new Date(now); weekEnd.setDate(weekEnd.getDate()+7);
+  const thisWeek=calEntries.filter(e=>{ if(!e.date)return false; const d=new Date(e.date); return d>=now&&d<=weekEnd&&e.status!=='done'; });
+  if(twSec) twSec.style.display=thisWeek.length?'block':'none';
+  if(twEl&&thisWeek.length) twEl.innerHTML=thisWeek.map(e=>calEntryHTML(e,true)).join('');
+  list.innerHTML=calEntries.map(e=>calEntryHTML(e,false)).join('');
+}
+function calEntryHTML(e, compact) {
+  const statusColor={idea:'#b08a50',draft:'#6b1e2e',ready:'#1a6b3a',scheduled:'#0077b5',done:'#555'}[e.status]||'#999';
+  return `<div style="border:1px solid var(--rule);padding:1.25rem;margin-bottom:0.75rem;background:#fff;border-left:3px solid ${statusColor};">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:1rem;flex-wrap:wrap;">
+      <div style="flex:1;">
+        <p style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--text);margin-bottom:0.35rem;">${e.title}</p>
+        <p style="font-size:0.72rem;color:var(--muted);">${CAL_CHANNEL_LABELS[e.channel]||e.channel} &nbsp;·&nbsp; ${e.date?fmtDate(e.date):'Kein Datum'} ${e.time||''} &nbsp;·&nbsp; <span style="color:${statusColor};font-weight:500;">${CAL_STATUS_LABELS[e.status]||e.status}</span></p>
+        ${e.notes?`<p style="font-size:0.78rem;color:var(--muted);margin-top:0.4rem;font-style:italic;">${e.notes}</p>`:''}
+      </div>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;flex-shrink:0;">
+        ${e.linkedinText?`<button onclick="copyLinkedIn(${e.id})" style="background:var(--linkedin);color:#fff;border:none;padding:0.3rem 0.65rem;font-size:0.68rem;cursor:pointer;border-radius:2px;">📋 LinkedIn kopieren</button>`:''}
+        <select onchange="updateCalStatus(${e.id},this.value)" style="font-size:0.68rem;padding:0.3rem;border:1px solid var(--rule);background:#fff;cursor:pointer;">
+          ${Object.entries(CAL_STATUS_LABELS).map(([k,v])=>`<option value="${k}" ${e.status===k?'selected':''}>${v}</option>`).join('')}
+        </select>
+        <button onclick="deleteCalEntry(${e.id})" style="background:none;border:1px solid #c0392b;color:#c0392b;padding:0.3rem 0.65rem;font-size:0.68rem;cursor:pointer;">✕</button>
+      </div>
+    </div>
+    ${e.linkedinText&&!compact?`<div style="margin-top:0.75rem;padding:0.75rem;background:var(--beige);font-size:0.78rem;color:var(--text);line-height:1.6;white-space:pre-wrap;">${e.linkedinText}</div>`:''}
+  </div>`;
+}
+function checkScheduledArticles() {
+  const now=new Date(); let changed=false;
+  articles.forEach(a=>{ if(a.publishAt&&!a.published){ if(now>=new Date(a.publishAt)){a.published=true;changed=true;} } });
+  if(changed){saveArticlesData();renderBlog();}
+}
+setInterval(checkScheduledArticles,60000);
+
+// ═══════════════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════════════
+// Geheimer Admin-Zugang – dreifach auf Logo tippen/klicken
+let logoClickCount = 0;
+let logoClickTimer = null;
+function handleLogoClick() {
+  logoClickCount++;
+  if (logoClickTimer) clearTimeout(logoClickTimer);
+  logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 600);
+  if (logoClickCount >= 3) { logoClickCount = 0; openAdmin(); }
+}
+function openAdmin() { document.getElementById('admin-overlay').classList.add('open'); if(!loggedIn){document.getElementById('pw-input').value='';document.getElementById('login-error').style.display='none';} }
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); }
+function checkPw() {
+  if (document.getElementById('pw-input').value === getPassword()) {
+    loggedIn = true;
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('f-author').value = document.getElementById('author-name').textContent || 'Dr. V. Matoussevitch';
+    renderCategoryDropdown();
+    const s = {...DEF, ...(()=>{ try{return JSON.parse(localStorage.getItem(KEYS.site)||'{}')}catch(e){return{}} })()};
+    populateSiteForm(s);
+    renderAdminList();
+  } else { document.getElementById('login-error').style.display = 'block'; }
+}
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(tab==='list') renderAdminList();
+  if(tab==='cats') renderCatsAdmin();
+  if(tab==='calendar') { loadCalEntries(); renderCalendar(); document.getElementById('cal-date').value=new Date().toISOString().split('T')[0]; }
+  if(tab==='i18n') { currentI18nLang='de'; document.querySelectorAll('.i18n-lang-tab').forEach((b,i)=>{b.style.background=i===0?'var(--bordeaux)':'var(--beige-dd)';b.style.color=i===0?'var(--beige)':'var(--text)';}); renderI18nFields(); }
+}
+function previewImage(input) {
+  const f = input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = e => { const img = document.getElementById('img-preview'); img.src = e.target.result; img.style.display='block'; };
+  r.readAsDataURL(f);
+}
+
+// Extra images
+let extraImageCount = 0;
+function addExtraImageField() {
+  extraImageCount++;
+  const id = 'extra-img-' + extraImageCount;
+  const container = document.getElementById('extra-imgs-container');
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;align-items:center;gap:0.5rem;';
+  div.innerHTML = `
+    <div class="img-upload-area" style="flex:1;padding:1rem;" onclick="document.getElementById('${id}').click()">
+      <input type="file" id="${id}" accept="image/*" onchange="previewExtraImage(this,'${id}-prev')" style="display:none;">
+      <p class="img-upload-text" style="margin:0;">🖼 Bild ${extraImageCount} hochladen</p>
+      <img id="${id}-prev" class="img-preview" src="" alt="" style="max-height:100px;">
+    </div>
+    <button onclick="this.parentElement.remove()" style="background:none;border:1px solid #c0392b;color:#c0392b;padding:0.4rem 0.6rem;cursor:pointer;flex-shrink:0;">✕</button>`;
+  container.appendChild(div);
+}
+
+function previewExtraImage(input, prevId) {
+  const f = input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = e => { const img = document.getElementById(prevId); img.src = e.target.result; img.style.display='block'; };
+  r.readAsDataURL(f);
+}
+
+function getExtraImages() {
+  const imgs = [];
+  document.querySelectorAll('#extra-imgs-container img[id$="-prev"]').forEach(img => {
+    if (img.src && img.style.display !== 'none') imgs.push(img.src);
+  });
+  return imgs;
+}
+
+function getYouTubeEmbed(url) {
+  if (!url) return '';
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : '';
+}
+function saveArticle() {
+  const title = document.getElementById('f-title').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const titleEn = getArtField('f-title-en');
+  const excerptEn = getArtField('f-excerpt-en');
+  const deOk = title && excerpt;
+  const enOk = titleEn && excerptEn;
+  if (!deOk && !enOk) { showToast('Bitte mindestens DE oder EN (Titel + Kurztext) ausfüllen.'); return; }
+  const primaryTitle = title || titleEn;
+  const primaryExcerpt = excerpt || excerptEn;
+  const imgEl = document.getElementById('img-preview');
+  const imgSrc = imgEl && imgEl.src && (imgEl.src.startsWith('data:image') || imgEl.src.match(/\.(jpg|jpeg|png|webp|gif)$/i)) ? imgEl.src : '';
+  const youtubeEl = document.getElementById('f-youtube');
+  const a = {
+    id: Date.now(),
+    cat: document.getElementById('f-cat').value,
+    title: primaryTitle, excerpt: primaryExcerpt,
+    body: getArtField('f-body'),
+    date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
+    author: document.getElementById('f-author').value.trim(),
+    img: imgSrc,
+    extraImgs: getExtraImages(),
+    youtube: youtubeEl ? getYouTubeEmbed(youtubeEl.value.trim()) : '',
+    titleEn: titleEn, excerptEn: excerptEn, bodyEn: getArtField('f-body-en'),
+    titleRu: getArtField('f-title-ru'), excerptRu: getArtField('f-excerpt-ru'), bodyRu: getArtField('f-body-ru'),
+    titleHe: getArtField('f-title-he'), excerptHe: getArtField('f-excerpt-he'), bodyHe: getArtField('f-body-he'),
+  };
+  const eid = document.getElementById('f-edit-id').value;
+  if(eid) { const idx=articles.findIndex(x=>String(x.id)===eid); if(idx!==-1){a.id=articles[idx].id;articles[idx]=a;} }
+  else { articles.unshift(a); }
+  saveArticlesData(); 
+  renderBlog(); 
+  clearForm(); 
+  showToast('✓ Artikel gespeichert!');
+  // Re-enable save button after 3 seconds
+  document.querySelectorAll('.btn-save').forEach(b => { b.disabled = true; b.textContent = 'Wird gespeichert...'; });
+  setTimeout(() => {
+    document.querySelectorAll('.btn-save').forEach(b => { b.disabled = false; b.textContent = 'Artikel speichern'; });
+  }, 3000);
+}
+function editArticle(i) {
+  const a = articles[i];
+  document.getElementById('f-cat').value=a.cat; document.getElementById('f-title').value=a.title;
+  document.getElementById('f-excerpt').value=a.excerpt; document.getElementById('f-body').value=a.body||'';
+  document.getElementById('f-date').value=a.date; document.getElementById('f-author').value=a.author||'';
+  document.getElementById('f-edit-id').value=String(a.id);
+  if(a.img){const img=document.getElementById('img-preview');img.src=a.img;img.style.display='block';}
+  document.getElementById('cancel-edit-btn').style.display='inline-block';
+  switchTab('new', document.querySelectorAll('.admin-tab')[0]);
+}
+function cancelEdit() { clearForm(); showToast('Bearbeitung abgebrochen.'); }
+function clearForm() {
+  ['f-title','f-excerpt','f-body','f-edit-id'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-author').value = document.getElementById('author-name').textContent||'Dr. V. Matoussevitch';
+  document.getElementById('f-cat').selectedIndex=0;
+  document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+  const img=document.getElementById('img-preview'); img.src=''; img.style.display='none';
+  document.getElementById('cancel-edit-btn').style.display='none';
+  document.getElementById('f-img').value='';
+  const yt=document.getElementById('f-youtube'); if(yt) yt.value='';
+  const ec=document.getElementById('extra-imgs-container'); if(ec) ec.innerHTML='';
+  extraImageCount=0;
+}
+function deleteArticle(i) {
+  if(!confirm('Artikel wirklich löschen?')) return;
+  articles.splice(i,1); saveArticlesData(); renderBlog(); renderAdminList(); showToast('Artikel gelöscht.');
+}
+function saveSettings() {
+  const pw1=document.getElementById('s-pw1').value, pw2=document.getElementById('s-pw2').value;
+  if(pw1&&pw1!==pw2){showToast('Passwörter stimmen nicht überein.');return;}
+  if(pw1) localStorage.setItem(KEYS.pw,pw1);
+  const li=document.getElementById('s-linkedin').value.trim();
+  if(li){localStorage.setItem(KEYS.linkedin,li);updateLinkedIn(li);}
+  showToast('✓ Einstellungen gespeichert!');
+}
+
+// ═══════════════════════════════════════════════════════
+// I18N ADMIN
+// ═══════════════════════════════════════════════════════
+const I18N_LABELS = {
+  'nav.articles':'Navigation – Artikel','nav.topics':'Navigation – Themen',
+  'nav.newsletter':'Navigation – Newsletter','nav.contact':'Navigation – Kontakt',
+  'hero.eyebrow':'Startseite – Kleiner Text oben','hero.desc':'Startseite – Beschreibungstext',
+  'hero.disclaimer':'Startseite – Haftungshinweis','hero.cta':'Startseite – Button Text',
+  'hero.stat1':'Statistik – Label 1','hero.stat2':'Statistik – Label 2','hero.stat3':'Statistik – Label 3',
+  'articles.eyebrow':'Artikel – Kleiner Text','articles.title':'Artikel – Titel','articles.sub':'Artikel – Untertitel',
+  'topics.eyebrow':'Themen – Kleiner Text','topics.title':'Themen – Titel','topics.sub':'Themen – Untertitel',
+  'contact.eyebrow':'Kontakt – Kleiner Text','contact.title':'Kontakt – Titel','contact.intro':'Kontakt – Einleitungstext',
+  'nl.eyebrow':'Newsletter – Kleiner Text','nl.title':'Newsletter – Titel','nl.sub':'Newsletter – Untertitel',
+  'footer.tagline':'Footer – Tagline','footer.disclaimer':'Footer – Disclaimer',
+  'empty.articles':'Leerer Zustand – Text',
+  'author.bio':'Autor – Biographie (unter dem Foto)',
+};
+function getEffectiveTranslations(lang) {
+  const custom = loadCustomI18n();
+  return {...TRANSLATIONS[lang], ...(custom[lang]||{})};
+}
+function switchI18nLang(lang, btn) {
+  currentI18nLang = lang;
+  document.querySelectorAll('.i18n-lang-tab').forEach(b => { b.style.background=b===btn?'var(--bordeaux)':'var(--beige-dd)'; b.style.color=b===btn?'var(--beige)':'var(--text)'; });
+  renderI18nFields();
+}
+function renderI18nFields() {
+  const el = document.getElementById('i18n-fields');
+  if (!el) return;
+  const effective = getEffectiveTranslations(currentI18nLang);
+  const isRTL = currentI18nLang === 'he';
+  el.innerHTML = Object.keys(I18N_LABELS).map(key => `
+    <div class="form-group">
+      <label class="form-label">${I18N_LABELS[key]}</label>
+      <input class="form-input i18n-field" data-key="${key}" value="${(effective[key]||'').replace(/"/g,'&quot;')}" style="${isRTL?'direction:rtl;text-align:right;':''}" dir="${isRTL?'rtl':'ltr'}">
+    </div>`).join('');
+}
+function saveI18n() {
+  const custom = loadCustomI18n();
+  if (!custom[currentI18nLang]) custom[currentI18nLang] = {};
+  document.querySelectorAll('.i18n-field').forEach(inp => {
+    const key = inp.getAttribute('data-key');
+    const val = inp.value.trim();
+    if (val) custom[currentI18nLang][key] = val;
+  });
+  localStorage.setItem(I18N_CUSTOM_KEY, JSON.stringify(custom));
+  Object.keys(TRANSLATIONS).forEach(lang => { const c=custom[lang]||{}; Object.assign(TRANSLATIONS[lang],c); });
+  setLang(currentLang);
+  showToast('✓ Übersetzungen gespeichert!');
+}
+
+// ═══════════════════════════════════════════════════════
+// LANGUAGE SWITCHER
+// ═══════════════════════════════════════════════════════
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('vat_lang', lang);
+  document.body.classList.toggle('rtl', lang==='he');
+  document.body.classList.remove('lang-de','lang-en','lang-ru','lang-he');
+  document.body.classList.add('lang-'+lang);
+  document.documentElement.lang = lang;
+  // Update bsd bar
+  const bsd = document.getElementById('bsd-bar');
+  if (bsd) bsd.textContent = lang==='he' ? 'בס״ד' : 'bs"d';
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+lang+"'"));
+  });
+  const tr = TRANSLATIONS[lang] || TRANSLATIONS.de;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key === 'hero.title') { el.innerHTML = tr[key] || TRANSLATIONS.de[key]; return; }
+    if (key === 'hero.cta') { el.innerHTML = (tr[key]||TRANSLATIONS.de[key]) + ' <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; return; }
+    if (tr[key]) el.textContent = tr[key];
+  });
+  // Update author bio if translation exists
+  const bioEl = document.getElementById('author-bio');
+  if (bioEl && tr['author.bio']) bioEl.textContent = tr['author.bio'];
+  renderBlog();
+}
+
+// ═══════════════════════════════════════════════════════
+// MODALS & CONTACT FORM
+// ═══════════════════════════════════════════════════════
+function openModal(n) { document.getElementById('modal-'+n).classList.add('open'); }
+function closeModal(n) { document.getElementById('modal-'+n).classList.remove('open'); }
+document.querySelectorAll('.page-modal').forEach(m => { m.addEventListener('click', function(e){if(e.target===this)this.classList.remove('open');}); });
+document.getElementById('admin-overlay').addEventListener('click', function(e){if(e.target===this)closeAdmin();});
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('.cf-submit');
+  btn.textContent = 'Wird gesendet…'; btn.disabled = true;
+  try {
+    const res = await fetch(form.action, {method:'POST', body:new FormData(form), headers:{Accept:'application/json'}});
+    if (res.ok) { document.getElementById('cf-form-inner').style.display='none'; document.getElementById('cf-success').style.display='block'; }
+    else { btn.textContent='Fehler – bitte erneut versuchen'; btn.disabled=false; }
+  } catch(err) { btn.textContent='Fehler – bitte erneut versuchen'; btn.disabled=false; }
+}
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function fmtDate(d) { if(!d)return''; try{return new Date(d).toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});}catch(e){return d;} }
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+loadAndApplyCustomI18n();
+articles = []; // Always start empty - GitHub loads on login
+loadCalEntries();
+loadSiteTexts();
+loadLinkedIn();
+renderCategoryDropdown();
+renderTopicList();
+setLang(currentLang);
+</script>
+
+<script>
+async function showAdmin(user) {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('admin-area').style.display = 'block';
+  if(user && user.email) {
+    document.getElementById('admin-user-email').textContent = user.email;
+  }
+  // Load articles from GitHub
+  showToast('Lade Artikel...');
+  await loadArticlesFromGitHub();
+  loadCalEntries();
+  loadCategories();
+  renderCategoryDropdown();
+  renderAdminList();
+  renderCatsAdmin();
+  const dateEl = document.getElementById('f-date');
+  if(dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+  const authorEl = document.getElementById('f-author');
+  if(authorEl) authorEl.value = 'Dr. V. Matoussevitch';
+  const s = {...DEF, ...(()=>{ try{return JSON.parse(localStorage.getItem(KEYS.site)||'{}')}catch(e){return{}} })()};
+  populateSiteForm(s);
+  // Show admin content (hide login panel if exists)
+  const loginEl = document.getElementById('admin-login');
+  const contentEl = document.getElementById('admin-content');
+  if(loginEl) loginEl.style.display = 'none';
+  if(contentEl) contentEl.style.display = 'block';
+}
+
+netlifyIdentity.on('init', user => {
+  if(user) showAdmin(user);
+});
+
+netlifyIdentity.on('login', user => {
+  netlifyIdentity.close();
+  showAdmin(user);
+});
+
+netlifyIdentity.on('logout', () => {
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('admin-area').style.display = 'none';
+});
+
+
+// ═══════════════════════════════════════════════════════
+// GITHUB STORAGE CONFIG
+// ═══════════════════════════════════════════════════════
+const GITHUB = {
+  owner: 'vmatoussevitch-ops',
+  repo: 'vat-articles',
+  file: 'articles.json',
+  token: window.GITHUB_TOKEN || '',
+  get apiUrl() { return `https://api.github.com/repos/${this.owner}/${this.repo}/contents/${this.file}`; }
+};
+
+async function loadArticlesFromGitHub() {
+  try {
+    const r = await fetch(GITHUB.apiUrl, {
+      headers: { 'Authorization': `token ${GITHUB.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!r.ok) throw new Error('GitHub load failed');
+    const data = await r.json();
+    const decoded = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    articles = decoded.articles || [];
+    window._githubSha = data.sha;
+    return true;
+  } catch(e) {
+    console.error('GitHub load error:', e);
+    // Fallback to localStorage
+    try { articles = JSON.parse(localStorage.getItem(KEYS.articles) || '[]'); } catch(e2) { articles = []; }
+    return false;
+  }
+}
+
+async function saveArticlesToGitHub() {
+  try {
+    const body = { articles, version: 1 };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2))));
+    const payload = {
+      message: `Update articles ${new Date().toISOString()}`,
+      content: encoded,
+      sha: window._githubSha
+    };
+    const r = await fetch('/.netlify/functions/articles', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.message);
+    }
+    const data = await r.json();
+    window._githubSha = data.content.sha;
+    return true;
+  } catch(e) {
+    console.error('GitHub save error:', e);
+    showToast('⚠️ Fehler beim Speichern auf GitHub: ' + e.message);
+    return false;
+  }
+}
+
+
+</script>
+
+</body>
+</html>
