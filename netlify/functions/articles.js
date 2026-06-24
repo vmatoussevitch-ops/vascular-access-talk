@@ -30,6 +30,11 @@ exports.handler = async (event) => {
       // Load articles
       const res = await fetch(apiUrl, { headers: ghHeaders });
       const data = await res.json();
+      // Decode and re-encode properly to fix UTF-8
+      if (data.content) {
+        const decoded = Buffer.from(data.content.replace(/\n/g,''), 'base64').toString('utf8');
+        data.content = Buffer.from(decoded).toString('base64');
+      }
       return {
         statusCode: 200,
         headers,
