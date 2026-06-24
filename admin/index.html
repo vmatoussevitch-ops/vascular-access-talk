@@ -902,12 +902,18 @@ function loadArticles() {
   try { articles = JSON.parse(localStorage.getItem(KEYS.articles) || '[]'); } catch(e) { articles = []; }
 }
 function saveArticlesData() {
-  // Only save to GitHub - localStorage is not used as primary source
   saveArticlesToGitHub().then(ok => {
-    if(ok) { 
+    if(ok) {
       console.log("✓ Saved to GitHub");
+      // Trigger Netlify rebuild
+      fetch('https://api.netlify.com/build_hooks/6a3bf1b117ed5a5bc4a01e08', {
+        method: 'POST'
+      }).then(() => {
+        console.log("✓ Netlify build triggered");
+        showToast('✓ Artikel gespeichert – Seite wird aktualisiert...');
+      }).catch(e => console.log('Build trigger error:', e));
     } else {
-      showToast('⚠️ GitHub-Speicherung fehlgeschlagen!');
+      showToast('⚠️ Speicherung fehlgeschlagen!');
     }
   });
 }
