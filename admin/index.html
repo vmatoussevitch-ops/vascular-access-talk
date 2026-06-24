@@ -1180,17 +1180,25 @@ function saveArticle() {
 }
 function editArticle(i) {
   const a = articles[i];
-  document.getElementById('f-cat').value=a.cat; document.getElementById('f-title').value=a.title;
-  document.getElementById('f-excerpt').value=a.excerpt; document.getElementById('f-body').value=a.body||'';
+  document.getElementById('f-cat').value=a.cat; document.getElementById('f-title').value=a.title||'';
+  document.getElementById('f-excerpt').value=a.excerpt||''; document.getElementById('f-body').value=a.body||'';
   document.getElementById('f-date').value=a.date; document.getElementById('f-author').value=a.author||'';
   document.getElementById('f-edit-id').value=String(a.id);
-  if(a.img){const img=document.getElementById('img-preview');img.src=a.img;img.style.display='block';}
+  // Fill all language tabs
+  setArtField('f-title-en', a.titleEn); setArtField('f-excerpt-en', a.excerptEn); setArtField('f-body-en', a.bodyEn);
+  setArtField('f-title-ru', a.titleRu); setArtField('f-excerpt-ru', a.excerptRu); setArtField('f-body-ru', a.bodyRu);
+  setArtField('f-title-he', a.titleHe); setArtField('f-excerpt-he', a.excerptHe); setArtField('f-body-he', a.bodyHe);
+  if(a.img && a.img.length > 10){const img=document.getElementById('img-preview');img.src=a.img;img.style.display='block';}
   document.getElementById('cancel-edit-btn').style.display='inline-block';
   switchTab('new', document.querySelectorAll('.admin-tab')[0]);
 }
 function cancelEdit() { clearForm(); showToast('Bearbeitung abgebrochen.'); }
 function clearForm() {
-  ['f-title','f-excerpt','f-body','f-edit-id'].forEach(id => document.getElementById(id).value='');
+  ['f-title','f-excerpt','f-body','f-edit-id',
+   'f-title-en','f-excerpt-en','f-body-en',
+   'f-title-ru','f-excerpt-ru','f-body-ru',
+   'f-title-he','f-excerpt-he','f-body-he'
+  ].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('f-author').value = document.getElementById('author-name').textContent||'Dr. V. Matoussevitch';
   document.getElementById('f-cat').selectedIndex=0;
   document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
