@@ -1,6 +1,6 @@
 [build]
   command = "node build.js"
-  publish = "."
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -33,10 +33,5 @@
 
 [[headers]]
   for = "/"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
-[[headers]]
-  for = "/index.html"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
