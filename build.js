@@ -1,15 +1,15 @@
-// Build script: generates static HTML page for each article
 const fs = require('fs');
+const path = require('path');
 const https = require('https');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const ARTICLES_URL = 'https://api.github.com/repos/vmatoussevitch-ops/vat-articles/contents/articles.json';
+const DIST = path.join(process.cwd(), 'dist');
 
 function slugify(text) {
-  return text.toLowerCase()
-    .replace(/[äÄ]/g, 'ae').replace(/[öÖ]/g, 'oe').replace(/[üÜ]/g, 'ue')
-    .replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '').substring(0, 60);
+  return (text||'').toLowerCase()
+    .replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue')
+    .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'').substring(0,60);
 }
 
 function fetchArticles() {
@@ -37,14 +37,7 @@ function fetchArticles() {
   });
 }
 
-function getLocalized(a, field, lang) {
-  if (lang === 'en') return a[field+'En'] || a[field] || '';
-  if (lang === 'ru') return a[field+'Ru'] || a[field+'En'] || a[field] || '';
-  if (lang === 'he') return a[field+'He'] || a[field+'En'] || a[field] || '';
-  return a[field] || a[field+'En'] || '';
-}
-
-function generateArticlePage(article, allArticles) {
+function generateArticlePage(article) {
   const slug = slugify(article.title || article.titleEn || 'artikel');
   const title = article.title || article.titleEn || '';
   const excerpt = article.excerpt || article.excerptEn || '';
@@ -59,30 +52,18 @@ function generateArticlePage(article, allArticles) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} – Vascular Access Talk</title>
-<meta name="description" content="${excerpt.substring(0, 155)}">
+<meta name="description" content="${excerpt.substring(0,155)}">
 <meta name="author" content="${author}">
 <link rel="canonical" href="https://vascularaccesstalk.com/artikel/${slug}/">
-<!-- Open Graph for LinkedIn -->
 <meta property="og:title" content="${title} – Vascular Access Talk">
-<meta property="og:description" content="${excerpt.substring(0, 155)}">
+<meta property="og:description" content="${excerpt.substring(0,155)}">
 <meta property="og:url" content="https://vascularaccesstalk.com/artikel/${slug}/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Vascular Access Talk">
 ${img ? `<meta property="og:image" content="${img}">` : ''}
 <meta property="article:published_time" content="${date}">
-<meta property="article:author" content="${author}">
-<!-- Article Schema -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "MedicalWebPage",
-  "headline": "${title}",
-  "description": "${excerpt.substring(0, 155)}",
-  "author": {"@type": "Person", "name": "${author}"},
-  "datePublished": "${date}",
-  "publisher": {"@type": "Organization", "name": "Vascular Access Talk", "url": "https://vascularaccesstalk.com"},
-  "url": "https://vascularaccesstalk.com/artikel/${slug}/"
-}
+{"@context":"https://schema.org","@type":"MedicalWebPage","headline":"${title}","description":"${excerpt.substring(0,155)}","author":{"@type":"Person","name":"${author}"},"datePublished":"${date}","publisher":{"@type":"Organization","name":"Vascular Access Talk","url":"https://vascularaccesstalk.com"},"url":"https://vascularaccesstalk.com/artikel/${slug}/"}
 </script>
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css2?family=playfair-display:ital,wght@0,400;0,600;1,400&family=lora:ital,wght@0,400;0,500;1,400&family=jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -100,11 +81,9 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
 .article-title{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:400;line-height:1.25;margin-bottom:1rem;}
 .article-meta{font-size:0.8rem;color:#8a7060;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(42,26,26,0.1);}
 .article-img{width:100%;max-height:400px;object-fit:cover;margin-bottom:2rem;}
-.article-body{font-family:'Lora',serif;font-size:1rem;line-height:1.85;color:var(--text);white-space:pre-wrap;}
-.article-body p{margin-bottom:1.25rem;}
-.article-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(42,26,26,0.1);display:flex;justify-content:space-between;align-items:center;}
-.back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em;}
-.back-link:hover{color:var(--gold);}
+.article-body{font-family:'Lora',serif;font-size:1rem;line-height:1.85;white-space:pre-wrap;}
+.article-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(42,26,26,0.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;}
 .li-btn{background:#0077b5;color:#fff;border:none;padding:0.5rem 1.25rem;font-size:0.8rem;cursor:pointer;text-decoration:none;display:inline-block;}
 </style>
 </head>
@@ -114,13 +93,13 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
   <a href="/#artikel" class="nav-back">← Alle Artikel</a>
 </nav>
 <article class="article-wrap">
-  <p class="article-cat">${article.cat || 'Allgemeines'}</p>
+  <p class="article-cat">${article.cat||'Allgemeines'}</p>
   <h1 class="article-title">${title}</h1>
   <p class="article-meta">${author} · ${date}</p>
   ${img ? `<img src="${img}" class="article-img" alt="${title}">` : ''}
   <div class="article-body">${body}</div>
   <div class="article-footer">
-    <a href="/#artikel" class="back-link">← Zurück zur Übersicht</a>
+    <a href="/" class="back-link">← Zurück zur Übersicht</a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/${slug}/" target="_blank" class="li-btn">Auf LinkedIn teilen</a>
   </div>
 </article>
@@ -134,20 +113,26 @@ function generateSitemap(articles) {
   ];
   articles.forEach(a => {
     const slug = slugify(a.title || a.titleEn || 'artikel');
-    urls.push(`<url><loc>https://vascularaccesstalk.com/artikel/${slug}/</loc><lastmod>${a.date || new Date().toISOString().split('T')[0]}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`);
+    urls.push(`<url><loc>https://vascularaccesstalk.com/artikel/${slug}/</loc><lastmod>${a.date||new Date().toISOString().split('T')[0]}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`);
   });
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.join('\n')}
-</urlset>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
 }
 
 async function build() {
-  const path = require('path');
-  const buildDir = process.cwd();
-  console.log('Build directory:', buildDir);
-  console.log('Starting build...');
-  
+  console.log('Build directory:', process.cwd());
+  console.log('Dist directory:', DIST);
+
+  // 1. Clean and create dist
+  if (fs.existsSync(DIST)) {
+    fs.rmSync(DIST, { recursive: true });
+    console.log('Cleaned dist/');
+  }
+  fs.mkdirSync(DIST);
+
+  // 2. Copy index.html to dist
+  let indexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
+
+  // 3. Fetch articles
   let articles = [];
   try {
     articles = await fetchArticles();
@@ -156,34 +141,41 @@ async function build() {
     console.log('Could not fetch articles:', e.message);
   }
 
-  // Create artikel directory
-  const artikelDir = path.join(buildDir, 'artikel');
-  if (!fs.existsSync(artikelDir)) fs.mkdirSync(artikelDir);
+  // 4. Update article count in index.html
+  indexHtml = indexHtml.replace(/id="stat-count">[^<]*/, `id="stat-count">${articles.length}`);
 
-  // Generate article pages
-  const redirects = [];
+  // 5. Write index.html to dist
+  fs.writeFileSync(path.join(DIST, 'index.html'), indexHtml);
+  console.log('Written:', path.join(DIST, 'index.html'));
+
+  // 6. Copy admin folder
+  const adminSrc = path.join(process.cwd(), 'admin');
+  const adminDst = path.join(DIST, 'admin');
+  fs.mkdirSync(adminDst);
+  fs.copyFileSync(path.join(adminSrc, 'index.html'), path.join(adminDst, 'index.html'));
+  console.log('Written:', path.join(adminDst, 'index.html'));
+
+  // 7. Copy Google verification file if exists
+  const googleFile = fs.readdirSync(process.cwd()).find(f => f.startsWith('google') && f.endsWith('.html'));
+  if (googleFile) {
+    fs.copyFileSync(path.join(process.cwd(), googleFile), path.join(DIST, googleFile));
+    console.log('Written:', path.join(DIST, googleFile));
+  }
+
+  // 8. Generate article pages in dist
+  const artikelDir = path.join(DIST, 'artikel');
+  fs.mkdirSync(artikelDir);
   articles.forEach(article => {
-    const { slug, html } = generateArticlePage(article, articles);
-    const dir = path.join(buildDir, 'artikel', slug);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const { slug, html } = generateArticlePage(article);
+    const dir = path.join(artikelDir, slug);
+    fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), html);
-    console.log('Written to:', path.join(dir, 'index.html'));
-    redirects.push(`/artikel/${slug} /artikel/${slug}/ 301`);
-    console.log(`Generated: /artikel/${slug}/`);
+    console.log('Written:', path.join(dir, 'index.html'));
   });
 
-  // Generate sitemap
-  fs.writeFileSync(path.join(buildDir, 'sitemap.xml'), generateSitemap(articles));
-  console.log('Generated: sitemap.xml');
-
-  // Update article count in index.html
-  let indexHtml = fs.readFileSync(path.join(buildDir, 'index.html'), 'utf8');
-  indexHtml = indexHtml.replace(
-    /id="stat-count">[^<]*/,
-    `id="stat-count">${articles.length}`
-  );
-  fs.writeFileSync(path.join(buildDir, 'index.html'), indexHtml);
-  console.log(`Updated article count: ${articles.length}`);
+  // 9. Generate sitemap
+  fs.writeFileSync(path.join(DIST, 'sitemap.xml'), generateSitemap(articles));
+  console.log('Written:', path.join(DIST, 'sitemap.xml'));
 
   console.log('Build complete!');
 }
