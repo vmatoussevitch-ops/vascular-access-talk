@@ -143,6 +143,9 @@ ${urls.join('\n')}
 }
 
 async function build() {
+  const path = require('path');
+  const buildDir = process.cwd();
+  console.log('Build directory:', buildDir);
   console.log('Starting build...');
   
   let articles = [];
@@ -154,30 +157,32 @@ async function build() {
   }
 
   // Create artikel directory
-  if (!fs.existsSync('artikel')) fs.mkdirSync('artikel');
+  const artikelDir = path.join(buildDir, 'artikel');
+  if (!fs.existsSync(artikelDir)) fs.mkdirSync(artikelDir);
 
   // Generate article pages
   const redirects = [];
   articles.forEach(article => {
     const { slug, html } = generateArticlePage(article, articles);
-    const dir = `artikel/${slug}`;
+    const dir = path.join(buildDir, 'artikel', slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(`${dir}/index.html`, html);
+    fs.writeFileSync(path.join(dir, 'index.html'), html);
+    console.log('Written to:', path.join(dir, 'index.html'));
     redirects.push(`/artikel/${slug} /artikel/${slug}/ 301`);
     console.log(`Generated: /artikel/${slug}/`);
   });
 
   // Generate sitemap
-  fs.writeFileSync('sitemap.xml', generateSitemap(articles));
+  fs.writeFileSync(path.join(buildDir, 'sitemap.xml'), generateSitemap(articles));
   console.log('Generated: sitemap.xml');
 
   // Update article count in index.html
-  let indexHtml = fs.readFileSync('index.html', 'utf8');
+  let indexHtml = fs.readFileSync(path.join(buildDir, 'index.html'), 'utf8');
   indexHtml = indexHtml.replace(
     /id="stat-count">[^<]*/,
     `id="stat-count">${articles.length}`
   );
-  fs.writeFileSync('index.html', indexHtml);
+  fs.writeFileSync(path.join(buildDir, 'index.html'), indexHtml);
   console.log(`Updated article count: ${articles.length}`);
 
   console.log('Build complete!');
