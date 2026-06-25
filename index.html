@@ -877,12 +877,12 @@ function renderBlog() {
 
     const slug = slugify(locTitle);
     const artUrl = `/artikel/${slug}/`;
-    return `<div class="article-row" ${isRTL?'dir="rtl"':''} onclick="window.location='${artUrl}'" style="cursor:pointer;">
+    return `<a class="article-row" href="${artUrl}" ${isRTL?'dir="rtl"':''} style="display:flex;text-decoration:none;color:inherit;">
       <div class="article-num">${String(i+1).padStart(2,'0')}</div>
       <div class="article-body">
         ${imgHtml}
         <p class="article-cat">${a.cat||''}</p>
-        <h3 class="article-title"><a href="${artUrl}" style="color:inherit;text-decoration:none;">${locTitle}</a></h3>
+        <h3 class="article-title">${locTitle}</h3>
         <p class="article-excerpt">${locExcerpt}</p>
         ${bodyHtml}
         ${ytHtml}
@@ -891,10 +891,10 @@ function renderBlog() {
       </div>
       <div class="article-aside">
         <p class="article-date">${fmtDate(a.date)}</p>
-        <a class="li-share" href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com${artUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${lisvg} ${shareLabel}</a>
-        <a href="${artUrl}" class="read-btn" onclick="event.stopPropagation()">${svg}</a>
+        <span class="li-share" onclick="event.preventDefault();window.open('https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com${artUrl}','_blank')">${lisvg} ${shareLabel}</span>
+        <span class="read-btn">${svg}</span>
       </div>
-    </div>`;
+    </a>`;
   }).join('');
 
   // Hero featured (first article)
