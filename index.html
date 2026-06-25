@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- Build: 2026-06-25 07:06:44 -->
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <script>
@@ -7,18 +7,18 @@
 // GITHUB PUBLIC ARTICLE LOADER
 // ═══════════════════════════════════════════════════════
 async function loadArticlesFromGitHub() {
-  articles = []; // Reset before loading
+  articles = [];
   try {
-    const url = 'https://raw.githubusercontent.com/vmatoussevitch-ops/vat-articles/main/articles.json';
-    const r = await fetch(url + '?t=' + Date.now()); // cache bust
-    if (!r.ok) throw new Error('Failed to load');
+    const r = await fetch('/.netlify/functions/articles');
+    if (!r.ok) throw new Error('Failed to load: ' + r.status);
     const data = await r.json();
     articles = data.articles || [];
+    window._githubSha = data.sha;
+    console.log('Loaded', articles.length, 'articles');
     return true;
   } catch(e) {
-    console.error('GitHub load error:', e);
-    // Fallback to localStorage
-    try { articles = JSON.parse(localStorage.getItem('vat_articles') || '[]'); } catch(e2) { articles = []; }
+    console.error('Load error:', e);
+    articles = [];
     return false;
   }
 }
@@ -339,7 +339,7 @@ body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
       <p class="hero-disclaimer" id="hero-disclaimer" data-i18n="hero.disclaimer">Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.</p>
       <a href="#artikel" class="btn-primary" data-i18n="hero.cta">Artikel lesen <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <div class="hero-stats">
-        <div><span class="stat-num" id="stat-count">0</span><span class="stat-label" data-i18n="hero.stat1">Beiträge</span></div>
+        <div><span class="stat-num" id="stat-count">1</span><span class="stat-label" data-i18n="hero.stat1">Beiträge</span></div>
         <div><span class="stat-num" id="stat-num-2">8</span><span class="stat-label" id="stat-label-2" data-i18n="hero.stat2">Themenbereiche</span></div>
         <div><span class="stat-num" id="stat-num-3">20+</span><span class="stat-label" id="stat-label-3" data-i18n="hero.stat3">Jahre Erfahrung</span></div>
       </div>
