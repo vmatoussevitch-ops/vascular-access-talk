@@ -1308,7 +1308,7 @@ function setLang(lang) {
 function openModal(n) { document.getElementById('modal-'+n).classList.add('open'); }
 function closeModal(n) { document.getElementById('modal-'+n).classList.remove('open'); }
 document.querySelectorAll('.page-modal').forEach(m => { m.addEventListener('click', function(e){if(e.target===this)this.classList.remove('open');}); });
-document.getElementById('admin-overlay').addEventListener('click', function(e){if(e.target===this)closeAdmin();});
+// admin-overlay removed
 
 async function handleSubmit(e) {
   e.preventDefault();
