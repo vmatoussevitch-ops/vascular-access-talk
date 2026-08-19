@@ -39,12 +39,26 @@ function fetchArticles() {
 
 function generateArticlePage(article) {
   const slug = slugify(article.title || article.titleEn || 'artikel');
+
+  // Language versions
+  const langs = {
+    de: { title: article.title, excerpt: article.excerpt, body: article.body, label: 'DE', dir: 'ltr' },
+    en: { title: article.titleEn || article.title, excerpt: article.excerptEn || article.excerpt, body: article.bodyEn || article.body, label: 'EN', dir: 'ltr' },
+    ru: { title: article.titleRu || article.titleEn || article.title, excerpt: article.excerptRu || article.excerptEn || article.excerpt, body: article.bodyRu || article.bodyEn || article.body, label: 'RU', dir: 'ltr' },
+    he: { title: article.titleHe || article.titleEn || article.title, excerpt: article.excerptHe || article.excerptEn || article.excerpt, body: article.bodyHe || article.bodyEn || article.body, label: 'HE', dir: 'rtl' }
+  };
+
   const title = article.title || article.titleEn || '';
   const excerpt = article.excerpt || article.excerptEn || '';
-  const body = article.body || article.bodyEn || '';
   const date = article.date || '';
   const author = article.author || 'Dr. V. Matoussevitch';
   const img = article.img && (article.img.startsWith('data:image') || article.img.match(/\.(jpg|jpeg|png|webp)$/i)) ? article.img : '';
+
+  const langButtons = Object.keys(langs).map(l =>
+    `<button onclick="setLang('${l}')" id="btn-${l}" style="padding:0.4rem 0.75rem;border:none;background:none;color:rgba(242,236,224,0.5);font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.1em;cursor:pointer;">${l.toUpperCase()}</button>`
+  ).join('<span style="color:rgba(242,236,224,0.2)">·</span>');
+
+  const langData = JSON.stringify(langs);
 
   return { slug, html: `<!DOCTYPE html>
 <html lang="de">
@@ -71,11 +85,14 @@ ${img ? `<meta property="og:image" content="${img}">` : ''}
 :root{--bordeaux:#4d1520;--bordeaux-d:#2a0a0e;--gold:#b08a50;--beige:#f2ece0;--text:#2a1a1a;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);line-height:1.7;}
-.nav{background:var(--bordeaux-d);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);}
+.nav{background:var(--bordeaux-d);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);flex-wrap:wrap;gap:0.5rem;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--beige);text-decoration:none;}
 .nav-logo em{color:var(--gold);font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
 .nav-back{color:rgba(242,236,224,0.6);text-decoration:none;font-size:0.8rem;letter-spacing:0.1em;}
 .nav-back:hover{color:var(--gold);}
+.lang-switcher{display:flex;align-items:center;gap:0.15rem;border:1px solid rgba(242,236,224,0.2);padding:0.15rem;}
+.lang-switcher button.active{color:var(--gold)!important;font-weight:500;}
 .article-wrap{max-width:720px;margin:3rem auto;padding:0 1.5rem 4rem;}
 .article-cat{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
 .article-title{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:400;line-height:1.25;margin-bottom:1rem;}
@@ -90,22 +107,49 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
 <body>
 <nav class="nav">
   <a href="/" class="nav-logo">Vascular Access <em>Talk</em></a>
-  <a href="/#artikel" class="nav-back">← Alle Artikel</a>
+  <div class="nav-right">
+    <div class="lang-switcher">${langButtons}</div>
+    <a href="/" class="nav-back">← Zurück</a>
+  </div>
 </nav>
 <article class="article-wrap">
   <p class="article-cat">${article.cat||'Allgemeines'}</p>
-  <h1 class="article-title">${title}</h1>
+  <h1 class="article-title" id="art-title">${title}</h1>
   <p class="article-meta">${author} · ${date}</p>
   ${img ? `<img src="${img}" class="article-img" alt="${title}">` : ''}
-  <div class="article-body">${body}</div>
+  <div class="article-body" id="art-body">${article.body||''}</div>
   <div class="article-footer">
     <a href="/" class="back-link">← Zurück zur Übersicht</a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/${slug}/" target="_blank" class="li-btn">Auf LinkedIn teilen</a>
   </div>
 </article>
+<script>
+const LANGS = ${langData};
+let currentLang = localStorage.getItem('vat_lang') || 'de';
+
+function setLang(lang) {
+  if(!LANGS[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('vat_lang', lang);
+  const l = LANGS[lang];
+  document.getElementById('art-title').textContent = l.title || '';
+  document.getElementById('art-body').textContent = l.body || '';
+  document.getElementById('art-body').style.direction = l.dir || 'ltr';
+  document.getElementById('art-title').style.direction = l.dir || 'ltr';
+  // Update active button
+  Object.keys(LANGS).forEach(k => {
+    const btn = document.getElementById('btn-' + k);
+    if(btn) btn.classList.toggle('active', k === lang);
+  });
+}
+
+// Init
+setLang(currentLang);
+</script>
 </body>
 </html>`};
 }
+
 
 function generateSitemap(articles) {
   const urls = [
