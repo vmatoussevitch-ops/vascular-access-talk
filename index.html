@@ -875,7 +875,9 @@ function renderBlog() {
     const bodyHtml = locBody ? `<div class="article-full-body" style="font-size:0.9rem;line-height:1.8;color:var(--text);margin-top:0.75rem;white-space:pre-wrap;">${locBody}</div>` : '';
     const authorHtml = a.author ? `<p class="article-author">— ${a.author}</p>` : '';
 
-    const slug = slugify(locTitle);
+    // Always use DE title for URL slug
+    const deTitle = a.title || a.titleEn || locTitle;
+    const slug = slugify(deTitle);
     const artUrl = `/artikel/${slug}/`;
     return `<a class="article-row" href="${artUrl}" ${isRTL?'dir="rtl"':''} style="display:flex;text-decoration:none;color:inherit;">
       <div class="article-num">${String(i+1).padStart(2,'0')}</div>
@@ -908,7 +910,9 @@ function renderBlog() {
     <div class="card-meta"><span class="tag">${a.cat||''}</span><span class="meta-date">${fmtDate(a.date)}</span></div>`;
   // Make hero card and CTA button clickable
   const heroCard = document.getElementById('hero-featured');
-  const heroSlug = slugify(heroTitle);
+  // Always use DE title for URL slug
+  const heroDeTitle = a.title || a.titleEn || heroTitle;
+  const heroSlug = slugify(heroDeTitle);
   const heroUrl = `/artikel/${heroSlug}/`;
   heroCard.style.cursor = 'pointer';
   heroCard.onclick = () => window.location = heroUrl;
