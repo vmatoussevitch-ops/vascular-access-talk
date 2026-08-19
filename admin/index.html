@@ -849,8 +849,10 @@ function loadSiteTexts() {
   applySiteTexts(s); return s;
 }
 function applySiteTexts(s) {
+  function setEl(id, val) { const el = document.getElementById(id); if(el) el.innerHTML = val; }
+  function setElText(id, val) { const el = document.getElementById(id); if(el) el.textContent = val; }
   setTxt('hero-eyebrow', s.eyebrow);
-  document.getElementById('hero-title').innerHTML = s.title1 + '<br><em>' + s.title2 + '</em>';
+  setEl('hero-title', s.title1 + '<br><em>' + s.title2 + '</em>');
   setTxt('hero-desc', s.desc); setTxt('hero-disclaimer', s.disclaimer);
   setTxt('stat-num-2', s.stat2); setTxt('stat-label-2', s.label2);
   setTxt('stat-num-3', s.stat3); setTxt('stat-label-3', s.label3);
