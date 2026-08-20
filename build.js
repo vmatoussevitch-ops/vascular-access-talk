@@ -97,7 +97,7 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
 .article-cat{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
 .article-title{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:400;line-height:1.25;margin-bottom:1rem;}
 .article-meta{font-size:0.8rem;color:#8a7060;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(42,26,26,0.1);}
-.article-img{width:100%;max-height:400px;object-fit:cover;margin-bottom:2rem;}
+.article-img{width:100%;max-height:600px;object-fit:contain;background:#f0ece0;margin-bottom:2rem;}
 .article-body{font-family:'Lora',serif;font-size:1rem;line-height:1.85;white-space:pre-wrap;}
 .article-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(42,26,26,0.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
 .back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;}
