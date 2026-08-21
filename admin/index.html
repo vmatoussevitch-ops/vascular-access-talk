@@ -849,18 +849,21 @@ function loadSiteTexts() {
   applySiteTexts(s); return s;
 }
 function applySiteTexts(s) {
-  function setEl(id, val) { const el = document.getElementById(id); if(el) el.innerHTML = val; }
-  function setElText(id, val) { const el = document.getElementById(id); if(el) el.textContent = val; }
-  setTxt('hero-eyebrow', s.eyebrow);
-  setEl('hero-title', s.title1 + '<br><em>' + s.title2 + '</em>');
-  setTxt('hero-desc', s.desc); setTxt('hero-disclaimer', s.disclaimer);
-  setTxt('stat-num-2', s.stat2); setTxt('stat-label-2', s.label2);
-  setTxt('stat-num-3', s.stat3); setTxt('stat-label-3', s.label3);
-  setTxt('author-name', s.authorName); setTxt('author-bio', s.authorBio);
-  setTxt('sidebar-disclaimer', s.sidebarDisclaimer);
-  document.getElementById('footer-tagline').innerHTML = s.footerTagline.replace('\n','<br>');
-  setTxt('footer-disclaimer-text', s.footerDisclaimer); setTxt('footer-copy', s.copyright);
+  function setEl(id, val) { const el = document.getElementById(id); if(el) el.innerHTML = val || ''; }
+  function setVal(id, val) { const el = document.getElementById(id); if(el) el.value = val || ''; }
+  function setText(id, val) { const el = document.getElementById(id); if(el) el.textContent = val || ''; }
+  // Only set elements that exist in admin
+  setVal('s-title1', s.title1);
+  setVal('s-title2', s.title2);
+  setVal('s-eyebrow', s.eyebrow);
+  setVal('s-desc', s.desc);
+  setVal('s-disclaimer', s.disclaimer);
+  setVal('s-cta', s.cta);
+  setVal('s-footer-tagline', s.footerTagline);
+  setVal('s-author-name', s.authorName);
+  setVal('s-author-bio', s.authorBio);
 }
+
 function setTxt(id, val) { const el = document.getElementById(id); if (el && val !== undefined) el.textContent = val; }
 function populateSiteForm(s) {
   const m = {'st-eyebrow':s.eyebrow,'st-title1':s.title1,'st-title2':s.title2,'st-desc':s.desc,'st-disclaimer':s.disclaimer,
