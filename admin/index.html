@@ -1178,7 +1178,15 @@ function getYouTubeEmbed(url) {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return match ? match[1] : '';
 }
+let _saving = false;
 function saveArticle() {
+  if(_saving) { showToast('⏳ Bitte warten...'); return; }
+  _saving = true;
+  document.querySelectorAll('.btn-save').forEach(b => { b.disabled = true; b.textContent = '⏳ Wird gespeichert...'; });
+  setTimeout(() => {
+    _saving = false;
+    document.querySelectorAll('.btn-save').forEach(b => { b.disabled = false; b.textContent = 'Artikel speichern'; });
+  }, 5000);
   const title = document.getElementById('f-title').value.trim();
   const excerpt = document.getElementById('f-excerpt').value.trim();
   const titleEn = getArtField('f-title-en');
