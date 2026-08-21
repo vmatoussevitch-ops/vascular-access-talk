@@ -73,7 +73,8 @@ function generateArticlePage(article) {
     `<button onclick="setLang('${l}')" id="btn-${l}" style="padding:0.4rem 0.75rem;border:none;background:none;color:rgba(242,236,224,0.5);font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.1em;cursor:pointer;">${l.toUpperCase()}</button>`
   ).join('<span style="color:rgba(242,236,224,0.2)">·</span>');
 
-  const langData = JSON.stringify(langs);
+  // Safely escape for embedding in HTML/JS
+  const langData = JSON.stringify(langs).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026");
 
   return { slug, html: `<!DOCTYPE html>
 <html lang="de">
