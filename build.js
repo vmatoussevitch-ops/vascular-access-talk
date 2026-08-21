@@ -147,19 +147,23 @@ let currentLang = localStorage.getItem('vat_lang') || 'de';
 
 
 
-function parseMarkdown(text) {
-  if(!text) return '';
-  // Use RegExp constructor to avoid regex literal parsing issues
-  text = text.replace(new RegExp('^### (.+)$', 'gm'), '<h3>$1</h3>');
-  text = text.replace(new RegExp('^## (.+)$', 'gm'), '<h2>$1</h2>');
-  text = text.replace(new RegExp('^# (.+)$', 'gm'), '<h1>$1</h1>');
-  text = text.replace(new RegExp('\\*\\*\\*(.+?)\\*\\*\\*', 'g'), '<strong><em>$1</em></strong>');
-  text = text.replace(new RegExp('\\*\\*(.+?)\\*\\*', 'g'), '<strong>$1</strong>');
-  text = text.replace(new RegExp('\\*(.+?)\\*', 'g'), '<em>$1</em>');
-  text = text.replace(new RegExp('\\[(.+?)\\]\\((.+?)\\)', 'g'), function(m, t, u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + t + '</a>'; });
-  text = text.replace(new RegExp('^---$', 'gm'), '<hr>');
-  text = text.split('\n').join('<br>');
-  return text;
+function parseMarkdown(t) {
+  if(!t) return '';
+  var br = '<br>';
+  var lines = t.split(String.fromCharCode(10));
+  lines = lines.map(function(line) {
+    line = line.replace(new RegExp('^### (.+)$'), '<h3>$1</h3>');
+    line = line.replace(new RegExp('^## (.+)$'), '<h2>$1</h2>');
+    line = line.replace(new RegExp('^# (.+)$'), '<h1>$1</h1>');
+    line = line.replace(new RegExp('^---$'), '<hr>');
+    return line;
+  });
+  t = lines.join(br);
+  t = t.replace(new RegExp('\\*\\*\\*(.+?)\\*\\*\\*','g'),'<strong><em>$1</em></strong>');
+  t = t.replace(new RegExp('\\*\\*(.+?)\\*\\*','g'),'<strong>$1</strong>');
+  t = t.replace(new RegExp('\\*(.+?)\\*','g'),'<em>$1</em>');
+  t = t.replace(new RegExp('\\[([^\\]]+)\\]\\(([^)]+)\\)','g'),function(m,a,b){return '<a href="'+b+'" target="_blank">'+a+'</a>';});
+  return t;
 }
 
 function setLang(lang) {
