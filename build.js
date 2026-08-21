@@ -149,20 +149,20 @@ let currentLang = localStorage.getItem('vat_lang') || 'de';
 
 function parseMarkdown(t) {
   if(!t) return '';
-  var br = '<br>';
-  var lines = t.split(String.fromCharCode(10));
-  lines = lines.map(function(line) {
-    line = line.replace(new RegExp('^### (.+)$'), '<h3>$1</h3>');
-    line = line.replace(new RegExp('^## (.+)$'), '<h2>$1</h2>');
-    line = line.replace(new RegExp('^# (.+)$'), '<h1>$1</h1>');
-    line = line.replace(new RegExp('^---$'), '<hr>');
-    return line;
+  var NL = String.fromCharCode(10);
+  var parts = t.split(NL);
+  parts = parts.map(function(s) {
+    if(s.indexOf('###') === 0) return '<h3>' + s.slice(4) + '</h3>';
+    if(s.indexOf('##') === 0) return '<h2>' + s.slice(3) + '</h2>';
+    if(s.indexOf('#') === 0) return '<h1>' + s.slice(2) + '</h1>';
+    if(s === '---') return '<hr>';
+    return s;
   });
-  t = lines.join(br);
-  t = t.replace(new RegExp('\\*\\*\\*(.+?)\\*\\*\\*','g'),'<strong><em>$1</em></strong>');
-  t = t.replace(new RegExp('\\*\\*(.+?)\\*\\*','g'),'<strong>$1</strong>');
-  t = t.replace(new RegExp('\\*(.+?)\\*','g'),'<em>$1</em>');
-  t = t.replace(new RegExp('\\[([^\\]]+)\\]\\(([^)]+)\\)','g'),function(m,a,b){return '<a href="'+b+'" target="_blank">'+a+'</a>';});
+  t = parts.join('<br>');
+  t = t.replace(new RegExp('[*][*][*](.+?)[*][*][*]','g'),'<strong><em>$1</em></strong>');
+  t = t.replace(new RegExp('[*][*](.+?)[*][*]','g'),'<strong>$1</strong>');
+  t = t.replace(new RegExp('[*](.+?)[*]','g'),'<em>$1</em>');
+  t = t.replace(new RegExp('[[]([^[]+)[]][(]([^)]+)[)]','g'),function(m,a,b){return '<a href="'+b+'" target="_blank">'+a+'</a>';});
   return t;
 }
 
