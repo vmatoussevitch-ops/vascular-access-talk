@@ -5,6 +5,21 @@ const https = require('https');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const DIST = path.join(process.cwd(), 'dist');
 
+
+function parseMarkdown(text) {
+  if(!text) return '';
+  return text
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/\n/g, '<br>');
+}
+
 function slugify(text) {
   return (text||'').toLowerCase()
     .replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue')
@@ -117,7 +132,7 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
   <h1 class="article-title" id="art-title">${title}</h1>
   <p class="article-meta">${author} · ${date}</p>
   ${img ? `<img src="${img}" class="article-img" alt="${title}">` : ''}
-  <div class="article-body" id="art-body">${article.body||''}</div>
+  <div class="article-body" id="art-body"></div>
   <div class="article-footer">
     <a href="/" class="back-link">← Zurück zur Übersicht</a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/${slug}/" target="_blank" class="li-btn">Auf LinkedIn teilen</a>
@@ -127,16 +142,31 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
 const LANGS = ${langData};
 let currentLang = localStorage.getItem('vat_lang') || 'de';
 
+
+
+function parseMarkdown(text) {
+  if(!text) return '';
+  return text
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/\n/g, '<br>');
+}
+
 function setLang(lang) {
   if(!LANGS[lang]) return;
   currentLang = lang;
   localStorage.setItem('vat_lang', lang);
   const l = LANGS[lang];
-  document.getElementById('art-title').textContent = l.title || '';
-  document.getElementById('art-body').textContent = l.body || '';
+  document.getElementById('art-title').innerHTML = l.title || '';
+  document.getElementById('art-body').innerHTML = parseMarkdown(l.body || '');
   document.getElementById('art-body').style.direction = l.dir || 'ltr';
   document.getElementById('art-title').style.direction = l.dir || 'ltr';
-  // Update active button
   Object.keys(LANGS).forEach(k => {
     const btn = document.getElementById('btn-' + k);
     if(btn) btn.classList.toggle('active', k === lang);
