@@ -139,8 +139,9 @@ body{font-family:'Jost',sans-serif;background:var(--beige);color:var(--text);lin
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/${slug}/" target="_blank" class="li-btn">Auf LinkedIn teilen</a>
   </div>
 </article>
+<script id="langs-data" type="application/json">${langData}</script>
 <script>
-const LANGS = ${langData};
+const LANGS = JSON.parse(document.getElementById('langs-data').textContent);
 let currentLang = localStorage.getItem('vat_lang') || 'de';
 
 
