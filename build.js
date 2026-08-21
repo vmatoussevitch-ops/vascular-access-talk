@@ -158,7 +158,7 @@ function parseMarkdown(text) {
   text = text.replace(new RegExp('\\*(.+?)\\*', 'g'), '<em>$1</em>');
   text = text.replace(new RegExp('\\[(.+?)\\]\\((.+?)\\)', 'g'), function(m, t, u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + t + '</a>'; });
   text = text.replace(new RegExp('^---$', 'gm'), '<hr>');
-  text = text.replace(split('\n').join('<br>');
+  text = text.split('\n').join('<br>');
   return text;
 }
 
