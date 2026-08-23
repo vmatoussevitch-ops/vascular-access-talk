@@ -126,10 +126,14 @@ function generateArticlePage(article) {
 
   // Beschriftungen der Aktions-Buttons je Sprache
   var BTN_LABELS = {
-    de: { info: 'Programm & Informationen', register: 'Zur Anmeldung',       calendar: 'Termin vormerken' },
-    en: { info: 'Programme & Information',  register: 'Registration',        calendar: 'Add to calendar' },
-    ru: { info: '\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u0438 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f', register: '\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f', calendar: '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432 \u043a\u0430\u043b\u0435\u043d\u0434\u0430\u0440\u044c' },
-    he: { info: '\u05ea\u05d5\u05db\u05e0\u05d9\u05ea \u05d5\u05de\u05d9\u05d3\u05e2', register: '\u05dc\u05d4\u05e8\u05e9\u05de\u05d4', calendar: '\u05d4\u05d5\u05e1\u05e3 \u05dc\u05d9\u05d5\u05de\u05df' }
+    de: { info: 'Programm & Informationen', register: 'Zur Anmeldung',       calendar: 'Termin vormerken',
+          back: '\u2190 Zur\u00fcck', backList: '\u2190 Zur\u00fcck zur \u00dcbersicht', share: 'Auf LinkedIn teilen' },
+    en: { info: 'Programme & Information',  register: 'Registration',        calendar: 'Add to calendar',
+          back: '\u2190 Back', backList: '\u2190 Back to all articles', share: 'Share on LinkedIn' },
+    ru: { info: '\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u0438 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f', register: '\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f', calendar: '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432 \u043a\u0430\u043b\u0435\u043d\u0434\u0430\u0440\u044c',
+          back: '\u2190 \u041d\u0430\u0437\u0430\u0434', backList: '\u2190 \u041a\u043e \u0432\u0441\u0435\u043c \u0441\u0442\u0430\u0442\u044c\u044f\u043c', share: '\u041f\u043e\u0434\u0435\u043b\u0438\u0442\u044c\u0441\u044f \u0432 LinkedIn' },
+    he: { info: '\u05ea\u05d5\u05db\u05e0\u05d9\u05ea \u05d5\u05de\u05d9\u05d3\u05e2', register: '\u05dc\u05d4\u05e8\u05e9\u05de\u05d4', calendar: '\u05d4\u05d5\u05e1\u05e3 \u05dc\u05d9\u05d5\u05de\u05df',
+          back: '\u2192 \u05d7\u05d6\u05e8\u05d4', backList: '\u2192 \u05dc\u05db\u05dc \u05d4\u05de\u05d0\u05de\u05e8\u05d9\u05dd', share: '\u05e9\u05ea\u05e3 \u05d1-LinkedIn' }
   };
 
   // Optional action buttons - plain, robust links
@@ -222,7 +226,7 @@ function generateArticlePage(article) {
 + '  <a href="/" class="nav-logo">Vascular Access <em>Talk</em></a>\n'
 + '  <div class="nav-right">\n'
 + '    <div class="lang-switcher">' + langButtons + '</div>\n'
-+ '    <a href="/" class="nav-back">\u2190 Zur\u00fcck</a>\n'
++ '    <a href="/" class="nav-back" id="nav-back">\u2190 Zur\u00fcck</a>\n'
 + '  </div>\n'
 + '</nav>\n'
 + '<article class="article-wrap">\n'
@@ -233,8 +237,8 @@ function generateArticlePage(article) {
 + '  <div class="article-body" id="art-body">' + langs.de.body + '</div>\n'
 + '  ' + buttonHtml + '\n'
 + '  <div class="article-footer">\n'
-+ '    <a href="/" class="back-link">\u2190 Zur\u00fcck zur \u00dcbersicht</a>\n'
-+ '    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/' + slug + '/" target="_blank" rel="noopener" class="li-btn">Auf LinkedIn teilen</a>\n'
++ '    <a href="/" class="back-link" id="back-list">\u2190 Zur\u00fcck zur \u00dcbersicht</a>\n'
++ '    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/' + slug + '/" target="_blank" rel="noopener" class="li-btn" id="share-btn">Auf LinkedIn teilen</a>\n'
 + '  </div>\n'
 + '</article>\n'
 + '<script id="langs-data" type="application/json">' + safeJson(langs) + '<\/script>\n'
@@ -257,6 +261,11 @@ function generateArticlePage(article) {
 + '    for (var k = 0; k < map.length; k++) {\n'
 + '      var ab = document.getElementById("abtn-" + map[k]);\n'
 + '      if (ab && l.btn[map[k]]) { ab.textContent = l.btn[map[k]]; }\n'
++ '    }\n'
++ '    var nav = { "nav-back": "back", "back-list": "backList", "share-btn": "share" };\n'
++ '    for (var id in nav) {\n'
++ '      var el = document.getElementById(id);\n'
++ '      if (el && l.btn[nav[id]]) { el.textContent = l.btn[nav[id]]; }\n'
 + '    }\n'
 + '  }\n'
 + '  var keys = ["de", "en", "ru", "he"];\n'
