@@ -118,7 +118,7 @@ section{padding:6rem 0;}
 .article-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--text);margin-bottom:0.5rem;line-height:1.35;}
 .article-excerpt{font-size:0.875rem;color:var(--muted);line-height:1.7;font-weight:300;}
 .article-author{font-size:0.72rem;color:var(--muted);margin-top:0.4rem;}
-.article-img{width:100%;max-height:160px;object-fit:cover;margin-bottom:0.75rem;display:block;}
+.article-img{width:100%;max-width:340px;max-height:220px;object-fit:contain;object-position:left;background:#f0ece0;margin-bottom:0.75rem;display:block;}
 .article-aside{text-align:right;padding-top:0.3rem;display:flex;flex-direction:column;align-items:flex-end;gap:0.6rem;}
 .article-date{font-size:0.72rem;color:var(--muted);letter-spacing:0.05em;white-space:nowrap;}
 .read-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--rule);color:var(--bordeaux);transition:all 0.2s;}
@@ -265,6 +265,7 @@ footer{background:var(--bordeaux-d);padding:3rem 0 1.5rem;border-top:1px solid r
   .hero-left{padding:9rem 1.5rem 4rem 1.5rem;}
   .article-row{grid-template-columns:1fr;}
   .article-num{display:none;}
+  .article-img{max-width:100%;max-height:260px;}
   .two-col{grid-template-columns:1fr;}
   .newsletter-inner{grid-template-columns:1fr;}
   .footer-main{grid-template-columns:1fr;gap:2rem;}
