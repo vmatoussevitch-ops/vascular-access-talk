@@ -339,7 +339,7 @@ body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
       <p class="hero-disclaimer" id="hero-disclaimer" data-i18n="hero.disclaimer">Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.</p>
       <a href="#artikel" class="btn-primary" data-i18n="hero.cta">Artikel lesen <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <div class="hero-stats">
-        <div><span class="stat-num" id="stat-count">1</span><span class="stat-label" data-i18n="hero.stat1">Beiträge</span></div>
+        <div style="cursor:pointer;" onclick="document.getElementById('artikel').scrollIntoView({behavior:'smooth'});" title="Zu den Artikeln"><span class="stat-num" id="stat-count">1</span><span class="stat-label" data-i18n="hero.stat1">Beiträge</span></div>
         <div><span class="stat-num" id="stat-num-2">8</span><span class="stat-label" id="stat-label-2" data-i18n="hero.stat2">Themenbereiche</span></div>
         <div><span class="stat-num" id="stat-num-3">20+</span><span class="stat-label" id="stat-label-3" data-i18n="hero.stat3">Jahre Erfahrung</span></div>
       </div>
@@ -863,6 +863,12 @@ function slugify(text) {
 }
 
 function renderBlog() {
+  // Neueste zuerst
+  articles.sort((x, y) => {
+    const dx = x.date || '', dy = y.date || '';
+    if (dx !== dy) return dy.localeCompare(dx);
+    return (y.id || 0) - (x.id || 0);
+  });
   document.getElementById('stat-count').textContent = articles.length;
   const list = document.getElementById('article-list');
   if (!articles.length) {
@@ -892,9 +898,8 @@ function renderBlog() {
     const hasExtraImgs = a.extraImgs && a.extraImgs.length > 0;
 
     const imgHtml = hasImg ? `<img src="${a.img}" class="article-img" alt="">` : '';
-    const ytHtml = hasYT ? `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:1rem 0;"><iframe src="https://www.youtube.com/embed/${a.youtube}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>` : '';
-    const extraHtml = hasExtraImgs ? `<div style="display:flex;flex-direction:column;gap:1rem;margin-top:1rem;">${a.extraImgs.map(src=>`<img src="${src}" style="width:100%;max-height:600px;object-fit:contain;background:#f0ece0;" alt="">`).join('')}</div>` : '';
-    const bodyHtml = locBody ? `<div class="article-full-body" style="font-size:0.9rem;line-height:1.8;color:var(--text);margin-top:0.75rem;">${parseMarkdown(locBody)}</div>` : '';
+    // Übersicht zeigt bewusst nur den Anriss. Volltext, Video und Galerie
+    // stehen auf der Artikelseite.
     const authorHtml = a.author ? `<p class="article-author">— ${a.author}</p>` : '';
 
     // Always use DE title for URL slug
@@ -908,9 +913,6 @@ function renderBlog() {
         <p class="article-cat">${a.cat||''}</p>
         <h3 class="article-title">${locTitle}</h3>
         <p class="article-excerpt">${locExcerpt}</p>
-        ${bodyHtml}
-        ${ytHtml}
-        ${extraHtml}
         ${authorHtml}
       </div>
       <div class="article-aside">
