@@ -124,18 +124,31 @@ function generateArticlePage(article) {
   var author = article.author || 'Dr. V. Matoussevitch';
   var img = article.img && (article.img.indexOf('data:image') === 0 || /\.(jpg|jpeg|png|webp)$/i.test(article.img)) ? article.img : '';
 
+  // Beschriftungen der Aktions-Buttons je Sprache
+  var BTN_LABELS = {
+    de: { info: 'Programm & Informationen', register: 'Zur Anmeldung',       calendar: 'Termin vormerken' },
+    en: { info: 'Programme & Information',  register: 'Registration',        calendar: 'Add to calendar' },
+    ru: { info: '\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u0438 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f', register: '\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f', calendar: '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432 \u043a\u0430\u043b\u0435\u043d\u0434\u0430\u0440\u044c' },
+    he: { info: '\u05ea\u05d5\u05db\u05e0\u05d9\u05ea \u05d5\u05de\u05d9\u05d3\u05e2', register: '\u05dc\u05d4\u05e8\u05e9\u05de\u05d4', calendar: '\u05d4\u05d5\u05e1\u05e3 \u05dc\u05d9\u05d5\u05de\u05df' }
+  };
+
   // Optional action buttons - plain, robust links
   var buttons = [];
-  if (article.linkInfo)     buttons.push({ label: 'Programm & Informationen', url: article.linkInfo });
-  if (article.linkRegister) buttons.push({ label: 'Zur Anmeldung', url: article.linkRegister });
-  if (article.linkCalendar) buttons.push({ label: 'Termin vormerken', url: article.linkCalendar });
+  if (article.linkInfo)     buttons.push({ key: 'info',     url: article.linkInfo });
+  if (article.linkRegister) buttons.push({ key: 'register', url: article.linkRegister });
+  if (article.linkCalendar) buttons.push({ key: 'calendar', url: article.linkCalendar });
 
   var buttonHtml = '';
   if (buttons.length) {
     buttonHtml = '<div class="action-buttons">' + buttons.map(function (b) {
-      return '<a class="action-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.label) + '</a>';
+      return '<a class="action-btn" id="abtn-' + b.key + '" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(BTN_LABELS.de[b.key]) + '</a>';
     }).join('') + '</div>';
   }
+
+  // Buttonbeschriftungen an die Sprachdaten hängen
+  ['de', 'en', 'ru', 'he'].forEach(function (l) {
+    langs[l].btn = BTN_LABELS[l];
+  });
 
   var langButtons = ['de', 'en', 'ru', 'he'].map(function (l) {
     return '<button type="button" onclick="setLang(\'' + l + '\')" id="btn-' + l + '" class="lang-btn">' + l.toUpperCase() + '</button>';
@@ -237,6 +250,15 @@ function generateArticlePage(article) {
 + '  b.innerHTML = l.body || "";\n'
 + '  t.setAttribute("dir", l.dir || "ltr");\n'
 + '  b.setAttribute("dir", l.dir || "ltr");\n'
++ '  if (l.btn) {\n'
++ '    var wrap = document.querySelector(".action-buttons");\n'
++ '    if (wrap) { wrap.setAttribute("dir", l.dir || "ltr"); }\n'
++ '    var map = ["info", "register", "calendar"];\n'
++ '    for (var k = 0; k < map.length; k++) {\n'
++ '      var ab = document.getElementById("abtn-" + map[k]);\n'
++ '      if (ab && l.btn[map[k]]) { ab.textContent = l.btn[map[k]]; }\n'
++ '    }\n'
++ '  }\n'
 + '  var keys = ["de", "en", "ru", "he"];\n'
 + '  for (var i = 0; i < keys.length; i++) {\n'
 + '    var btn = document.getElementById("btn-" + keys[i]);\n'
