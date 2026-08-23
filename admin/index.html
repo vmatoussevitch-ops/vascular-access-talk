@@ -387,6 +387,15 @@ body{margin:0;padding:0;background:var(--beige-dd);min-height:100vh;}
             <label class="form-label">🎬 YouTube-Video (optional)</label>
             <input class="form-input" type="text" id="f-youtube" placeholder="https://www.youtube.com/watch?v=...">
           </div>
+
+          <div class="form-group" style="border-top:1px solid var(--rule);padding-top:1.25rem;margin-top:1.5rem;">
+            <label class="form-label">🔗 Buttons unter dem Artikel (optional)</label>
+            <p class="form-hint" style="margin-bottom:1rem;">Links hier eintragen statt im Fließtext. Sie erscheinen als eigene Schaltflächen. Leer lassen = kein Button.</p>
+            <input class="form-input" type="text" id="f-link-info" placeholder="Programm &amp; Informationen – URL" style="margin-bottom:0.6rem;">
+            <input class="form-input" type="text" id="f-link-register" placeholder="Zur Anmeldung – URL" style="margin-bottom:0.6rem;">
+            <input class="form-input" type="text" id="f-link-calendar" placeholder="Termin vormerken – URL oder .ics-Datei">
+          </div>
+
           <input type="hidden" id="f-edit-id" value="">
           <div class="form-actions">
             <button class="btn-save" onclick="saveArticle()">Artikel speichern</button>
@@ -1215,6 +1224,7 @@ function saveArticle() {
     titleEn: titleEn, excerptEn: excerptEn, bodyEn: getArtField('f-body-en'),
     titleRu: getArtField('f-title-ru'), excerptRu: getArtField('f-excerpt-ru'), bodyRu: getArtField('f-body-ru'),
     titleHe: getArtField('f-title-he'), excerptHe: getArtField('f-excerpt-he'), bodyHe: getArtField('f-body-he'),
+    linkInfo: getArtField('f-link-info'), linkRegister: getArtField('f-link-register'), linkCalendar: getArtField('f-link-calendar'),
   };
   const eid = document.getElementById('f-edit-id').value;
   if(eid) { const idx=articles.findIndex(x=>String(x.id)===eid); if(idx!==-1){a.id=articles[idx].id;articles[idx]=a;} }
@@ -1239,6 +1249,7 @@ function editArticle(i) {
   setArtField('f-title-en', a.titleEn); setArtField('f-excerpt-en', a.excerptEn); setArtField('f-body-en', a.bodyEn);
   setArtField('f-title-ru', a.titleRu); setArtField('f-excerpt-ru', a.excerptRu); setArtField('f-body-ru', a.bodyRu);
   setArtField('f-title-he', a.titleHe); setArtField('f-excerpt-he', a.excerptHe); setArtField('f-body-he', a.bodyHe);
+  setArtField('f-link-info', a.linkInfo); setArtField('f-link-register', a.linkRegister); setArtField('f-link-calendar', a.linkCalendar);
   if(a.img && a.img.length > 10){const img=document.getElementById('img-preview');img.src=a.img;img.style.display='block';}
   document.getElementById('cancel-edit-btn').style.display='inline-block';
   switchTab('new', document.querySelectorAll('.admin-tab')[0]);
@@ -1248,7 +1259,8 @@ function clearForm() {
   ['f-title','f-excerpt','f-body','f-edit-id',
    'f-title-en','f-excerpt-en','f-body-en',
    'f-title-ru','f-excerpt-ru','f-body-ru',
-   'f-title-he','f-excerpt-he','f-body-he'
+   'f-title-he','f-excerpt-he','f-body-he',
+   'f-link-info','f-link-register','f-link-calendar'
   ].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('f-author').value = document.getElementById('author-name').textContent||'Dr. V. Matoussevitch';
   document.getElementById('f-cat').selectedIndex=0;
