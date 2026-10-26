@@ -116,7 +116,7 @@ footer a{color:rgba(242,236,224,0.75);}
       <div class="fact"><b>CME</b><span>Zertifizierung bei der Ärztekammer Nordrhein</span></div>
     </div>
     <div class="btns">
-      <a class="btn btn-gold" href="https://gefaesschirurgie.uk-koeln.de/erkrankungen-therapien/shuntzentrum/koelner-shuntsymposium/anmeldung/" target="_blank" rel="noopener">Jetzt anmelden</a>
+      <a class="btn btn-gold" href="https://gefaesschirurgie.uk-koeln.de/erkrankungen-therapien/shuntzentrum/koelner-shuntsymposium/anmeldung/" target="_blank" rel="noopener" data-anmeldung="Button oben">Jetzt anmelden</a>
       <a class="btn btn-line" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=11.%20K%C3%B6lner%20Dialyseshunt-Symposium&amp;dates=20261216/20261218&amp;location=Uniklinik%20K%C3%B6ln%2C%20Kerpener%20Stra%C3%9Fe%2062%2C%2050937%20K%C3%B6ln" target="_blank" rel="noopener">Termin vormerken</a>
     </div>
   </div>
@@ -160,7 +160,7 @@ footer a{color:rgba(242,236,224,0.75);}
 
   <section class="contact">
     <h2>Anmeldung &amp; Kontakt</h2>
-    <p>Eine vorherige Anmeldung ist erforderlich: <a href="https://gefaesschirurgie.uk-koeln.de/erkrankungen-therapien/shuntzentrum/koelner-shuntsymposium/anmeldung/" target="_blank" rel="noopener">zum Anmeldeformular</a>.</p>
+    <p>Eine vorherige Anmeldung ist erforderlich: <a href="https://gefaesschirurgie.uk-koeln.de/erkrankungen-therapien/shuntzentrum/koelner-shuntsymposium/anmeldung/" target="_blank" rel="noopener" data-anmeldung="Link Kontakt">zum Anmeldeformular</a>.</p>
     <p>Wissenschaftliche Leitung: OA Dr. Vladimir Matoussevitch</p>
     <p>Tagungssekretariat: Katharina Rihtaric und Balbine Kom</p>
     <p>Telefon: <a href="tel:+4922147832420">0221 478-32420</a> und <a href="tel:+4922147832434">0221 478-32434</a></p>
@@ -172,5 +172,13 @@ footer a{color:rgba(242,236,224,0.75);}
   <p>Veranstalter: Klinik und Poliklinik für Gefäßchirurgie, Vaskuläre und endovaskuläre Chirurgie, Uniklinik Köln.<br>
   Diese Seite ist Teil von <a href="/">Vascular Access Talk</a>, dem persönlichen Fachblog von Dr. V. Matoussevitch.</p>
 </footer>
+<script>
+// Klicks auf "Anmelden" in Plausible zählen (Ziel: "Anmeldung geklickt")
+document.querySelectorAll('a[data-anmeldung]').forEach(function (a) {
+  a.addEventListener('click', function () {
+    if (window.plausible) plausible('Anmeldung geklickt', { props: { position: a.getAttribute('data-anmeldung') } });
+  });
+});
+</script>
 </body>
 </html>
