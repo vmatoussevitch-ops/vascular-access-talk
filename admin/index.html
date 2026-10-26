@@ -1478,9 +1478,12 @@ async function loadArticlesFromGitHub() {
 
 async function saveArticlesToGitHub() {
   try {
+    const u = netlifyIdentity.currentUser();
+    if (!u) throw new Error('Bitte erneut einloggen');
+    const jwt = await u.jwt();
     const r = await fetch('/.netlify/functions/articles', {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwt},
       body: JSON.stringify({ articles, sha: window._githubSha })
     });
     if (!r.ok) {
