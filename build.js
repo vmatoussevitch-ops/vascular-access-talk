@@ -70,11 +70,12 @@ function fetchArticles() {
       hostname: 'api.github.com',
       path: '/repos/vmatoussevitch-ops/vat-articles/contents/articles.json',
       headers: {
-        'Authorization': 'token ' + GITHUB_TOKEN,
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'vascular-access-talk-build'
       }
     };
+    // Das Artikel-Repo ist öffentlich: Token nur nutzen, wenn vorhanden
+    if (GITHUB_TOKEN) options.headers['Authorization'] = 'token ' + GITHUB_TOKEN;
     https.get(options, function (res) {
       var data = '';
       res.on('data', function (c) { data += c; });
@@ -299,7 +300,7 @@ function generateSitemap(articles) {
 
 // ── Startseite vorrendern (für Google, LinkedIn & Co.) ────
 
-var LINKEDIN_URL = ''; // z. B. 'https://www.linkedin.com/in/...'
+var LINKEDIN_URL = 'https://www.linkedin.com/in/vladimir-matoussevitch-90879a4/';
 
 function fmtDateDe(d) {
   if (!d) return '';

@@ -1,8 +1,8 @@
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json'
   };
 
@@ -10,7 +10,8 @@ exports.handler = async (event) => {
 
   const TOKEN = process.env.GITHUB_TOKEN;
   const URL = 'https://api.github.com/repos/vmatoussevitch-ops/vat-articles/contents/articles.json';
-  const GH = { 'Authorization': `token ${TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'vat' };
+  const GH = { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'vat' };
+  if (TOKEN) GH['Authorization'] = `token ${TOKEN}`;
 
   try {
     if (event.httpMethod === 'GET') {
@@ -22,6 +23,9 @@ exports.handler = async (event) => {
     }
 
     if (event.httpMethod === 'PUT') {
+      // Nur eingeloggte Admins (Netlify Identity) dürfen speichern
+      const user = context && context.clientContext && context.clientContext.user;
+      if (!user) return { statusCode: 401, headers: cors, body: JSON.stringify({ error: 'Nicht eingeloggt' }) };
       const { articles, sha } = JSON.parse(event.body);
       const content = Buffer.from(JSON.stringify({ articles, version: 1 }, null, 2)).toString('base64');
       const res = await fetch(URL, {
