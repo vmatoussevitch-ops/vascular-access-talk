@@ -289,6 +289,7 @@ function generateArticlePage(article) {
 
 function generateSitemap(articles) {
   var urls = ['<url><loc>https://vascularaccesstalk.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>'];
+  urls.push('<url><loc>https://vascularaccesstalk.com/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>');
   articles.forEach(function (a) {
     var slug = slugify(a.title || a.titleEn || 'artikel');
     var lastmod = a.date || new Date().toISOString().split('T')[0];
@@ -393,6 +394,14 @@ async function build() {
   if (googleFile) {
     fs.copyFileSync(path.join(process.cwd(), googleFile), path.join(DIST, googleFile));
     console.log('Written:', path.join(DIST, googleFile));
+  }
+
+  // Symposium-Seite (statisch)
+  var symSrc = path.join(process.cwd(), 'symposium', 'index.html');
+  if (fs.existsSync(symSrc)) {
+    fs.mkdirSync(path.join(DIST, 'symposium'));
+    fs.copyFileSync(symSrc, path.join(DIST, 'symposium', 'index.html'));
+    console.log('Written:', path.join(DIST, 'symposium', 'index.html'));
   }
 
   var artikelDir = path.join(DIST, 'artikel');
