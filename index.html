@@ -303,6 +303,11 @@ body.rtl
 /* Hebrew/Russian font support */
 body.lang-he{font-family:'Segoe UI','Arial Hebrew',sans-serif;}
 body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
+.sym-banner{max-width:100%;display:inline-flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem;align-self:flex-start;border:1px solid var(--gold);background:rgba(176,138,80,0.12);color:var(--beige);text-decoration:none;padding:0.6rem 1rem;margin-bottom:1.75rem;font-size:0.8rem;letter-spacing:0.04em;transition:background 0.2s;}
+.sym-banner:hover{background:rgba(176,138,80,0.25);}
+.sym-banner b{color:var(--gold-l);font-weight:500;}
+@media(max-width:600px){.sym-banner{max-width:calc(100vw - 6rem);font-size:0.76rem;}}
+.sym-banner span{color:var(--gold-l);}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>
@@ -341,6 +346,7 @@ body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-left">
+      <a class="sym-banner" href="/symposium/"><b>11. Kölner Dialyseshunt-Symposium</b> 16./17. Dezember 2026 <span>Infos &amp; Anmeldung →</span></a>
       <p class="hero-eyebrow" id="hero-eyebrow" data-i18n="hero.eyebrow">Vascular Access Surgery · Dialyseshuntchirurgie</p>
       <h1 id="hero-title" data-i18n="hero.title">Vascular<br><em>Access Talk</em></h1>
       <p class="hero-desc" id="hero-desc" data-i18n="hero.desc">Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.</p>
