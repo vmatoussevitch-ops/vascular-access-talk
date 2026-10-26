@@ -296,6 +296,66 @@ function generateSitemap(articles) {
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>';
 }
 
+
+// ── Startseite vorrendern (für Google, LinkedIn & Co.) ────
+
+var LINKEDIN_URL = ''; // z. B. 'https://www.linkedin.com/in/...'
+
+function fmtDateDe(d) {
+  if (!d) return '';
+  var m = String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return String(d);
+  var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  return parseInt(m[3], 10) + '. ' + months[parseInt(m[2], 10) - 1] + ' ' + m[1];
+}
+
+function sortArticles(list) {
+  return list.slice().sort(function (x, y) {
+    var dx = x.date || '', dy = y.date || '';
+    if (dx !== dy) return dy.localeCompare(dx);
+    return (y.id || 0) - (x.id || 0);
+  });
+}
+
+function prerenderIndex(indexHtml, articles) {
+  var list = sortArticles(articles);
+  indexHtml = indexHtml.replace(/id="stat-count">[^<]*/, 'id="stat-count">' + list.length);
+  if (!list.length) return indexHtml;
+
+  var rows = list.map(function (a, i) {
+    var url = '/artikel/' + slugify(a.title || a.titleEn || 'artikel') + '/';
+    return '<a class="article-row" href="' + url + '" style="display:flex;text-decoration:none;color:inherit;">'
+      + '<div class="article-num">' + String(i + 1).padStart(2, '0') + '</div>'
+      + '<div class="article-body"><p class="article-cat">' + esc(a.cat || '') + '</p>'
+      + '<h3 class="article-title">' + esc(a.title || a.titleEn || '') + '</h3>'
+      + '<p class="article-excerpt">' + esc(a.excerpt || a.excerptEn || '') + '</p></div>'
+      + '<div class="article-aside"><p class="article-date">' + esc(fmtDateDe(a.date)) + '</p></div>'
+      + '</a>';
+  }).join('\n');
+  indexHtml = indexHtml.replace(
+    /(<div class="article-list" id="article-list">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/,
+    function (m, open, close) { return open + '\n' + rows + '\n    ' + close; });
+
+  var a = list[0];
+  var heroUrl = '/artikel/' + slugify(a.title || a.titleEn || 'artikel') + '/';
+  var ex = a.excerpt || a.excerptEn || '';
+  indexHtml = indexHtml.replace(
+    /(<div class="featured-card" id="hero-featured">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/div>\s*<\/section>)/,
+    function (m, open, close) {
+      return open + '\n        <h3><a href="' + heroUrl + '" style="color:inherit;text-decoration:none;">' + esc(a.title || a.titleEn || '') + '</a></h3>\n'
+        + '        <p>' + esc(ex.length > 120 ? ex.substring(0, 120) + '…' : ex) + '</p>\n'
+        + '        <div class="card-meta"><span class="tag">' + esc(a.cat || '') + '</span><span class="meta-date">' + esc(fmtDateDe(a.date)) + '</span></div>\n'
+        + '      ' + close;
+    });
+
+  if (LINKEDIN_URL) {
+    ['nav-li-link', 'sidebar-li-link', 'footer-li-link'].forEach(function (id) {
+      indexHtml = indexHtml.replace('id="' + id + '" href="#"', 'id="' + id + '" href="' + esc(LINKEDIN_URL) + '"');
+    });
+  }
+  return indexHtml;
+}
+
 // ── Build ─────────────────────────────────────────────────
 
 async function build() {
@@ -317,7 +377,7 @@ async function build() {
   }
 
   var indexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
-  indexHtml = indexHtml.replace(/id="stat-count">[^<]*/, 'id="stat-count">' + articles.length);
+  indexHtml = prerenderIndex(indexHtml, articles);
   fs.writeFileSync(path.join(DIST, 'index.html'), indexHtml);
   console.log('Written:', path.join(DIST, 'index.html'));
 
