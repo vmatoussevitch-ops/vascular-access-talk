@@ -221,6 +221,7 @@ function generateArticlePage(article) {
 + '.back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
++ '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'
 + '</head>\n'
 + '<body>\n'
 + '<nav class="nav">\n'
