@@ -91,6 +91,16 @@ ul.who li{background:rgba(107,30,46,0.08);color:var(--bordeaux-d);padding:0.35re
 .contact a{color:var(--bordeaux);}
 footer{background:var(--bordeaux-d);color:rgba(242,236,224,0.55);font-size:0.78rem;padding:1.5rem;text-align:center;}
 footer a{color:rgba(242,236,224,0.75);}
+.gallery{position:relative;}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:0;background:var(--bordeaux-d);scrollbar-width:none;}
+.track::-webkit-scrollbar{display:none;}
+.slide{flex:0 0 100%;scroll-snap-align:center;margin:0;position:relative;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;}
+.slide img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;}
+.slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:0.6rem 1rem;background:linear-gradient(transparent,rgba(42,10,14,0.85));color:var(--beige);font-size:0.85rem;}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:2.6rem;height:2.6rem;border:none;background:rgba(77,21,32,0.75);color:var(--gold-l);font-size:1.6rem;line-height:1;cursor:pointer;}
+.gal-btn:hover{background:var(--bordeaux);}
+.gal-btn.prev{left:0.5rem;}.gal-btn.next{right:0.5rem;}
+.gal-meta{font-family:'Jost',sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.6rem;}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>
@@ -148,6 +158,29 @@ footer a{color:rgba(242,236,224,0.75);}
   </section>
 
   <section>
+    <h2>Eindrücke aus den vergangenen Jahren</h2>
+    <div class="gallery">
+      <button class="gal-btn prev" type="button" aria-label="Vorheriges Bild">‹</button>
+      <div class="track" id="gal-track">
+        <figure class="slide"><img src="/symposium/img/symposium-01.jpg" alt="Volles Haus beim Symposium" loading="lazy" width="1600" height="1200"><figcaption>Volles Haus beim Symposium</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-02.jpg" alt="Vortrag: 12-Monats-Ergebnisse der VALUE-Studie" loading="lazy" width="1600" height="1200"><figcaption>Vortrag: 12-Monats-Ergebnisse der VALUE-Studie</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-03.jpg" alt="Welcher Zugang ist der richtige?" loading="lazy" width="1600" height="1200"><figcaption>Welcher Zugang ist der richtige?</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-04.jpg" alt="Hämodynamik des Dialyseshunts" loading="lazy" width="1600" height="1200"><figcaption>Hämodynamik des Dialyseshunts</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-05.jpg" alt="Einführung in die endovaskuläre AV-Fistel" loading="lazy" width="1600" height="1200"><figcaption>Einführung in die endovaskuläre AV-Fistel</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-06.jpg" alt="Workshop: Üben am anatomischen Modell" loading="lazy" width="1600" height="1200"><figcaption>Workshop: Üben am anatomischen Modell</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-07.jpg" alt="Hands-on in der Kleingruppe" loading="lazy" width="1600" height="1200"><figcaption>Hands-on in der Kleingruppe</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-08.jpg" alt="Praktische Übung am Modell" loading="lazy" width="1200" height="1600"><figcaption>Praktische Übung am Modell</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-09.jpg" alt="Diskussion am Workshop-Tisch" loading="lazy" width="1600" height="1200"><figcaption>Diskussion am Workshop-Tisch</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-10.jpg" alt="Ultraschall-Station" loading="lazy" width="1200" height="1600"><figcaption>Ultraschall-Station</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-11.jpg" alt="Endovaskuläre Techniken am Modell" loading="lazy" width="1600" height="1200"><figcaption>Endovaskuläre Techniken am Modell</figcaption></figure>
+        <figure class="slide"><img src="/symposium/img/symposium-12.jpg" alt="Anatomisch getreues Unterarm-Modell" loading="lazy" width="1200" height="1600"><figcaption>Anatomisch getreues Unterarm-Modell</figcaption></figure>
+      </div>
+      <button class="gal-btn next" type="button" aria-label="Nächstes Bild">›</button>
+    </div>
+    <p class="gal-meta"><span id="gal-count">1 / 12</span> · Fotos: © MedizinFotoKöln</p>
+  </section>
+
+  <section>
     <h2>Programm</h2>
     <div class="note"><p>Das vollständige Programm mit Referentinnen und Referenten erscheint in Kürze hier. Bis dahin finden Sie alle aktuellen Informationen auf der <a href="https://gefaesschirurgie.uk-koeln.de/erkrankungen-therapien/shuntzentrum/koelner-shuntsymposium/" target="_blank" rel="noopener">Seite der Klinik für Gefäßchirurgie</a>.</p></div>
   </section>
@@ -172,6 +205,17 @@ footer a{color:rgba(242,236,224,0.75);}
   <p>Veranstalter: Klinik und Poliklinik für Gefäßchirurgie, Vaskuläre und endovaskuläre Chirurgie, Uniklinik Köln.<br>
   Diese Seite ist Teil von <a href="/">Vascular Access Talk</a>, dem persönlichen Fachblog von Dr. V. Matoussevitch.</p>
 </footer>
+<script>
+(function () {
+  var t = document.getElementById('gal-track'); if (!t) return;
+  var n = t.children.length, c = document.getElementById('gal-count');
+  function idx() { return Math.round(t.scrollLeft / t.clientWidth); }
+  function go(d) { var i = (idx() + d + n) % n; t.scrollTo({ left: i * t.clientWidth }); }
+  document.querySelector('.gal-btn.prev').addEventListener('click', function () { go(-1); });
+  document.querySelector('.gal-btn.next').addEventListener('click', function () { go(1); });
+  t.addEventListener('scroll', function () { c.textContent = (idx() + 1) + ' / ' + n; }, { passive: true });
+})();
+</script>
 <script>
 // Klicks auf "Anmelden" in Plausible zählen (Ziel: "Anmeldung geklickt")
 document.querySelectorAll('a[data-anmeldung]').forEach(function (a) {
