@@ -400,8 +400,7 @@ async function build() {
   // Symposium-Seite (statisch)
   var symSrc = path.join(process.cwd(), 'symposium', 'index.html');
   if (fs.existsSync(symSrc)) {
-    fs.mkdirSync(path.join(DIST, 'symposium'));
-    fs.copyFileSync(symSrc, path.join(DIST, 'symposium', 'index.html'));
+    fs.cpSync(path.join(process.cwd(), 'symposium'), path.join(DIST, 'symposium'), { recursive: true });
     console.log('Written:', path.join(DIST, 'symposium', 'index.html'));
   }
 
