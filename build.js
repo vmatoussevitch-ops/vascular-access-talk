@@ -404,6 +404,12 @@ async function build() {
     console.log('Written:', path.join(DIST, 'symposium', 'index.html'));
   }
 
+  // Private Seite /ich (eigene Besuche nicht zählen)
+  if (fs.existsSync(path.join(process.cwd(), 'ich', 'index.html'))) {
+    fs.cpSync(path.join(process.cwd(), 'ich'), path.join(DIST, 'ich'), { recursive: true });
+    console.log('Written:', path.join(DIST, 'ich', 'index.html'));
+  }
+
   var artikelDir = path.join(DIST, 'artikel');
   fs.mkdirSync(artikelDir);
   articles.forEach(function (article) {
