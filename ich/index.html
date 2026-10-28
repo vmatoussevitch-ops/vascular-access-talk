@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Eigene Besuche – Vascular Access Talk</title>
+<style>
+:root{--bg:#2a0a0e;--fg:#f2ece0;--gold:#c9a96e;--muted:rgba(242,236,224,0.6);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem max(16px,env(safe-area-inset-left,0px));}
+.box{max-width:30rem;text-align:center;display:grid;gap:1.25rem;}
+h1{font-weight:400;font-size:1.6rem;}
+#status{font-family:Arial,sans-serif;font-size:1rem;padding:0.9rem 1rem;border:1px solid var(--gold);}
+#status.on{background:rgba(201,169,110,0.15);}
+button{font-family:Arial,sans-serif;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.8rem 1.4rem;border:none;background:var(--gold);color:var(--bg);cursor:pointer;}
+p.small{font-family:Arial,sans-serif;font-size:0.8rem;color:var(--muted);line-height:1.6;}
+a{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Eigene Besuche</h1>
+  <div id="status">…</div>
+  <button type="button" id="toggle">…</button>
+  <p class="small">Die Einstellung gilt nur für diesen Browser auf diesem Gerät. Bitte auf jedem eigenen Gerät und in jedem Browser einmal öffnen.<br><a href="/">Zur Startseite</a></p>
+</div>
+<script>
+(function () {
+  var s = document.getElementById('status'), b = document.getElementById('toggle');
+  function get() { try { return localStorage.getItem('plausible_ignore') === 'true'; } catch (e) { return null; } }
+  function render() {
+    var on = get();
+    if (on === null) { s.textContent = 'Dieser Browser erlaubt keinen lokalen Speicher – die Einstellung ist hier nicht möglich.'; b.hidden = true; return; }
+    s.className = on ? 'on' : '';
+    s.textContent = on ? '✓ Ihre Besuche werden in diesem Browser NICHT gezählt.' : 'Ihre Besuche werden in diesem Browser gezählt.';
+    b.textContent = on ? 'Wieder mitzählen' : 'Nicht mehr mitzählen';
+  }
+  b.addEventListener('click', function () {
+    try { if (get()) localStorage.removeItem('plausible_ignore'); else localStorage.setItem('plausible_ignore', 'true'); } catch (e) {}
+    render();
+  });
+  try { if (get() === false) localStorage.setItem('plausible_ignore', 'true'); } catch (e) {}
+  render();
+})();
+</script>
+</body>
+</html>
