@@ -304,11 +304,27 @@ body.rtl
 /* Hebrew/Russian font support */
 body.lang-he{font-family:'Segoe UI','Arial Hebrew',sans-serif;}
 body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
-.sym-banner{max-width:100%;display:inline-flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem;align-self:flex-start;border:1px solid var(--gold);background:rgba(176,138,80,0.12);color:var(--beige);text-decoration:none;padding:0.6rem 1rem;margin-bottom:1.75rem;font-size:0.8rem;letter-spacing:0.04em;transition:background 0.2s;}
-.sym-banner:hover{background:rgba(176,138,80,0.25);}
-.sym-banner b{color:var(--gold-l);font-weight:500;}
-@media(max-width:600px){.sym-banner{max-width:calc(100vw - 6rem);font-size:0.76rem;}}
-.sym-banner span{color:var(--gold-l);}
+/* SYMPOSIUM-KARTE */
+.sym-card{display:flex;align-items:stretch;max-width:560px;margin-bottom:2rem;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(176,138,80,0.18),rgba(176,138,80,0.06));color:var(--beige);text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,0.25);transition:transform 0.2s,box-shadow 0.2s,background 0.2s;overflow:hidden;}
+.sym-card:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,0.35);background:linear-gradient(135deg,rgba(176,138,80,0.28),rgba(176,138,80,0.1));}
+.sym-img{flex:0 0 38%;position:relative;min-height:150px;}
+.sym-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(0.85);}
+.sym-img::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(77,21,32,0) 55%,rgba(77,21,32,0.55));}
+.sym-text{display:flex;flex-direction:column;gap:0.3rem;padding:1rem 1.2rem 1.1rem;min-width:0;}
+.sym-label{display:flex;align-items:center;gap:0.45rem;font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-l);font-weight:500;}
+.sym-dot{width:7px;height:7px;border-radius:50%;background:#7fd18b;box-shadow:0 0 0 0 rgba(127,209,139,0.6);animation:symPulse 2s infinite;flex:0 0 auto;}
+@keyframes symPulse{0%{box-shadow:0 0 0 0 rgba(127,209,139,0.55);}70%{box-shadow:0 0 0 7px rgba(127,209,139,0);}100%{box-shadow:0 0 0 0 rgba(127,209,139,0);}}
+@media(prefers-reduced-motion:reduce){.sym-dot{animation:none;}}
+.sym-count{margin-left:auto;padding-left:0.75rem;color:rgba(242,236,224,0.55);letter-spacing:0.08em;white-space:nowrap;}
+.sym-count:empty{display:none;}
+.sym-title{font-family:'Playfair Display',serif;font-size:1.2rem;line-height:1.25;color:var(--beige);}
+.sym-meta{font-size:0.85rem;color:var(--gold-l);letter-spacing:0.02em;}
+.sym-sub{font-size:0.76rem;color:rgba(242,236,224,0.6);}
+.sym-cta{align-self:flex-start;white-space:nowrap;margin-top:0.45rem;background:var(--gold);color:var(--bordeaux-d);font-size:0.74rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:0.45rem 0.9rem;}
+.sym-card:hover .sym-cta{background:var(--gold-l);}
+body.rtl .sym-card{direction:rtl;}
+body.rtl .sym-count{margin-left:0;margin-right:auto;padding-left:0;padding-right:0.75rem;}
+@media(max-width:600px){.sym-card{flex-direction:column;max-width:calc(100vw - 6rem);}.sym-label{flex-wrap:wrap;row-gap:0.2rem;}.sym-cta{font-size:0.7rem;}.sym-img{flex:none;height:120px;min-height:0;}.sym-img::after{background:linear-gradient(180deg,rgba(77,21,32,0) 50%,rgba(77,21,32,0.6));}.sym-title{font-size:1.1rem;}}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>
@@ -347,7 +363,16 @@ body.lang-ru{font-family:'Jost','Segoe UI',sans-serif;}
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-left">
-      <a class="sym-banner" href="/symposium/"><b>11. Kölner Dialyseshunt-Symposium</b> 16./17. Dezember 2026 <span>Infos &amp; Anmeldung →</span></a>
+      <a class="sym-card" id="sym-card" href="/symposium/">
+        <span class="sym-img"><img src="/symposium/img/banner.jpg" alt="" width="640" height="480" loading="eager"></span>
+        <span class="sym-text">
+          <span class="sym-label"><i class="sym-dot"></i><span data-i18n="sym.label">Anmeldung geöffnet</span><span class="sym-count" id="sym-count"></span></span>
+          <span class="sym-title" data-i18n="sym.title">11. Kölner Dialyseshunt-Symposium</span>
+          <span class="sym-meta" data-i18n="sym.meta">16./17. Dezember 2026 · Uniklinik Köln</span>
+          <span class="sym-sub" data-i18n="sym.sub">Workshops am Modell · Fachvorträge · CME beantragt</span>
+          <span class="sym-cta"><span data-i18n="sym.cta">Programm &amp; Anmeldung</span> →</span>
+        </span>
+      </a>
       <p class="hero-eyebrow" id="hero-eyebrow" data-i18n="hero.eyebrow">Vascular Access Surgery · Dialyseshuntchirurgie</p>
       <h1 id="hero-title" data-i18n="hero.title">Vascular<br><em>Access Talk</em></h1>
       <p class="hero-desc" id="hero-desc" data-i18n="hero.desc">Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.</p>
@@ -622,7 +647,7 @@ const TRANSLATIONS = {
     'nav.articles':'Artikel','nav.topics':'Themen','nav.newsletter':'Newsletter','nav.contact':'Kontakt',
     'hero.eyebrow':'Vascular Access Surgery · Dialyseshuntchirurgie',
     'hero.title':'Vascular<br><em>Access Talk</em>',
-    'hero.desc':'Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.',
+    'sym.label':'Anmeldung geöffnet','sym.title':'11. Kölner Dialyseshunt-Symposium','sym.meta':'16./17. Dezember 2026 · Uniklinik Köln','sym.sub':'Workshops am Modell · Fachvorträge · CME beantragt','sym.cta':'Programm & Anmeldung','hero.desc':'Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.',
     'hero.disclaimer':'Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.',
     'hero.cta':'Artikel lesen →','hero.stat1':'Beiträge','hero.stat2':'Themenbereiche','hero.stat3':'Jahre Erfahrung',
     'articles.eyebrow':'Beiträge','articles.title':'Aktuelle Artikel','articles.sub':'Vascular access surgery – von der Anlage bis zur Revision.',
@@ -637,7 +662,7 @@ const TRANSLATIONS = {
     'nav.articles':'Articles','nav.topics':'Topics','nav.newsletter':'Newsletter','nav.contact':'Contact',
     'hero.eyebrow':'Vascular Access Surgery',
     'hero.title':'Vascular<br><em>Access Talk</em>',
-    'hero.desc':'An independent professional blog on dialysis vascular access, surgical and endovascular techniques, complications, and clinical decision-making — sharing insights from over 20 years of experience in vascular access surgery.',
+    'sym.label':'Registration open','sym.title':'11th Cologne Dialysis Access Symposium','sym.meta':'16–17 December 2026 · University Hospital Cologne','sym.sub':'Hands-on workshops · Lectures · Held in German','sym.cta':'Programme & registration','hero.desc':'An independent professional blog on dialysis vascular access, surgical and endovascular techniques, complications, and clinical decision-making — sharing insights from over 20 years of experience in vascular access surgery.',
     'hero.disclaimer':'All content reflects solely the personal opinion and experience of the author and does not represent an official statement of any institution.',
     'hero.cta':'Read articles →','hero.stat1':'Articles','hero.stat2':'Topics','hero.stat3':'20+ Years Experience',
     'articles.eyebrow':'Articles','articles.title':'Latest Articles','articles.sub':'Vascular access surgery – from creation to revision.',
@@ -653,7 +678,7 @@ const TRANSLATIONS = {
     'nav.articles':'Статьи','nav.topics':'Темы','nav.newsletter':'Рассылка','nav.contact':'Контакт',
     'hero.eyebrow':'Сосудистый доступ · Хирургия диализного шунта',
     'hero.title':'Vascular<br><em>Access Talk</em>',
-    'hero.desc':'Личный профессиональный блог о диализном доступе, хирургии шунтов, осложнениях и клинических решениях – из ежедневной практики сосудистого хирурга.',
+    'sym.label':'Регистрация открыта','sym.title':'11-й Кёльнский симпозиум по диализному доступу','sym.meta':'16–17 декабря 2026 · Университетская клиника Кёльна','sym.sub':'Воркшопы на моделях · Доклады · На немецком языке','sym.cta':'Программа и регистрация','hero.desc':'Личный профессиональный блог о диализном доступе, хирургии шунтов, осложнениях и клинических решениях – из ежедневной практики сосудистого хирурга.',
     'hero.disclaimer':'Все материалы отражают исключительно личное мнение и опыт автора и не являются официальной позицией какого-либо учреждения.',
     'hero.cta':'Читать статьи →','hero.stat1':'Статей','hero.stat2':'Темы','hero.stat3':'20+ лет опыта',
     'articles.eyebrow':'Статьи','articles.title':'Последние статьи','articles.sub':'Хирургия сосудистого доступа – от создания до ревизии.',
@@ -669,7 +694,7 @@ const TRANSLATIONS = {
     'nav.articles':'מאמרים','nav.topics':'נושאים','nav.newsletter':'ניוזלטר','nav.contact':'צור קשר',
     'hero.eyebrow':'גישה וסקולרית · כירורגיית שאנט דיאליזה',
     'hero.title':'Vascular<br><em>Access Talk</em>',
-    'hero.desc':'מאמרים על גישה לדיאליזה, ניהול סיבוכים ומחקר עדכני – לכירורגים, נפרולוגים, צוות רפואי ומטופלים.',
+    'sym.label':'ההרשמה פתוחה','sym.title':'הסימפוזיון ה־11 בקלן לגישה לדיאליזה','sym.meta':'16–17 בדצמבר 2026 · בית החולים האוניברסיטאי קלן','sym.sub':'סדנאות מעשיות · הרצאות · בשפה הגרמנית','sym.cta':'תוכנית והרשמה','hero.desc':'מאמרים על גישה לדיאליזה, ניהול סיבוכים ומחקר עדכני – לכירורגים, נפרולוגים, צוות רפואי ומטופלים.',
     'hero.disclaimer':'כל התכנים משקפים אך ורק את דעתו האישית וניסיונו של המחבר ואינם מהווים עמדה רשמית של כל מוסד.',
     'hero.cta':'קרא מאמרים ←','hero.stat1':'מאמרים','hero.stat2':'נושאים','hero.stat3':'20+ שנות ניסיון',
     'articles.eyebrow':'מאמרים','articles.title':'מאמרים אחרונים','articles.sub':'כירורגיית גישה וסקולרית – מהנחה ועד תיקון.',
@@ -1270,7 +1295,25 @@ function setLang(lang) {
   // Update author bio if translation exists
   const bioEl = document.getElementById('author-bio');
   if (bioEl && tr['author.bio']) bioEl.textContent = tr['author.bio'];
+  updateSymCard(lang);
   renderBlog();
+}
+
+// Symposium-Karte: Countdown in der jeweiligen Sprache, nach dem Symposium ausblenden
+const SYM_START = new Date('2026-12-16T09:00:00+01:00');
+const SYM_END = new Date('2026-12-17T18:00:00+01:00');
+function updateSymCard(lang) {
+  const card = document.getElementById('sym-card');
+  if (!card) return;
+  const now = new Date();
+  if (now > SYM_END) { card.style.display = 'none'; return; }
+  const el = document.getElementById('sym-count');
+  if (!el) return;
+  const days = Math.ceil((SYM_START - now) / 86400000);
+  if (days <= 0) { el.textContent = {de:'Heute',en:'Today',ru:'Сегодня',he:'היום'}[lang] || ''; return; }
+  el.textContent = days === 1
+    ? ({de:'Morgen',en:'Tomorrow',ru:'Завтра',he:'מחר'}[lang] || '')
+    : ({de:'noch '+days+' Tage',en:days+' days to go',ru:'через '+days+' дн.',he:'עוד '+days+' ימים'}[lang] || '');
 }
 
 // ═══════════════════════════════════════════════════════
