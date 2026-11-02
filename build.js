@@ -387,7 +387,11 @@ function generateSitemap(articles) {
     + '<xhtml:link rel="alternate" hreflang="x-default" href="' + SITE + '/en/"/>';
   var urls = ['<url><loc>' + SITE + '/</loc><changefreq>weekly</changefreq><priority>1.0</priority>' + homeAlt + '</url>'];
   urls.push('<url><loc>' + SITE + '/en/</loc><changefreq>weekly</changefreq><priority>1.0</priority>' + homeAlt + '</url>');
-  urls.push('<url><loc>' + SITE + '/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>');
+  var symAlt = '<xhtml:link rel="alternate" hreflang="de" href="' + SITE + '/symposium/"/>'
+    + '<xhtml:link rel="alternate" hreflang="en" href="' + SITE + '/en/symposium/"/>'
+    + '<xhtml:link rel="alternate" hreflang="x-default" href="' + SITE + '/en/symposium/"/>';
+  urls.push('<url><loc>' + SITE + '/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority>' + symAlt + '</url>');
+  urls.push('<url><loc>' + SITE + '/en/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority>' + symAlt + '</url>');
   articles.forEach(function (a) {
     var lastmod = a.date || new Date().toISOString().split('T')[0];
     var de = SITE + dePath(a);
@@ -489,6 +493,8 @@ function translateStaticText(indexHtml, lang) {
 function localizeIndexHead(indexHtml, lang) {
   var m = HOME_META[lang];
   if (lang !== 'de') indexHtml = translateStaticText(indexHtml, lang);
+  // Symposium-Links auf der englischen Startseite zur englischen Symposiumsseite
+  if (lang === 'en') indexHtml = indexHtml.split('href="/symposium/"').join('href="/en/symposium/"');
   indexHtml = indexHtml.replace(/<html lang="[^"]*"/, '<html lang="' + lang + '" data-page-lang="' + lang + '"');
   indexHtml = indexHtml.replace(/(<title id="page-title-tag">)[^<]*(<\/title>)/, '$1' + esc(m.title) + '$2');
   indexHtml = indexHtml.replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + esc(m.desc) + '">');
@@ -596,6 +602,12 @@ async function build() {
   if (fs.existsSync(symSrc)) {
     fs.cpSync(path.join(process.cwd(), 'symposium'), path.join(DIST, 'symposium'), { recursive: true });
     console.log('Written:', path.join(DIST, 'symposium', 'index.html'));
+  }
+
+  // Englische Symposiumsseite (statisch)
+  if (fs.existsSync(path.join(process.cwd(), 'en', 'symposium', 'index.html'))) {
+    fs.cpSync(path.join(process.cwd(), 'en', 'symposium'), path.join(DIST, 'en', 'symposium'), { recursive: true });
+    console.log('Written:', path.join(DIST, 'en', 'symposium', 'index.html'));
   }
 
   // Private Seite /ich (eigene Besuche nicht zählen)
