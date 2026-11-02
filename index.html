@@ -19,6 +19,7 @@ async function loadArticlesFromGitHub() {
   } catch(e) {
     console.error('Load error:', e);
     articles = [];
+    window._articlesLoadFailed = true;
     return false;
   }
 }
@@ -894,6 +895,8 @@ function slugify(text) {
 }
 
 function renderBlog() {
+  // Laden fehlgeschlagen: die beim Build vorgerenderte Artikelliste stehen lassen
+  if (!articles.length && window._articlesLoadFailed) return;
   // Neueste zuerst
   articles.sort((x, y) => {
     const dx = x.date || '', dy = y.date || '';
