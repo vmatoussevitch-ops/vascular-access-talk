@@ -322,6 +322,8 @@ function generateArticlePage(article, pageLang) {
 + '}\n'
 + 'var saved = PAGE.lang;\n'
 + 'try { saved = localStorage.getItem("vat_lang") || PAGE.lang; } catch (e) {}\n'
++ '// Wer bewusst Englisch gewählt hat, landet von der deutschen Seite auf der englischen\n'
++ 'if (PAGE.lang === "de" && saved === "en" && PAGE.urls.en) { window.location.replace(PAGE.urls.en); }\n'
 + '// Beim Laden nie automatisch umleiten: RU/HE werden eingeblendet, sonst gilt die Sprache der Seite\n'
 + 'setLang(saved === "ru" || saved === "he" ? saved : PAGE.lang);\n'
 + '<\/script>\n'
@@ -334,7 +336,11 @@ function generateArticlePage(article, pageLang) {
 // ── Sitemap ───────────────────────────────────────────────
 
 function generateSitemap(articles) {
-  var urls = ['<url><loc>' + SITE + '/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>'];
+  var homeAlt = '<xhtml:link rel="alternate" hreflang="de" href="' + SITE + '/"/>'
+    + '<xhtml:link rel="alternate" hreflang="en" href="' + SITE + '/en/"/>'
+    + '<xhtml:link rel="alternate" hreflang="x-default" href="' + SITE + '/en/"/>';
+  var urls = ['<url><loc>' + SITE + '/</loc><changefreq>weekly</changefreq><priority>1.0</priority>' + homeAlt + '</url>'];
+  urls.push('<url><loc>' + SITE + '/en/</loc><changefreq>weekly</changefreq><priority>1.0</priority>' + homeAlt + '</url>');
   urls.push('<url><loc>' + SITE + '/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>');
   articles.forEach(function (a) {
     var lastmod = a.date || new Date().toISOString().split('T')[0];
@@ -376,18 +382,95 @@ function sortArticles(list) {
   });
 }
 
-function prerenderIndex(indexHtml, articles) {
+// Kopfbereich der Startseite je Sprache: lang, Titel, Beschreibung, Canonical, hreflang
+var HOME_META = {
+  de: {
+    title: 'Vascular Access Talk – Fachblog für Dialyseshuntchirurgie',
+    desc: 'Expertenwissen zur Dialyseshuntchirurgie: AV-Fisteln, Prothesenshunts, Stenosen, Thrombosen. Vascular access surgery blog by Dr. V. Matoussevitch.',
+    ogDesc: 'Fachblog für Dialyseshuntchirurgie – AV-Fisteln, Prothesenshunts, Komplikationen und aktuelle Forschung.',
+    url: SITE + '/', locale: 'de_DE'
+  },
+  en: {
+    title: 'Vascular Access Talk – Blog on Dialysis Access Surgery',
+    desc: 'Clinical insight into dialysis access surgery: AV fistulas, AV grafts, stenoses, thromboses and complex revisions. A vascular access blog by Dr. V. Matoussevitch.',
+    ogDesc: 'A blog on dialysis access surgery – AV fistulas, AV grafts, complications and current research.',
+    url: SITE + '/en/', locale: 'en_US'
+  }
+};
+
+// Übersetzungen aus index.html lesen (const TRANSLATIONS = {...};), damit die
+// englische Startseite schon ohne JavaScript englischen Text enthält
+function readTranslations(indexHtml) {
+  var start = indexHtml.indexOf('const TRANSLATIONS = {');
+  if (start < 0) return null;
+  var i = indexHtml.indexOf('{', start), depth = 0, inStr = null;
+  for (; i < indexHtml.length; i++) {
+    var c = indexHtml[i];
+    if (inStr) { if (c === '\\') { i++; continue; } if (c === inStr) inStr = null; continue; }
+    if (c === '"' || c === "'" || c === '`') { inStr = c; continue; }
+    if (c === '{') depth++;
+    else if (c === '}' && --depth === 0) break;
+  }
+  try {
+    return require('vm').runInNewContext('(' + indexHtml.slice(indexHtml.indexOf('{', start), i + 1) + ')');
+  } catch (e) { console.log('Could not read translations:', e.message); return null; }
+}
+
+function translateStaticText(indexHtml, lang) {
+  var all = readTranslations(indexHtml);
+  var tr = all && all[lang];
+  if (!tr) return indexHtml;
+  // Wie setLang() im Browser: nur reine Textelemente ersetzen, hero.title als HTML, hero.cta mit Pfeil
+  indexHtml = indexHtml.replace(/(<([a-z0-9]+)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
+    function (m, open, tag, key, inner, close) {
+      if (!tr[key]) return m;
+      if (key === 'hero.title') return open + tr[key] + close;
+      if (key === 'hero.cta') { var svgPos = inner.indexOf('<svg'); return open + esc(tr[key]) + ' ' + (svgPos >= 0 ? inner.slice(svgPos) : '') + close; }
+      if (inner.indexOf('<') >= 0) return m;
+      return open + esc(tr[key]) + close;
+    });
+  if (tr['author.bio']) {
+    indexHtml = indexHtml.replace(/(<[a-z0-9]+\b[^>]*\bid="author-bio"[^>]*>)[^<]*/, '$1' + esc(tr['author.bio']));
+  }
+  return indexHtml;
+}
+
+function localizeIndexHead(indexHtml, lang) {
+  var m = HOME_META[lang];
+  if (lang !== 'de') indexHtml = translateStaticText(indexHtml, lang);
+  indexHtml = indexHtml.replace(/<html lang="[^"]*"/, '<html lang="' + lang + '" data-page-lang="' + lang + '"');
+  indexHtml = indexHtml.replace(/(<title id="page-title-tag">)[^<]*(<\/title>)/, '$1' + esc(m.title) + '$2');
+  indexHtml = indexHtml.replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + esc(m.desc) + '">');
+  indexHtml = indexHtml.replace(/<meta property="og:description" content="[^"]*">/, '<meta property="og:description" content="' + esc(m.ogDesc) + '">');
+  indexHtml = indexHtml.replace(/<meta property="og:url" content="[^"]*">/,
+    '<meta property="og:url" content="' + m.url + '">\n<meta property="og:locale" content="' + m.locale + '">\n'
+    + '<link rel="canonical" href="' + m.url + '">\n'
+    + '<link rel="alternate" hreflang="de" href="' + HOME_META.de.url + '">\n'
+    + '<link rel="alternate" hreflang="en" href="' + HOME_META.en.url + '">\n'
+    + '<link rel="alternate" hreflang="x-default" href="' + HOME_META.en.url + '">');
+  return indexHtml;
+}
+
+function prerenderIndex(indexHtml, articles, lang) {
+  lang = lang === 'en' ? 'en' : 'de';
+  var isEn = lang === 'en';
+  function tTitle(a) { return isEn ? (a.titleEn || a.title || '') : (a.title || a.titleEn || ''); }
+  function tExcerpt(a) { return isEn ? (a.excerptEn || a.excerpt || '') : (a.excerpt || a.excerptEn || ''); }
+  function tUrl(a) { return isEn && enPath(a) ? enPath(a) : dePath(a); }
+  function tCat(a) { return isEn ? (CAT_EN[a.cat] || a.cat || '') : (a.cat || ''); }
+
+  indexHtml = localizeIndexHead(indexHtml, lang);
   var list = sortArticles(articles);
   indexHtml = indexHtml.replace(/id="stat-count">[^<]*/, 'id="stat-count">' + list.length);
   if (!list.length) return indexHtml;
 
   var rows = list.map(function (a, i) {
-    var url = '/artikel/' + slugify(a.title || a.titleEn || 'artikel') + '/';
+    var url = tUrl(a);
     return '<a class="article-row" href="' + url + '" style="display:flex;text-decoration:none;color:inherit;">'
       + '<div class="article-num">' + String(i + 1).padStart(2, '0') + '</div>'
-      + '<div class="article-body"><p class="article-cat">' + esc(a.cat || '') + '</p>'
-      + '<h3 class="article-title">' + esc(a.title || a.titleEn || '') + '</h3>'
-      + '<p class="article-excerpt">' + esc(a.excerpt || a.excerptEn || '') + '</p></div>'
+      + '<div class="article-body"><p class="article-cat">' + esc(tCat(a)) + '</p>'
+      + '<h3 class="article-title">' + esc(tTitle(a)) + '</h3>'
+      + '<p class="article-excerpt">' + esc(tExcerpt(a)) + '</p></div>'
       + '<div class="article-aside"><p class="article-date">' + esc(fmtDateDe(a.date)) + '</p></div>'
       + '</a>';
   }).join('\n');
@@ -396,14 +479,14 @@ function prerenderIndex(indexHtml, articles) {
     function (m, open, close) { return open + '\n' + rows + '\n    ' + close; });
 
   var a = list[0];
-  var heroUrl = '/artikel/' + slugify(a.title || a.titleEn || 'artikel') + '/';
-  var ex = a.excerpt || a.excerptEn || '';
+  var heroUrl = tUrl(a);
+  var ex = tExcerpt(a);
   indexHtml = indexHtml.replace(
     /(<div class="featured-card" id="hero-featured">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/div>\s*<\/section>)/,
     function (m, open, close) {
-      return open + '\n        <h3><a href="' + heroUrl + '" style="color:inherit;text-decoration:none;">' + esc(a.title || a.titleEn || '') + '</a></h3>\n'
+      return open + '\n        <h3><a href="' + heroUrl + '" style="color:inherit;text-decoration:none;">' + esc(tTitle(a)) + '</a></h3>\n'
         + '        <p>' + esc(ex.length > 120 ? ex.substring(0, 120) + '…' : ex) + '</p>\n'
-        + '        <div class="card-meta"><span class="tag">' + esc(a.cat || '') + '</span><span class="meta-date">' + esc(fmtDateDe(a.date)) + '</span></div>\n'
+        + '        <div class="card-meta"><span class="tag">' + esc(tCat(a)) + '</span><span class="meta-date">' + esc(fmtDateDe(a.date)) + '</span></div>\n'
         + '      ' + close;
     });
 
@@ -435,10 +518,14 @@ async function build() {
     console.log('Could not fetch articles:', e.message);
   }
 
-  var indexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
-  indexHtml = prerenderIndex(indexHtml, articles);
-  fs.writeFileSync(path.join(DIST, 'index.html'), indexHtml);
+  var indexSrc = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
+  fs.writeFileSync(path.join(DIST, 'index.html'), prerenderIndex(indexSrc, articles, 'de'));
   console.log('Written:', path.join(DIST, 'index.html'));
+
+  // Englische Startseite unter /en/
+  fs.mkdirSync(path.join(DIST, 'en'), { recursive: true });
+  fs.writeFileSync(path.join(DIST, 'en', 'index.html'), prerenderIndex(indexSrc, articles, 'en'));
+  console.log('Written:', path.join(DIST, 'en', 'index.html'));
 
   var adminDst = path.join(DIST, 'admin');
   fs.mkdirSync(adminDst);

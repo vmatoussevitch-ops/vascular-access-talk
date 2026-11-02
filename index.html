@@ -682,8 +682,22 @@ const TRANSLATIONS = {
   }
 };
 
-// Current language (persisted)
-let currentLang = localStorage.getItem('vat_lang') || 'de';
+// Sprache dieser Seite: "/" ist Deutsch, "/en/" ist Englisch (vom Build gesetzt)
+const PAGE_LANG = document.documentElement.getAttribute('data-page-lang') || 'de';
+const HOME_URLS = { de: '/', en: '/en/' };
+let savedLang = null;
+try { savedLang = localStorage.getItem('vat_lang'); } catch(e) {}
+// Wer bewusst Englisch gewählt hat, landet von der deutschen Startseite auf der englischen
+if (PAGE_LANG === 'de' && savedLang === 'en') { window.location.replace(HOME_URLS.en); }
+
+// Current language: RU/HE werden eingeblendet, sonst gilt die Sprache der Seite
+let currentLang = (savedLang === 'ru' || savedLang === 'he') ? savedLang : PAGE_LANG;
+
+// Artikeladresse passend zur Sprache (EN hat eigene Seiten, sofern übersetzt)
+function articleUrl(a) {
+  if (currentLang === 'en' && a.titleEn && a.bodyEn) return `/en/article/${slugify(a.titleEn)}/`;
+  return `/artikel/${slugify(a.title || a.titleEn || '')}/`;
+}
 let currentI18nLang = 'de';
 
 // Translation helper
@@ -919,10 +933,7 @@ function renderBlog() {
     // stehen auf der Artikelseite.
     const authorHtml = a.author ? `<p class="article-author">— ${a.author}</p>` : '';
 
-    // Always use DE title for URL slug
-    const deTitle = a.title || a.titleEn || locTitle;
-    const slug = slugify(deTitle);
-    const artUrl = `/artikel/${slug}/`;
+    const artUrl = articleUrl(a);
     return `<a class="article-row" href="${artUrl}" ${isRTL?'dir="rtl"':''} style="display:flex;text-decoration:none;color:inherit;">
       <div class="article-num">${String(i+1).padStart(2,'0')}</div>
       <div class="article-body">
@@ -951,10 +962,7 @@ function renderBlog() {
     <div class="card-meta"><span class="tag">${a.cat||''}</span><span class="meta-date">${fmtDate(a.date)}</span></div>`;
   // Make hero card and CTA button clickable
   const heroCard = document.getElementById('hero-featured');
-  // Always use DE title for URL slug
-  const heroDeTitle = a.title || a.titleEn || heroTitle;
-  const heroSlug = slugify(heroDeTitle);
-  const heroUrl = `/artikel/${heroSlug}/`;
+  const heroUrl = articleUrl(a);
   heroCard.style.cursor = 'pointer';
   heroCard.onclick = () => window.location = heroUrl;
   // Update "Artikel lesen" button
@@ -1227,8 +1235,13 @@ function saveI18n() {
 // LANGUAGE SWITCHER
 // ═══════════════════════════════════════════════════════
 function setLang(lang) {
+  try { localStorage.setItem('vat_lang', lang); } catch(e) {}
+  // DE und EN haben eigene Startseiten: dorthin wechseln statt Text austauschen
+  if ((lang === 'de' || lang === 'en') && lang !== PAGE_LANG) {
+    window.location.href = HOME_URLS[lang];
+    return;
+  }
   currentLang = lang;
-  localStorage.setItem('vat_lang', lang);
   document.body.classList.toggle('rtl', lang==='he');
   document.body.classList.remove('lang-de','lang-en','lang-ru','lang-he');
   document.body.classList.add('lang-'+lang);
