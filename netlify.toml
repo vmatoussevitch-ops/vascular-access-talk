@@ -21,6 +21,11 @@
   to = "/artikel/:slug/index.html"
   status = 200
 
+[[redirects]]
+  from = "/en/article/:slug"
+  to = "/en/article/:slug/index.html"
+  status = 200
+
 [[headers]]
   for = "/admin/*"
   [headers.values]

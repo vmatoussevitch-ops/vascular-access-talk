@@ -90,10 +90,33 @@ function fetchArticles() {
   });
 }
 
+// ── URLs (DE unter /artikel/, EN unter /en/article/) ─────
+
+var SITE = 'https://vascularaccesstalk.com';
+
+function hasEn(a) {
+  return !!(a.titleEn && a.bodyEn);
+}
+
+function dePath(a) {
+  return '/artikel/' + slugify(a.title || a.titleEn || 'artikel') + '/';
+}
+
+function enPath(a) {
+  return hasEn(a) ? '/en/article/' + slugify(a.titleEn) + '/' : null;
+}
+
+var CAT_EN = { 'Allgemeines': 'General' };
+
 // ── Article page ──────────────────────────────────────────
 
-function generateArticlePage(article) {
-  var slug = slugify(article.title || article.titleEn || 'artikel');
+// pageLang: 'de' (Standard) oder 'en' (eigene englische Seite)
+function generateArticlePage(article, pageLang) {
+  pageLang = pageLang === 'en' ? 'en' : 'de';
+  var deUrl = SITE + dePath(article);
+  var enUrl = enPath(article) ? SITE + enPath(article) : null;
+  var pageUrl = pageLang === 'en' ? enUrl : deUrl;
+  var slug = slugify(pageLang === 'en' ? article.titleEn : (article.title || article.titleEn || 'artikel'));
 
   // Markdown rendered here, in Node. The browser only swaps ready HTML.
   var langs = {
@@ -119,8 +142,12 @@ function generateArticlePage(article) {
     }
   };
 
-  var title = article.title || article.titleEn || '';
-  var excerpt = (article.excerpt || article.excerptEn || '').substring(0, 155);
+  var title = langs[pageLang].title;
+  var excerpt = (pageLang === 'en'
+    ? (article.excerptEn || article.excerpt || '')
+    : (article.excerpt || article.excerptEn || '')).substring(0, 155);
+  var cat = article.cat || 'Allgemeines';
+  if (pageLang === 'en') cat = CAT_EN[cat] || cat;
   var date = article.date || '';
   var author = article.author || 'Dr. V. Matoussevitch';
   var img = article.img && (article.img.indexOf('data:image') === 0 || /\.(jpg|jpeg|png|webp)$/i.test(article.img)) ? article.img : '';
@@ -146,7 +173,7 @@ function generateArticlePage(article) {
   var buttonHtml = '';
   if (buttons.length) {
     buttonHtml = '<div class="action-buttons">' + buttons.map(function (b) {
-      return '<a class="action-btn" id="abtn-' + b.key + '" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(BTN_LABELS.de[b.key]) + '</a>';
+      return '<a class="action-btn" id="abtn-' + b.key + '" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(BTN_LABELS[pageLang][b.key]) + '</a>';
     }).join('') + '</div>';
   }
 
@@ -166,22 +193,32 @@ function generateArticlePage(article) {
     description: excerpt,
     author: { '@type': 'Person', name: author },
     datePublished: date,
-    publisher: { '@type': 'Organization', name: 'Vascular Access Talk', url: 'https://vascularaccesstalk.com' },
-    url: 'https://vascularaccesstalk.com/artikel/' + slug + '/'
+    inLanguage: pageLang,
+    publisher: { '@type': 'Organization', name: 'Vascular Access Talk', url: SITE },
+    url: pageUrl
   });
 
+  // hreflang: beide Sprachversionen verweisen gegenseitig aufeinander
+  var hreflang = enUrl
+    ? '<link rel="alternate" hreflang="de" href="' + deUrl + '">\n'
+      + '<link rel="alternate" hreflang="en" href="' + enUrl + '">\n'
+      + '<link rel="alternate" hreflang="x-default" href="' + enUrl + '">\n'
+    : '';
+
   var html = '<!DOCTYPE html>\n'
-+ '<html lang="de">\n'
++ '<html lang="' + pageLang + '">\n'
 + '<head>\n'
 + '<meta charset="UTF-8">\n'
 + '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
 + '<title>' + esc(title) + ' \u2013 Vascular Access Talk</title>\n'
 + '<meta name="description" content="' + esc(excerpt) + '">\n'
 + '<meta name="author" content="' + esc(author) + '">\n'
-+ '<link rel="canonical" href="https://vascularaccesstalk.com/artikel/' + slug + '/">\n'
++ '<link rel="canonical" href="' + pageUrl + '">\n'
++ hreflang
 + '<meta property="og:title" content="' + esc(title) + ' \u2013 Vascular Access Talk">\n'
 + '<meta property="og:description" content="' + esc(excerpt) + '">\n'
-+ '<meta property="og:url" content="https://vascularaccesstalk.com/artikel/' + slug + '/">\n'
++ '<meta property="og:url" content="' + pageUrl + '">\n'
++ '<meta property="og:locale" content="' + (pageLang === 'en' ? 'en_US' : 'de_DE') + '">\n'
 + '<meta property="og:type" content="article">\n'
 + '<meta property="og:site_name" content="Vascular Access Talk">\n'
 + (img ? '<meta property="og:image" content="' + esc(img) + '">\n' : '')
@@ -228,28 +265,35 @@ function generateArticlePage(article) {
 + '  <a href="/" class="nav-logo">Vascular Access <em>Talk</em></a>\n'
 + '  <div class="nav-right">\n'
 + '    <div class="lang-switcher">' + langButtons + '</div>\n'
-+ '    <a href="/" class="nav-back" id="nav-back">\u2190 Zur\u00fcck</a>\n'
++ '    <a href="/" class="nav-back" id="nav-back">' + esc(BTN_LABELS[pageLang].back) + '</a>\n'
 + '  </div>\n'
 + '</nav>\n'
 + '<article class="article-wrap">\n'
-+ '  <p class="article-cat">' + esc(article.cat || 'Allgemeines') + '</p>\n'
++ '  <p class="article-cat">' + esc(cat) + '</p>\n'
 + '  <h1 class="article-title" id="art-title">' + esc(title) + '</h1>\n'
 + '  <p class="article-meta">' + esc(author) + ' \u00b7 ' + esc(date) + '</p>\n'
 + (img ? '  <img src="' + esc(img) + '" class="article-img" alt="' + esc(title) + '">\n' : '')
-+ '  <div class="article-body" id="art-body">' + langs.de.body + '</div>\n'
++ '  <div class="article-body" id="art-body">' + langs[pageLang].body + '</div>\n'
 + '  ' + buttonHtml + '\n'
 + '  <div class="article-footer">\n'
-+ '    <a href="/" class="back-link" id="back-list">\u2190 Zur\u00fcck zur \u00dcbersicht</a>\n'
-+ '    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://vascularaccesstalk.com/artikel/' + slug + '/" target="_blank" rel="noopener" class="li-btn" id="share-btn">Auf LinkedIn teilen</a>\n'
++ '    <a href="/" class="back-link" id="back-list">' + esc(BTN_LABELS[pageLang].backList) + '</a>\n'
++ '    <a href="https://www.linkedin.com/sharing/share-offsite/?url=' + pageUrl + '" target="_blank" rel="noopener" class="li-btn" id="share-btn">' + esc(BTN_LABELS[pageLang].share) + '</a>\n'
 + '  </div>\n'
 + '</article>\n'
 + '<script id="langs-data" type="application/json">' + safeJson(langs) + '<\/script>\n'
++ '<script id="page-data" type="application/json">' + safeJson({ lang: pageLang, urls: { de: dePath(article), en: enPath(article) } }) + '<\/script>\n'
 + '<script>\n'
 + 'var LANGS = JSON.parse(document.getElementById("langs-data").textContent);\n'
++ 'var PAGE = JSON.parse(document.getElementById("page-data").textContent);\n'
 + 'function setLang(lang) {\n'
 + '  var l = LANGS[lang];\n'
 + '  if (!l) return;\n'
 + '  try { localStorage.setItem("vat_lang", lang); } catch (e) {}\n'
++ '  // DE und EN haben eigene Adressen: dorthin wechseln statt Text austauschen\n'
++ '  if ((lang === "de" || lang === "en") && lang !== PAGE.lang && PAGE.urls[lang]) {\n'
++ '    window.location.href = PAGE.urls[lang];\n'
++ '    return;\n'
++ '  }\n'
 + '  var t = document.getElementById("art-title");\n'
 + '  var b = document.getElementById("art-body");\n'
 + '  t.textContent = l.title || "";\n'
@@ -276,9 +320,10 @@ function generateArticlePage(article) {
 + '    if (btn) { btn.className = (keys[i] === lang) ? "lang-btn active" : "lang-btn"; }\n'
 + '  }\n'
 + '}\n'
-+ 'var saved = "de";\n'
-+ 'try { saved = localStorage.getItem("vat_lang") || "de"; } catch (e) {}\n'
-+ 'setLang(saved);\n'
++ 'var saved = PAGE.lang;\n'
++ 'try { saved = localStorage.getItem("vat_lang") || PAGE.lang; } catch (e) {}\n'
++ '// Beim Laden nie automatisch umleiten: RU/HE werden eingeblendet, sonst gilt die Sprache der Seite\n'
++ 'setLang(saved === "ru" || saved === "he" ? saved : PAGE.lang);\n'
 + '<\/script>\n'
 + '</body>\n'
 + '</html>';
@@ -289,14 +334,25 @@ function generateArticlePage(article) {
 // ── Sitemap ───────────────────────────────────────────────
 
 function generateSitemap(articles) {
-  var urls = ['<url><loc>https://vascularaccesstalk.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>'];
-  urls.push('<url><loc>https://vascularaccesstalk.com/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>');
+  var urls = ['<url><loc>' + SITE + '/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>'];
+  urls.push('<url><loc>' + SITE + '/symposium/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>');
   articles.forEach(function (a) {
-    var slug = slugify(a.title || a.titleEn || 'artikel');
     var lastmod = a.date || new Date().toISOString().split('T')[0];
-    urls.push('<url><loc>https://vascularaccesstalk.com/artikel/' + slug + '/</loc><lastmod>' + lastmod + '</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>');
+    var de = SITE + dePath(a);
+    var en = enPath(a) ? SITE + enPath(a) : null;
+    var alt = en
+      ? '<xhtml:link rel="alternate" hreflang="de" href="' + de + '"/>'
+        + '<xhtml:link rel="alternate" hreflang="en" href="' + en + '"/>'
+        + '<xhtml:link rel="alternate" hreflang="x-default" href="' + en + '"/>'
+      : '';
+    urls.push('<url><loc>' + de + '</loc><lastmod>' + lastmod + '</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>' + alt + '</url>');
+    if (en) {
+      urls.push('<url><loc>' + en + '</loc><lastmod>' + lastmod + '</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>' + alt + '</url>');
+    }
   });
-  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>';
+  return '<?xml version="1.0" encoding="UTF-8"?>\n'
+    + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+    + urls.join('\n') + '\n</urlset>';
 }
 
 
@@ -412,16 +468,30 @@ async function build() {
 
   var artikelDir = path.join(DIST, 'artikel');
   fs.mkdirSync(artikelDir);
+  var enArticleDir = path.join(DIST, 'en', 'article');
   articles.forEach(function (article) {
-    var page = generateArticlePage(article);
+    var page = generateArticlePage(article, 'de');
     var dir = path.join(artikelDir, page.slug);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), page.html);
     console.log('Written:', path.join(dir, 'index.html'));
+
+    // Englische Version mit eigener Adresse, sofern übersetzt
+    if (hasEn(article)) {
+      var enPage = generateArticlePage(article, 'en');
+      var enDir = path.join(enArticleDir, enPage.slug);
+      fs.mkdirSync(enDir, { recursive: true });
+      fs.writeFileSync(path.join(enDir, 'index.html'), enPage.html);
+      console.log('Written:', path.join(enDir, 'index.html'));
+    }
   });
 
   fs.writeFileSync(path.join(DIST, 'sitemap.xml'), generateSitemap(articles));
   console.log('Written:', path.join(DIST, 'sitemap.xml'));
+
+  fs.writeFileSync(path.join(DIST, 'robots.txt'),
+    'User-agent: *\nDisallow: /admin/\nDisallow: /ich/\n\nSitemap: ' + SITE + '/sitemap.xml\n');
+  console.log('Written:', path.join(DIST, 'robots.txt'));
 
   console.log('Build complete!');
 }
