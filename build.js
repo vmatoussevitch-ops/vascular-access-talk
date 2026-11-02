@@ -7,11 +7,27 @@ const DIST = path.join(process.cwd(), 'dist');
 
 // ── Helpers ───────────────────────────────────────────────
 
-function slugify(text) {
+function baseSlug(text) {
   return (text || '').toLowerCase()
     .replace(/[\u00e4\u00c4]/g, 'ae').replace(/[\u00f6\u00d6]/g, 'oe').replace(/[\u00fc\u00dc]/g, 'ue')
     .replace(/\u00df/g, 'ss').replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '').substring(0, 60);
+    .replace(/^-+|-+$/g, '');
+}
+
+// Adresse aus dem Titel: h\u00f6chstens 80 Zeichen, immer am Wortende gek\u00fcrzt.
+// Gleiche Regel wie slugify() in index.html \u2013 beide bei \u00c4nderungen angleichen.
+var SLUG_MAX = 80;
+function slugify(text) {
+  var s = baseSlug(text);
+  if (s.length <= SLUG_MAX) return s;
+  var cut = s.substring(0, SLUG_MAX);
+  if (s.charAt(SLUG_MAX) !== '-') cut = cut.replace(/-[^-]*$/, '');
+  return cut.replace(/-+$/, '');
+}
+
+// Fr\u00fchere Regel (hart nach 60 Zeichen) \u2013 nur noch f\u00fcr Weiterleitungen alter Links
+function legacySlugify(text) {
+  return baseSlug(text).substring(0, 60);
 }
 
 function esc(s) {
@@ -111,7 +127,7 @@ var CAT_EN = { 'Allgemeines': 'General' };
 // ── Article page ──────────────────────────────────────────
 
 // pageLang: 'de' (Standard) oder 'en' (eigene englische Seite)
-function generateArticlePage(article, pageLang) {
+function generateArticlePage(article, pageLang, allArticles) {
   pageLang = pageLang === 'en' ? 'en' : 'de';
   var deUrl = SITE + dePath(article);
   var enUrl = enPath(article) ? SITE + enPath(article) : null;
@@ -180,6 +196,25 @@ function generateArticlePage(article, pageLang) {
   // Buttonbeschriftungen an die Sprachdaten hängen
   ['de', 'en', 'ru', 'he'].forEach(function (l) {
     langs[l].btn = BTN_LABELS[l];
+  });
+
+  // „Weitere Artikel“: die drei neuesten anderen Artikel, Text je Sprache,
+  // Links auf die Fassung in der Sprache dieser Seite
+  var RELATED_LABEL = { de: 'Weitere Artikel', en: 'More articles', ru: 'Другие статьи', he: 'מאמרים נוספים' };
+  var others = sortArticles(allArticles || []).filter(function (x) {
+    return x !== article && (x.id === undefined || x.id !== article.id);
+  }).slice(0, 3);
+  ['de', 'en', 'ru', 'he'].forEach(function (l) {
+    if (!others.length) { langs[l].related = ''; return; }
+    langs[l].related = '<h2 class="related-h">' + esc(RELATED_LABEL[l]) + '</h2><ul class="related-list">'
+      + others.map(function (o) {
+        var t = l === 'de' ? (o.title || o.titleEn)
+          : l === 'en' ? (o.titleEn || o.title)
+          : l === 'ru' ? (o.titleRu || o.titleEn || o.title)
+          : (o.titleHe || o.titleEn || o.title);
+        var url = pageLang === 'en' && enPath(o) ? enPath(o) : dePath(o);
+        return '<li><a href="' + url + '">' + esc(t || '') + '</a><span class="related-date">' + esc(l === 'de' ? fmtDateDe(o.date) : fmtDateShort(o.date)) + '</span></li>';
+      }).join('') + '</ul>';
   });
 
   var langButtons = ['de', 'en', 'ru', 'he'].map(function (l) {
@@ -256,6 +291,14 @@ function generateArticlePage(article, pageLang) {
 + '.action-btn:hover{background:var(--gold);color:var(--bordeaux-d);}\n'
 + '.article-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(42,26,26,0.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}\n'
 + '.back-link{color:var(--bordeaux);text-decoration:none;font-size:0.85rem;}\n'
++ '.related{margin-top:3rem;padding:1.5rem 1.75rem;background:rgba(77,21,32,0.04);border-left:3px solid var(--gold);}\n'
++ '.related-h{font-family:\'Playfair Display\',serif;font-size:1.2rem;font-weight:400;margin-bottom:0.75rem;}\n'
++ '.related-list{list-style:none;}\n'
++ '.related-list li{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:0.55rem 0;border-bottom:1px solid rgba(42,26,26,0.08);}\n'
++ '.related-list li:last-child{border-bottom:none;}\n'
++ '.related-list a{color:var(--bordeaux);text-decoration:none;font-family:\'Lora\',serif;line-height:1.45;}\n'
++ '.related-list a:hover{text-decoration:underline;}\n'
++ '.related-date{font-size:0.75rem;color:#8a7060;white-space:nowrap;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
 + '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'
@@ -275,6 +318,7 @@ function generateArticlePage(article, pageLang) {
 + (img ? '  <img src="' + esc(img) + '" class="article-img" alt="' + esc(title) + '">\n' : '')
 + '  <div class="article-body" id="art-body">' + langs[pageLang].body + '</div>\n'
 + '  ' + buttonHtml + '\n'
++ (langs[pageLang].related ? '  <nav class="related" id="related">' + langs[pageLang].related + '</nav>\n' : '')
 + '  <div class="article-footer">\n'
 + '    <a href="/" class="back-link" id="back-list">' + esc(BTN_LABELS[pageLang].backList) + '</a>\n'
 + '    <a href="https://www.linkedin.com/sharing/share-offsite/?url=' + pageUrl + '" target="_blank" rel="noopener" class="li-btn" id="share-btn">' + esc(BTN_LABELS[pageLang].share) + '</a>\n'
@@ -300,6 +344,8 @@ function generateArticlePage(article, pageLang) {
 + '  b.innerHTML = l.body || "";\n'
 + '  t.setAttribute("dir", l.dir || "ltr");\n'
 + '  b.setAttribute("dir", l.dir || "ltr");\n'
++ '  var rel = document.getElementById("related");\n'
++ '  if (rel && l.related) { rel.innerHTML = l.related; rel.setAttribute("dir", l.dir || "ltr"); }\n'
 + '  if (l.btn) {\n'
 + '    var wrap = document.querySelector(".action-buttons");\n'
 + '    if (wrap) { wrap.setAttribute("dir", l.dir || "ltr"); }\n'
@@ -372,6 +418,11 @@ function fmtDateDe(d) {
   if (!m) return String(d);
   var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   return parseInt(m[3], 10) + '. ' + months[parseInt(m[2], 10) - 1] + ' ' + m[1];
+}
+
+function fmtDateShort(d) {
+  var m = String(d || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? m[3] + '.' + m[2] + '.' + m[1] : String(d || '');
 }
 
 function sortArticles(list) {
@@ -557,7 +608,7 @@ async function build() {
   fs.mkdirSync(artikelDir);
   var enArticleDir = path.join(DIST, 'en', 'article');
   articles.forEach(function (article) {
-    var page = generateArticlePage(article, 'de');
+    var page = generateArticlePage(article, 'de', articles);
     var dir = path.join(artikelDir, page.slug);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), page.html);
@@ -565,13 +616,29 @@ async function build() {
 
     // Englische Version mit eigener Adresse, sofern übersetzt
     if (hasEn(article)) {
-      var enPage = generateArticlePage(article, 'en');
+      var enPage = generateArticlePage(article, 'en', articles);
       var enDir = path.join(enArticleDir, enPage.slug);
       fs.mkdirSync(enDir, { recursive: true });
       fs.writeFileSync(path.join(enDir, 'index.html'), enPage.html);
       console.log('Written:', path.join(enDir, 'index.html'));
     }
   });
+
+  // Alte, abgeschnittene Adressen dauerhaft (301) auf die neuen weiterleiten,
+  // damit bereits geteilte Links weiter funktionieren
+  var redirects = [];
+  articles.forEach(function (a) {
+    var pairs = [['/artikel/', a.title || a.titleEn || 'artikel']];
+    if (hasEn(a)) pairs.push(['/en/article/', a.titleEn]);
+    pairs.forEach(function (p) {
+      var oldSlug = legacySlugify(p[1]), newSlug = slugify(p[1]);
+      if (oldSlug === newSlug) return;
+      redirects.push(p[0] + oldSlug + '  ' + p[0] + newSlug + '/  301');
+      redirects.push(p[0] + oldSlug + '/  ' + p[0] + newSlug + '/  301');
+    });
+  });
+  fs.writeFileSync(path.join(DIST, '_redirects'), redirects.join('\n') + '\n');
+  console.log('Written:', path.join(DIST, '_redirects'), '(' + redirects.length / 2 + ' Weiterleitungen)');
 
   fs.writeFileSync(path.join(DIST, 'sitemap.xml'), generateSitemap(articles));
   console.log('Written:', path.join(DIST, 'sitemap.xml'));

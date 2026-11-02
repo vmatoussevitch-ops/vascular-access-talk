@@ -887,11 +887,16 @@ function parseMarkdown(text) {
     .replace(/\n/g, '<br>');
 }
 
+// Gleiche Regel wie slugify() in build.js: höchstens 80 Zeichen, am Wortende gekürzt
 function slugify(text) {
-  return (text||'').toLowerCase()
+  const s = (text||'').toLowerCase()
     .replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue')
     .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-')
-    .replace(/^-+|-+$/g,'').substring(0,60);
+    .replace(/^-+|-+$/g,'');
+  if (s.length <= 80) return s;
+  let cut = s.substring(0, 80);
+  if (s.charAt(80) !== '-') cut = cut.replace(/-[^-]*$/, '');
+  return cut.replace(/-+$/, '');
 }
 
 function renderBlog() {
