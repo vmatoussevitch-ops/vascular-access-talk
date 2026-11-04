@@ -106,6 +106,43 @@ function fetchArticles() {
   });
 }
 
+// Eingefügte Markdown-Reste bereinigen: „# “ vor Titeln, */_ in Kurzbeschreibungen,
+// und eine Überschrift am Textanfang, die nur den Titel wiederholt
+function cleanTitle(t) { return String(t || '').replace(/^\s*#+\s*/, '').trim(); }
+function cleanExcerpt(t) {
+  // Absätze zu einem Text verbinden, dabei fehlenden Satzpunkt ergänzen
+  return String(t || '').replace(/^\s*#+\s*/gm, '').replace(/\*\*\*|\*\*|\*|__/g, '')
+    .split(/\n\s*\n/).map(function (p) { return p.replace(/\s*\n\s*/g, ' ').trim(); })
+    .filter(Boolean).map(function (p, i, arr) { return (i < arr.length - 1 && !/[.!?:;…]$/.test(p)) ? p + '.' : p; })
+    .join(' ').replace(/\s{2,}/g, ' ').trim();
+}
+function cleanBody(body, title, excerpt) {
+  var lines = String(body || '').split('\n');
+  var norm = function (s) { return String(s || '').replace(/^\s*#+\s*/, '').replace(/[*_]/g, '').trim().toLowerCase(); };
+  var i = 0;
+  while (i < lines.length && lines[i].trim() === '') i++;
+  var lead = [];
+  // Vorangestellte Kurzzeile wie BS"D beibehalten
+  if (i < lines.length && /^b["'”″]?s["'”″]?d\.?$/i.test(lines[i].replace(/\s/g, ''))) { lead.push(lines[i]); i++; }
+  while (i < lines.length && lines[i].trim() === '') i++;
+  if (i < lines.length && /^\s*#/.test(lines[i]) && norm(lines[i]) === norm(title)) {
+    i++;
+    while (i < lines.length && lines[i].trim() === '') i++;
+    return lead.concat(lead.length ? [''] : [], lines.slice(i)).join('\n').replace(/^\n+/, lead.length ? '' : '');
+  }
+  return body;
+}
+function normalizeArticle(a) {
+  var o = {};
+  for (var k in a) o[k] = a[k];
+  ['title', 'titleEn', 'titleRu', 'titleHe'].forEach(function (k) { if (o[k]) o[k] = cleanTitle(o[k]); });
+  [['body', 'title', 'excerpt'], ['bodyEn', 'titleEn', 'excerptEn'], ['bodyRu', 'titleRu', 'excerptRu'], ['bodyHe', 'titleHe', 'excerptHe']].forEach(function (f) {
+    if (o[f[0]]) o[f[0]] = cleanBody(o[f[0]], o[f[1]], a[f[2]]);
+  });
+  ['excerpt', 'excerptEn', 'excerptRu', 'excerptHe'].forEach(function (k) { if (o[k]) o[k] = cleanExcerpt(o[k]); });
+  return o;
+}
+
 // ── URLs (DE unter /artikel/, EN unter /en/article/) ─────
 
 var SITE = 'https://vascularaccesstalk.com';
@@ -569,7 +606,7 @@ async function build() {
 
   var articles = [];
   try {
-    articles = await fetchArticles();
+    articles = (await fetchArticles()).map(normalizeArticle);
     console.log('Found ' + articles.length + ' articles');
   } catch (e) {
     console.log('Could not fetch articles:', e.message);
