@@ -417,7 +417,7 @@ body.rtl .sym-count{margin-left:0;margin-right:auto;padding-left:0;padding-right
       <a href="#artikel" class="btn-primary" data-i18n="hero.cta">Artikel lesen <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <div class="hero-stats">
         <div style="cursor:pointer;" onclick="document.getElementById('artikel').scrollIntoView({behavior:'smooth'});" title="Zu den Artikeln"><span class="stat-num" id="stat-count">1</span><span class="stat-label" data-i18n="hero.stat1">Beiträge</span></div>
-        <div><span class="stat-num" id="stat-num-2">8</span><span class="stat-label" id="stat-label-2" data-i18n="hero.stat2">Themenbereiche</span></div>
+        <div><span class="stat-num" id="stat-num-2">9</span><span class="stat-label" id="stat-label-2" data-i18n="hero.stat2">Themenbereiche</span></div>
         <div><span class="stat-num" id="stat-num-3">20+</span><span class="stat-label" id="stat-label-3" data-i18n="hero.stat3">Jahre Erfahrung</span></div>
       </div>
     </div>
@@ -854,6 +854,7 @@ function renderTopicList() {
   const el = document.getElementById('topic-list-dynamic');
   if (!el) return;
   el.innerHTML = cats.map((c,i) => `<li><span class="topic-name-wrap"><span class="topic-dot"></span><span class="topic-name-text">${catLabel(c)}</span></span><span class="topic-count" id="cnt-cat-${i}">0</span></li>`).join('');
+  setTxt('stat-num-2', String(cats.length));
   updateCounts();
 }
 
@@ -865,7 +866,7 @@ const DEF = {
   title1:'Vascular', title2:'Access Talk',
   desc:'Ein persönlicher Fachblog über Dialysezugänge, Shuntchirurgie, Komplikationen und klinische Entscheidungen – aus der täglichen Praxis eines Gefäßchirurgen.',
   disclaimer:'Alle Inhalte geben ausschließlich die persönliche Meinung und Erfahrung des Autors wieder und stellen keine offizielle Stellungnahme einer Institution dar.',
-  stat2:'8', label2:'Themenbereiche', stat3:'20+', label3:'Jahre Erfahrung',
+  stat2:'9', label2:'Themenbereiche', stat3:'20+', label3:'Jahre Erfahrung',
   authorName:'Dr. V. Matoussevitch',
   authorBio:'Willkommen auf meiner Seite! Mein Name ist Dr. V. Matoussevitch, ich bin Facharzt für Gefäßchirurgie und mein besonderer Schwerpunkt und meine Leidenschaft gilt der Dialysezugangschirurgie – von der Anlage der AV-Fistel bis zur komplexen Revision. Mit diesem Blog möchte ich Fachwissen zugänglich machen und den Austausch zwischen Chirurgen, Nephrologen und Patienten fördern.',
   sidebarDisclaimer:'Dieser Blog gibt ausschließlich die persönliche Meinung und klinische Erfahrung des Autors wieder.',
