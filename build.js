@@ -159,7 +159,9 @@ function enPath(a) {
   return hasEn(a) ? '/en/article/' + slugify(a.titleEn) + '/' : null;
 }
 
-var CAT_EN = { 'Allgemeines': 'General' };
+var CAT_EN = { 'Allgemeines': 'General', 'AV-Fistel': 'AV Fistula', 'Prothesenshunt': 'AV Graft',
+  'Stenose & Thrombose': 'Stenosis & Thrombosis', 'Surveillance': 'Surveillance', 'Steal-Syndrom': 'Steal Syndrome',
+  'Infektion': 'Infection', 'Aneurysma': 'Aneurysm', 'Planung & Mapping': 'Planning & Mapping' };
 
 // ── Article page ──────────────────────────────────────────
 
