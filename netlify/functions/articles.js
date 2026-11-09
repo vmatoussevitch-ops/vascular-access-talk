@@ -15,11 +15,13 @@ exports.handler = async (event, context) => {
 
   try {
     if (event.httpMethod === 'GET') {
-      const res = await fetch(URL, { headers: GH });
-      const d = await res.json();
-      const text = Buffer.from(d.content.replace(/\n/g,''), 'base64').toString('utf8');
-      const parsed = JSON.parse(text);
-      return { statusCode: 200, headers: cors, body: JSON.stringify({ articles: parsed.articles || [], sha: d.sha }) };
+      // Metadaten (sha) und Inhalt getrennt laden: die Contents-API liefert
+      // den Inhalt nur bis 1 MB mit, der Raw-Abruf funktioniert bis 100 MB.
+      const meta = await (await fetch(URL, { headers: GH })).json();
+      const raw = await fetch(URL, { headers: { ...GH, 'Accept': 'application/vnd.github.raw' } });
+      if (!raw.ok) throw new Error('articles.json konnte nicht geladen werden (' + raw.status + ')');
+      const parsed = JSON.parse(await raw.text());
+      return { statusCode: 200, headers: cors, body: JSON.stringify({ articles: parsed.articles || [], sha: meta.sha }) };
     }
 
     if (event.httpMethod === 'PUT') {

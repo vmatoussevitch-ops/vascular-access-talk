@@ -86,7 +86,8 @@ function fetchArticles() {
       hostname: 'api.github.com',
       path: '/repos/vmatoussevitch-ops/vat-articles/contents/articles.json',
       headers: {
-        'Accept': 'application/vnd.github.v3+json',
+        // Raw-Abruf: funktioniert auch, wenn articles.json größer als 1 MB ist
+        'Accept': 'application/vnd.github.raw',
         'User-Agent': 'vascular-access-talk-build'
       }
     };
@@ -97,9 +98,8 @@ function fetchArticles() {
       res.on('data', function (c) { data += c; });
       res.on('end', function () {
         try {
-          var json = JSON.parse(data);
-          var text = Buffer.from(json.content.replace(/\n/g, ''), 'base64').toString('utf8');
-          resolve(JSON.parse(text).articles || []);
+          if (res.statusCode !== 200) throw new Error('GitHub ' + res.statusCode + ': ' + data.slice(0, 200));
+          resolve(JSON.parse(data).articles || []);
         } catch (e) { reject(e); }
       });
     }).on('error', reject);
