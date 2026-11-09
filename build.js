@@ -63,8 +63,15 @@ function inline(s) {
 }
 
 // Markdown -> HTML, executed in Node at build time
-function renderMarkdown(text) {
-  if (!text) return '';
+// Zusätzliche Bilder: Platzhalter wie [Bild 1] / [Image 1] im Text werden durch
+// das entsprechende Bild ersetzt; nicht platzierte Bilder kommen ans Ende.
+function figureHtml(src) {
+  return '<figure class="article-figure"><img src="' + esc(src) + '" alt="" loading="lazy"></figure>';
+}
+function renderMarkdown(text, imgs) {
+  imgs = imgs || [];
+  var used = {};
+  if (!text) text = '';
   var lines = String(text).split('\n');
   var out = [];
   for (var i = 0; i < lines.length; i++) {
@@ -72,11 +79,17 @@ function renderMarkdown(text) {
     if (line === '') continue;
     if (line === '---') { out.push('<hr>'); continue; }
     var m;
+    if ((m = line.match(/^\[\s*(?:bild|image|abbildung|figure|fig\.?)\s*(\d+)\s*\]$/i))) {
+      var k = parseInt(m[1], 10) - 1;
+      if (imgs[k]) { out.push(figureHtml(imgs[k])); used[k] = true; }
+      continue;
+    }
     if ((m = line.match(/^###\s+(.*)$/))) { out.push('<h3>' + inline(m[1]) + '</h3>'); continue; }
     if ((m = line.match(/^##\s+(.*)$/)))  { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
     if ((m = line.match(/^#\s+(.*)$/)))   { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
     out.push('<p>' + inline(line) + '</p>');
   }
+  imgs.forEach(function (src, k) { if (!used[k] && src) out.push(figureHtml(src)); });
   return out.join('\n');
 }
 
@@ -177,22 +190,22 @@ function generateArticlePage(article, pageLang, allArticles) {
   var langs = {
     de: {
       title: article.title || article.titleEn || '',
-      body: renderMarkdown(article.body || article.bodyEn || ''),
+      body: renderMarkdown(article.body || article.bodyEn || '', article.extraImgs),
       dir: 'ltr'
     },
     en: {
       title: article.titleEn || article.title || '',
-      body: renderMarkdown(article.bodyEn || article.body || ''),
+      body: renderMarkdown(article.bodyEn || article.body || '', article.extraImgs),
       dir: 'ltr'
     },
     ru: {
       title: article.titleRu || article.titleEn || article.title || '',
-      body: renderMarkdown(article.bodyRu || article.bodyEn || article.body || ''),
+      body: renderMarkdown(article.bodyRu || article.bodyEn || article.body || '', article.extraImgs),
       dir: 'ltr'
     },
     he: {
       title: article.titleHe || article.titleEn || article.title || '',
-      body: renderMarkdown(article.bodyHe || article.bodyEn || article.body || ''),
+      body: renderMarkdown(article.bodyHe || article.bodyEn || article.body || '', article.extraImgs),
       dir: 'rtl'
     }
   };
@@ -338,6 +351,8 @@ function generateArticlePage(article, pageLang, allArticles) {
 + '.related-list a{color:var(--bordeaux);text-decoration:none;font-family:\'Lora\',serif;line-height:1.45;}\n'
 + '.related-list a:hover{text-decoration:underline;}\n'
 + '.related-date{font-size:0.75rem;color:#8a7060;white-space:nowrap;}\n'
++ '.article-figure{margin:2rem 0;}\n'
++ '.article-figure img{width:100%;height:auto;display:block;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
 + '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'

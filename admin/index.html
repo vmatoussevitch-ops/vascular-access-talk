@@ -380,6 +380,7 @@ body{margin:0;padding:0;background:var(--beige-dd);min-height:100vh;}
           </div>
           <div class="form-group">
             <label class="form-label">Weitere Bilder (optional)</label>
+            <p style="font-size:0.78rem;color:var(--muted);margin:0 0 0.5rem;">Im Text mit einer eigenen Zeile <b>[Bild 1]</b>, <b>[Bild 2]</b> … an der gewünschten Stelle einfügen. Ohne Platzhalter erscheinen die Bilder am Ende des Artikels.</p>
             <div id="extra-imgs-container" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
             <button type="button" onclick="addExtraImageField()" style="background:none;border:1px dashed var(--bordeaux);color:var(--bordeaux);padding:0.6rem 1.25rem;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;margin-top:0.5rem;width:100%;">+ Weiteres Bild hinzufügen</button>
           </div>
@@ -1251,6 +1252,9 @@ function editArticle(i) {
   setArtField('f-title-he', a.titleHe); setArtField('f-excerpt-he', a.excerptHe); setArtField('f-body-he', a.bodyHe);
   setArtField('f-link-info', a.linkInfo); setArtField('f-link-register', a.linkRegister); setArtField('f-link-calendar', a.linkCalendar);
   if(a.img && a.img.length > 10){const img=document.getElementById('img-preview');img.src=a.img;img.style.display='block';}
+  // Vorhandene weitere Bilder laden, damit sie beim Speichern nicht verloren gehen
+  const ec=document.getElementById('extra-imgs-container'); if(ec) ec.innerHTML=''; extraImageCount=0;
+  (a.extraImgs||[]).forEach(src=>{ addExtraImageField(); const p=document.getElementById('extra-img-'+extraImageCount+'-prev'); if(p){p.src=src;p.style.display='block';} });
   document.getElementById('cancel-edit-btn').style.display='inline-block';
   switchTab('new', document.querySelectorAll('.admin-tab')[0]);
 }
