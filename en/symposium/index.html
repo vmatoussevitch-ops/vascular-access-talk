@@ -201,6 +201,13 @@ ul.prog li.brk{color:var(--muted);font-style:italic;}
 .nav-right{display:flex;align-items:center;gap:1rem;}
 .nav-lang{color:rgba(242,236,224,0.65);text-decoration:none;font-size:0.75rem;letter-spacing:0.1em;border:1px solid rgba(242,236,224,0.25);padding:0.2rem 0.5rem;}
 .nav-lang:hover{color:var(--gold-l);border-color:var(--gold-l);}
+.hl-row{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:0.5rem;-webkit-overflow-scrolling:touch;}
+.hl-row a{flex:0 0 calc(25% - 0.75rem);scroll-snap-align:start;display:block;border:1px solid var(--rule);background:var(--warm-white);}
+.hl-row img{width:100%;height:auto;display:block;}
+@media(max-width:600px){.hl-row a{flex-basis:72%;}}
+.share-list{list-style:none;margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.6rem;}
+.share-list a{display:inline-block;padding:0.55rem 0.9rem;border:1px solid var(--rule);background:var(--warm-white);color:var(--bordeaux);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.88rem;}
+.share-list a:hover{border-color:var(--gold);}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>
@@ -237,6 +244,17 @@ ul.prog li.brk{color:var(--muted);font-style:italic;}
 </header>
 
 <main class="wrap">
+  <section>
+    <h2>Highlights</h2>
+    <div class="hl-row">
+      <a href="/symposium/media/drei-gruende-teil-1.jpg" target="_blank" rel="noopener"><img src="/symposium/media/drei-gruende-teil-1.jpg" alt="Three reasons to come to Cologne – part 1" loading="lazy" width="1080" height="1350"></a>
+      <a href="/symposium/media/drei-gruende-teil-2.jpg" target="_blank" rel="noopener"><img src="/symposium/media/drei-gruende-teil-2.jpg" alt="Three reasons to come to Cologne – part 2" loading="lazy" width="1080" height="1350"></a>
+      <a href="/symposium/media/workshop-16-12.jpg" target="_blank" rel="noopener"><img src="/symposium/media/workshop-16-12.jpg" alt="Workshops on 16 December" loading="lazy" width="1080" height="1350"></a>
+      <a href="/symposium/media/workshop-hands-on.jpg" target="_blank" rel="noopener"><img src="/symposium/media/workshop-hands-on.jpg" alt="Workshop: surgical access creation on models" loading="lazy" width="1080" height="1350"></a>
+    </div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem">More programme highlights will follow. Graphics in German.</p>
+  </section>
+
   <section>
     <h2>Why this symposium</h2>
     <p>Our dialysis patients are getting older, more often multimorbid and have frequently undergone multiple vascular procedures. There is no longer a single standard approach to vascular access that fits every situation.</p>
@@ -313,6 +331,18 @@ ul.prog li.brk{color:var(--muted);font-style:italic;}
     <h2>Who should attend</h2>
     <p>Everyone involved with dialysis access – in hospitals, outpatient practices and dialysis centres:</p>
     <ul class="who"><li>Vascular surgery</li><li>Nephrology</li><li>Interventional radiology</li><li>Consultants</li><li>Residents</li><li>Dialysis nursing</li><li>Patients</li></ul>
+  </section>
+
+  <section>
+    <h2>Material to share</h2>
+    <p>The programme flyer and graphics for the symposium are available for download here. We would be pleased if you shared them with your team and network. All materials are in German.</p>
+    <ul class="share-list">
+      <li><a href="/symposium/media/programmflyer-11-koelner-dialyseshunt-symposium.pdf" download>⬇ Programme flyer (PDF)</a></li>
+      <li><a href="/symposium/media/workshop-16-12-2026.pdf" download>⬇ Workshops 16 Dec (PDF)</a></li>
+      <li><a href="/symposium/media/drei-gruende-teil-1.jpg" download>⬇ Three reasons – part 1 (image)</a></li>
+      <li><a href="/symposium/media/drei-gruende-teil-2.jpg" download>⬇ Three reasons – part 2 (image)</a></li>
+      <li><a href="/symposium/media/workshop-16-12.jpg" download>⬇ Workshop (image)</a></li>
+    </ul>
   </section>
 
   <section class="contact">
