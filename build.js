@@ -65,8 +65,9 @@ function inline(s) {
 // Markdown -> HTML, executed in Node at build time
 // Zusätzliche Bilder: Platzhalter wie [Bild 1] / [Image 1] im Text werden durch
 // das entsprechende Bild ersetzt; nicht platzierte Bilder kommen ans Ende.
-function figureHtml(src) {
-  return '<figure class="article-figure"><img src="' + esc(src) + '" alt="" loading="lazy"></figure>';
+function figureHtml(src, caption) {
+  return '<figure class="article-figure"><img src="' + esc(src) + '" alt="' + esc(caption || '') + '" loading="lazy">' +
+    (caption ? '<figcaption>' + inline(caption) + '</figcaption>' : '') + '</figure>';
 }
 function renderMarkdown(text, imgs) {
   imgs = imgs || [];
@@ -79,9 +80,10 @@ function renderMarkdown(text, imgs) {
     if (line === '') continue;
     if (line === '---') { out.push('<hr>'); continue; }
     var m;
-    if ((m = line.match(/^\[\s*(?:bild|image|abbildung|figure|fig\.?)\s*(\d+)\s*\]$/i))) {
+    // [Bild 1] oder mit Unterschrift: [Bild 1 – Text] / [Bild 1: Text] / [Bild 1 | Text]
+    if ((m = line.match(/^\[\s*(?:bild|image|abbildung|figure|fig\.?)\s*(\d+)\s*(?:[–—:|-]\s*([^\]]*?))?\s*\]$/i))) {
       var k = parseInt(m[1], 10) - 1;
-      if (imgs[k]) { out.push(figureHtml(imgs[k])); used[k] = true; }
+      if (imgs[k]) { out.push(figureHtml(imgs[k], m[2])); used[k] = true; }
       continue;
     }
     // Video: [Video: /pfad/datei.mp4 | Bildunterschrift]
