@@ -115,9 +115,12 @@ function fetchArticles() {
     // Das Artikel-Repo ist öffentlich: Token nur nutzen, wenn vorhanden
     if (GITHUB_TOKEN) options.headers['Authorization'] = 'token ' + GITHUB_TOKEN;
     https.get(options, function (res) {
-      var data = '';
-      res.on('data', function (c) { data += c; });
+      // Bytes sammeln und erst am Ende dekodieren: sonst werden Umlaute,
+      // kyrillische und hebräische Zeichen an Chunk-Grenzen zerschnitten (�).
+      var chunks = [];
+      res.on('data', function (c) { chunks.push(c); });
       res.on('end', function () {
+        var data = Buffer.concat(chunks).toString('utf8');
         try {
           if (res.statusCode !== 200) throw new Error('GitHub ' + res.statusCode + ': ' + data.slice(0, 200));
           resolve(JSON.parse(data).articles || []);
