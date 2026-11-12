@@ -84,6 +84,12 @@ function renderMarkdown(text, imgs) {
       if (imgs[k]) { out.push(figureHtml(imgs[k])); used[k] = true; }
       continue;
     }
+    // Video: [Video: /pfad/datei.mp4 | Bildunterschrift]
+    if ((m = line.match(/^\[\s*video\s*:\s*([^|\]]+?)\s*(?:\|\s*([^\]]*?)\s*)?\]$/i))) {
+      out.push('<figure class="article-figure article-video"><video src="' + esc(m[1]) + '" controls muted playsinline loop preload="metadata"></video>' +
+        (m[2] ? '<figcaption>' + inline(m[2]) + '</figcaption>' : '') + '</figure>');
+      continue;
+    }
     if ((m = line.match(/^###\s+(.*)$/))) { out.push('<h3>' + inline(m[1]) + '</h3>'); continue; }
     if ((m = line.match(/^##\s+(.*)$/)))  { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
     if ((m = line.match(/^#\s+(.*)$/)))   { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
@@ -352,7 +358,7 @@ function generateArticlePage(article, pageLang, allArticles) {
 + '.related-list a:hover{text-decoration:underline;}\n'
 + '.related-date{font-size:0.75rem;color:#8a7060;white-space:nowrap;}\n'
 + '.article-figure{margin:2rem 0;}\n'
-+ '.article-figure img{width:100%;height:auto;display:block;}\n'
++ '.article-figure img{width:100%;height:auto;display:block;} .article-video video{display:block;max-width:100%;max-height:80vh;margin:0 auto;background:#000;} .article-figure figcaption{font-size:.9rem;color:#666;margin-top:.5rem;text-align:center;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
 + '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'
@@ -662,6 +668,12 @@ async function build() {
   if (fs.existsSync(path.join(process.cwd(), 'en', 'symposium', 'index.html'))) {
     fs.cpSync(path.join(process.cwd(), 'en', 'symposium'), path.join(DIST, 'en', 'symposium'), { recursive: true });
     console.log('Written:', path.join(DIST, 'en', 'symposium', 'index.html'));
+  }
+
+  // Statische Medien (z. B. Videos für Artikel)
+  if (fs.existsSync(path.join(process.cwd(), 'media'))) {
+    fs.cpSync(path.join(process.cwd(), 'media'), path.join(DIST, 'media'), { recursive: true });
+    console.log('Written:', path.join(DIST, 'media'));
   }
 
   // Private Seite /ich (eigene Besuche nicht zählen)
