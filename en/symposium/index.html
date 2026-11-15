@@ -372,6 +372,12 @@ document.querySelectorAll('a[data-anmeldung]').forEach(function (a) {
     if (window.plausible) plausible('Anmeldung geklickt', { props: { position: a.getAttribute('data-anmeldung') } });
   });
 });
+// Klicks auf E-Mail-Adressen zählen (Ziel: "E-Mail geklickt")
+document.querySelectorAll('a[href^="mailto:"]').forEach(function (a) {
+  a.addEventListener('click', function () {
+    if (window.plausible) plausible('E-Mail geklickt', { props: { adresse: a.getAttribute('href').replace('mailto:', '').split('?')[0], sprache: 'EN' } });
+  });
+});
 </script>
 </body>
 </html>
