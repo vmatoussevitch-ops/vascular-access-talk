@@ -80,6 +80,20 @@ function renderMarkdown(text, imgs) {
     if (line === '') continue;
     if (line === '---') { out.push('<hr>'); continue; }
     var m;
+    // Kasten (z. B. Kurzfassung): aufeinanderfolgende Zeilen, die mit ">" beginnen
+    if (/^>/.test(line)) {
+      var paras = [], cur = [];
+      while (i < lines.length && /^>/.test(lines[i])) {
+        var q = lines[i].replace(/^>\s?/, '').replace(/\s+$/, '');
+        if (q === '') { if (cur.length) { paras.push(cur.join(' ')); cur = []; } }
+        else cur.push(q);
+        i++;
+      }
+      i--;
+      if (cur.length) paras.push(cur.join(' '));
+      out.push('<aside class="article-box">' + paras.map(function (t) { return '<p>' + inline(t) + '</p>'; }).join('') + '</aside>');
+      continue;
+    }
     // [Bild 1] oder mit Unterschrift: [Bild 1 – Text] / [Bild 1: Text] / [Bild 1 | Text]
     if ((m = line.match(/^\[\s*(?:bild|image|abbildung|figure|fig\.?)\s*(\d+)\s*(?:[–—:|-]\s*([^\]]*?))?\s*\]$/i))) {
       var k = parseInt(m[1], 10) - 1;
@@ -364,7 +378,7 @@ function generateArticlePage(article, pageLang, allArticles) {
 + '.related-list a:hover{text-decoration:underline;}\n'
 + '.related-date{font-size:0.75rem;color:#8a7060;white-space:nowrap;}\n'
 + '.article-figure{margin:2rem 0;}\n'
-+ '.article-figure img{width:100%;height:auto;display:block;} .article-video video{display:block;max-width:100%;max-height:80vh;margin:0 auto;background:#000;} .article-figure figcaption{font-size:.9rem;color:#666;margin-top:.5rem;text-align:center;}\n'
++ '.article-box{background:#f6efe6;border-left:4px solid #c9a96e;padding:1.1rem 1.4rem;margin:1.8rem 0;border-radius:0 8px 8px 0;} .article-box p{margin:.4rem 0;} [dir="rtl"] .article-box{border-left:0;border-right:4px solid #c9a96e;border-radius:8px 0 0 8px;} .article-figure img{width:100%;height:auto;display:block;} .article-video video{display:block;max-width:100%;max-height:80vh;margin:0 auto;background:#000;} .article-figure figcaption{font-size:.9rem;color:#666;margin-top:.5rem;text-align:center;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
 + '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'
