@@ -106,6 +106,20 @@ function renderMarkdown(text, imgs) {
         (m[2] ? '<figcaption>' + inline(m[2]) + '</figcaption>' : '') + '</figure>');
       continue;
     }
+    // Tabelle: | A | B | mit Trennzeile |---|---:|
+    if (/^\|.*\|$/.test(line) && i + 1 < lines.length && /^\|\s*:?-{2,}/.test(lines[i + 1].trim())) {
+      var splitRow = function (r) { return r.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(function (c) { return c.trim(); }); };
+      var head = splitRow(line);
+      var aligns = splitRow(lines[i + 1]).map(function (c) { return /:$/.test(c) ? 'right' : 'left'; });
+      i += 2;
+      var rows = [];
+      while (i < lines.length && /^\|.*\|$/.test(lines[i].trim())) { rows.push(splitRow(lines[i])); i++; }
+      i--;
+      var th = head.map(function (c, j) { return '<th style="text-align:' + (aligns[j] || 'left') + '">' + inline(c) + '</th>'; }).join('');
+      var tb = rows.map(function (r) { return '<tr>' + r.map(function (c, j) { return '<td style="text-align:' + (aligns[j] || 'left') + '">' + inline(c) + '</td>'; }).join('') + '</tr>'; }).join('');
+      out.push('<div class="article-table-wrap"><table class="article-table"><thead><tr>' + th + '</tr></thead><tbody>' + tb + '</tbody></table></div>');
+      continue;
+    }
     if ((m = line.match(/^###\s+(.*)$/))) { out.push('<h3>' + inline(m[1]) + '</h3>'); continue; }
     if ((m = line.match(/^##\s+(.*)$/)))  { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
     if ((m = line.match(/^#\s+(.*)$/)))   { out.push('<h2>' + inline(m[1]) + '</h2>'); continue; }
@@ -378,7 +392,7 @@ function generateArticlePage(article, pageLang, allArticles) {
 + '.related-list a:hover{text-decoration:underline;}\n'
 + '.related-date{font-size:0.75rem;color:#8a7060;white-space:nowrap;}\n'
 + '.article-figure{margin:2rem 0;}\n'
-+ '.article-box{background:#f6efe6;border-left:4px solid #c9a96e;padding:1.1rem 1.4rem;margin:1.8rem 0;border-radius:0 8px 8px 0;} .article-box p{margin:.4rem 0;} [dir="rtl"] .article-box{border-left:0;border-right:4px solid #c9a96e;border-radius:8px 0 0 8px;} .article-figure img{width:100%;height:auto;display:block;} .article-video video{display:block;max-width:100%;max-height:80vh;margin:0 auto;background:#000;} .article-figure figcaption{font-size:.9rem;color:#666;margin-top:.5rem;text-align:center;}\n'
++ '.article-box{background:#f6efe6;border-left:4px solid #c9a96e;padding:1.1rem 1.4rem;margin:1.8rem 0;border-radius:0 8px 8px 0;} .article-box p{margin:.4rem 0;} [dir="rtl"] .article-box{border-left:0;border-right:4px solid #c9a96e;border-radius:8px 0 0 8px;} .article-figure img{width:100%;height:auto;display:block;} .article-video video{display:block;max-width:100%;max-height:80vh;margin:0 auto;background:#000;} .article-figure figcaption{font-size:.9rem;color:#666;margin-top:.5rem;text-align:center;} .article-table-wrap{overflow-x:auto;margin:1.5rem 0;} .article-table{border-collapse:collapse;width:100%;font-size:.95rem;} .article-table th,.article-table td{padding:.55rem .8rem;border-bottom:1px solid #e5dccf;} .article-table thead th{background:#f6efe6;font-weight:600;border-bottom:2px solid #c9a96e;} [dir="rtl"] .article-table th,[dir="rtl"] .article-table td{text-align:right !important;}\n'
 + '.li-btn{background:#0077b5;color:#fff;padding:0.5rem 1.25rem;font-size:0.8rem;text-decoration:none;display:inline-block;}\n'
 + '<\/style>\n'
 + '<!-- Privacy-friendly analytics by Plausible -->\n<script async src="https://plausible.io/js/pa-aDB8Ehh5xOrVykRMDJ3bp.js"></script>\n<script>\n  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\n  plausible.init()\n</script>\n'
